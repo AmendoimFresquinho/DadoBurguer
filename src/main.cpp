@@ -18,11 +18,12 @@ int main() {
     std::vector<Bloco> blocos;
     ConstruirMapa(paredes, blocos);
 
-    // Sólidos = paredes + todos os blocos
+    TelaFogao telaFogao = CriarTelaFogao(LARGURA, ALTURA);
+    EstadoJogo estado = { false, "", 0.0f, TELA_JOGO };
+
     std::vector<Rectangle> solidos = paredes;
     for (size_t i = 0; i < blocos.size(); i++) solidos.push_back(blocos[i].rect);
 
-    EstadoJogo estado = { false, "", 0.0f };
     Jogador jogador = { 250.0f, 32.0f, { 400, 360 }, { 0, 0 } };
 
     while (!WindowShouldClose()) {
@@ -32,13 +33,25 @@ int main() {
         Colisoes(jogador, dt, solidos);
 
         Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH);
-        if (alvo != nullptr && IsKeyPressed(KEY_E)) FazInteracao(*alvo, estado);
-        if (estado.tempoMensagem > 0.0f) estado.tempoMensagem -= dt;
+
+        switch (estado.tela) { // SWITCH CASE DE LOGICA
+            
+            case TELA_JOGO:
+                Movimentacao(jogador);
+                Colisoes(jogador, dt, solidos);
+                alvo = ProcuraInteragir(jogador, blocos, 12.0f);
+                if (alvo != nullptr && IsKeyPressed(KEY_E)) 
+                    FazInteracao(*alvo, estado);
+                break;
+            case TELA_FOGAO:
+                if (AtualizarTelaFogao(telaFogao)) 
+                    estado.tela = TELA_JOGO;
+                break;
+        }   
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        // Pisos (cozinha à esquerda, clientes à direita)
         DrawRectangle(32, 32, 585, 656, Color{ 235, 225, 210, 255 });
         DrawRectangle(629, 32, 619, 656, Color{ 210, 225, 235, 255 });
 
@@ -52,10 +65,13 @@ int main() {
             DrawText(TextFormat("[E] %s", alvo->nome.c_str()), (int)hb.x - 10, (int)hb.y - 24, 20, BLACK);
         }
 
-        // Barra de status na parede do topo
-        if (estado.tempoMensagem > 0.0f) DrawText(estado.mensagem, 44, 6, 20, WHITE);
-        DrawText(estado.fogaoLigado ? "Fogao: LIGADO" : "Fogao: desligado",
-                 (int)LARGURA - 220, 6, 20, WHITE);
+        switch (estado.tela) { // SWITCH CASE DE GRAFICOS
+            case TELA_JOGO:
+                break;                                   
+            case TELA_FOGAO:
+                DesenharTelaFogao(telaFogao);
+            break;
+        }
 
         EndDrawing();
     }

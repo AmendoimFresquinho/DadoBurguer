@@ -3,6 +3,7 @@
 #define MAX_INGREDIENTES_POR_HAMBURGUER 10
 
 namespace Geral {
+
     enum Ingredientes {
         VAZIO = 0,
         PAO_INFERIOR = 'x',
@@ -17,19 +18,23 @@ namespace Geral {
         CEBOLA = 'c',
         TOMATE = 't',
         OVO = 'o',
-        BACON = 'b',
-};
+        BACON = 'b', // 13 Ingredientes ao total
+    };
 
-    struct Hamburguer {
+    struct Hamburguer{
         int altura;
         Geral::Ingredientes pilha[MAX_INGREDIENTES_POR_HAMBURGUER];
 
-        Hamburguer() {altura = 0;
-            for (int i = 0; i < MAX_INGREDIENTES_POR_HAMBURGUER; i++) pilha[i] = Geral::Ingredientes::VAZIO;
+        Hamburguer() {
+            altura = 0;
+            for (int i = 0; i < MAX_INGREDIENTES_POR_HAMBURGUER; i++) 
+                pilha[i] = Geral::Ingredientes::VAZIO;
         };
 
         int empilharIngrediente(Geral::Ingredientes ingrediente) {
-            if (altura >= MAX_INGREDIENTES_POR_HAMBURGUER) return 1;
+            if (altura >= MAX_INGREDIENTES_POR_HAMBURGUER) 
+                return 1;
+
             pilha[altura] = ingrediente;
             altura++;
 
@@ -43,5 +48,4 @@ namespace Geral {
             return pilha[altura];
         }
     };
-
 }

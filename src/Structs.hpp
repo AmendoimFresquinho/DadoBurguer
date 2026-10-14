@@ -3,6 +3,7 @@
 #include "Structs.hpp"
 #include "raylib.h"
 #include <string>
+#include <vector>
 
 struct Produto{
     int cod;
@@ -44,10 +45,16 @@ enum Acoes {
     ACAO_ATENDER
 };
 
+enum Tela {
+    TELA_JOGO,
+    TELA_FOGAO
+};
+
 struct EstadoJogo {
     bool fogaoLigado;
-    const char* mensagem;     // feedback temporário na tela
-    float tempoMensagem;      // segundos restantes
+    const char* mensagem;     
+    float tempoMensagem;      
+    Tela tela;
 };
 
 struct Jogador {
@@ -66,3 +73,11 @@ struct Bloco {
     Acoes acao;
 };
 
+struct TelaFogao {
+    Rectangle painel;            
+    float xDivisoria;              
+    std::vector<Rectangle> bocas;   
+    std::vector<Rectangle> slots;   
+    int bocaHover;                  
+    int slotHover;                 
+};

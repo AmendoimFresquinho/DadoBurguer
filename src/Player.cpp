@@ -77,10 +77,7 @@ Bloco* ProcuraInteragir(const Jogador& player, std::vector<Bloco>& blocks, float
 
 void FazInteracao(const Bloco& bloco, EstadoJogo& estado) {
     switch (bloco.acao) {
-        case ABRIR_FOGAO:
-            estado.fogaoLigado = !estado.fogaoLigado;
-            MostrarMensagem(estado, estado.fogaoLigado ? "Fogao ligado" : "Fogao desligado");
-            break;
+        case ABRIR_FOGAO: estado.tela = TELA_FOGAO; break;
         case ACAO_ABRIR_GELADEIRA: MostrarMensagem(estado, "Abriu a geladeira"); break;
         case ACAO_ABRIR_ESTOQUE: MostrarMensagem(estado, "Abriu o estoque"); break;
         case ACAO_CORTAR: MostrarMensagem(estado, "Cortando ingredientes..."); break;

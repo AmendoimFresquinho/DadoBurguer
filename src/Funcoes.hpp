@@ -1,4 +1,5 @@
 #pragma once
+
 #include "raylib.h"
 #include <iostream>
 #include "Funcoes.hpp"
@@ -18,6 +19,11 @@ void MostrarMensagem(EstadoJogo& estado, const char* texto); //TEMPORARIO
 Bloco CriarBloco(Rectangle ret, const char* nome, const char* arquivoTextura, Color corReserva, bool interagivel, Acoes acao);
 void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos);
 void DesenharBloco(const Bloco& b);
+std::vector<Rectangle> GerarGrade(Rectangle zona, int colunas, int linhas, float espaco);
+TelaFogao CriarTelaFogao(float largura, float altura);
+bool AtualizarTelaFogao(TelaFogao& tela);
+void DesenharTelaFogao(const TelaFogao& tela);
+void DesenharPlaceholder(Rectangle r, Color cor);
 
 //PILHAS
 

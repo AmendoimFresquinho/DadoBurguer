@@ -1,5 +1,4 @@
-#ifndef IMAGENS
-#define IMAGENS
+#pragma once
 
 #include "ingredientes.hpp"
 #include "raylib.h"
@@ -63,6 +62,3 @@ namespace Imagens {
     }
 
 }
-
-
-#endif

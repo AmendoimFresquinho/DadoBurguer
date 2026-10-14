@@ -14,21 +14,6 @@ int main() {
     InitWindow((int)LARGURA, (int)ALTURA, "Cozinha");
     SetTargetFPS(60);
 
-    Imagens::TxtPack_Ingredientes pacote;
-    pacote.reserve(10);
-
-    Imagens::carregarTextura(pacote, "assets/bife.png", Geral::Ingredientes::CARNE, 0, 2.5);
-    Imagens::carregarTextura(pacote, "assets/pao.png", Geral::Ingredientes::PAO_INFERIOR, 0, 4);
-    Imagens::carregarTextura(pacote, "assets/topo.png", Geral::Ingredientes::PAO_SUPERIOR, 4.5, 10);
-    Imagens::carregarTextura(pacote, "assets/ketchup.png", Geral::Ingredientes::KETCHUP, 0, 0.5);
-    Imagens::carregarTextura(pacote, "assets/cheddar.png", Geral::Ingredientes::QUEIJO_CHEDDAR, 0.6, 0.6);
-    Geral::Hamburguer burgui {};
-    burgui.empilharIngrediente(Geral::Ingredientes::PAO_INFERIOR);
-    burgui.empilharIngrediente(Geral::Ingredientes::CARNE);
-    burgui.empilharIngrediente(Geral::Ingredientes::KETCHUP);
-    burgui.empilharIngrediente(Geral::Ingredientes::QUEIJO_CHEDDAR);
-    burgui.empilharIngrediente(Geral::Ingredientes::PAO_SUPERIOR);
-
     std::vector<Rectangle> paredes;
     std::vector<Bloco> blocos;
     ConstruirMapa(paredes, blocos);
@@ -38,7 +23,7 @@ int main() {
     for (size_t i = 0; i < blocos.size(); i++) solidos.push_back(blocos[i].rect);
 
     EstadoJogo estado = { false, "", 0.0f };
-    Jogador jogador = { 250.0f, 32.0f, { 400, 360 }, { 0, 0 }};
+    Jogador jogador = { 250.0f, 32.0f, { 400, 360 }, { 0, 0 } };
 
     while (!WindowShouldClose()) {
         float dt = GetFrameTime();
@@ -58,7 +43,7 @@ int main() {
         DrawRectangle(629, 32, 619, 656, Color{ 210, 225, 235, 255 });
 
         for (size_t i = 0; i < paredes.size(); i++) DrawRectangleRec(paredes[i], GRAY);
-        for (size_t i = 0; i < blocos.size(); i++) DesenharBloco(blocos[i]);
+        for (size_t i = 0; i < blocos.size(); i++)  DesenharBloco(blocos[i]);
 
         Rectangle hb = HitBox(jogador);
         DrawRectangleRec(hb, MAROON);
@@ -72,12 +57,11 @@ int main() {
         DrawText(estado.fogaoLigado ? "Fogao: LIGADO" : "Fogao: desligado",
                  (int)LARGURA - 220, 6, 20, WHITE);
 
-    for (size_t i = 0; i < blocos.size(); i++)
-        if (blocos[i].textura.id != 0) UnloadTexture(blocos[i].textura);
+        EndDrawing();
     }
 
-    Imagens::descarregarPacote(pacote);
+    for (size_t i = 0; i < blocos.size(); i++)
+        if (blocos[i].textura.id != 0) UnloadTexture(blocos[i].textura);
     CloseWindow();
     return 0;
-
 }

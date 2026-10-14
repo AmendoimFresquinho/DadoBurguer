@@ -14,9 +14,7 @@ Bloco* ProcuraInteragir(const Jogador& player, std::vector<Bloco>& blocks, float
 void FazInteracao(const Bloco& block, EstadoJogo& state);
 void DrawBlock(const Bloco& b);
 Rectangle HitBox(const Jogador& p);
-
-void MostrarMensagem(EstadoJogo& estado, const char* texto);
-
+void MostrarMensagem(EstadoJogo& estado, const char* texto); //TEMPORARIO
 Bloco CriarBloco(Rectangle ret, const char* nome, const char* arquivoTextura, Color corReserva, bool interagivel, Acoes acao);
 void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos);
 void DesenharBloco(const Bloco& b);

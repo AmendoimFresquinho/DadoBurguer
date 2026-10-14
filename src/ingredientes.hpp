@@ -1,8 +1,6 @@
-#ifndef INGREDIENTES
-#define INGREDIENTES
+#pragma once
 
 #define MAX_INGREDIENTES_POR_HAMBURGUER 10
-
 
 namespace Geral {
     enum Ingredientes {
@@ -21,7 +19,6 @@ namespace Geral {
         OVO = 'o',
         BACON = 'b',
 };
-
 
     struct Hamburguer {
         int altura;
@@ -48,7 +45,3 @@ namespace Geral {
     };
 
 }
-
-
-
-#endif

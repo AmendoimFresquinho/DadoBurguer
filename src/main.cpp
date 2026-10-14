@@ -3,6 +3,8 @@
 #include "Structs.hpp"
 #include "raymath.h"
 #include "Constantes.hpp"
+#include "imagens.hpp"
+#include "ingredientes.hpp"
 #include <cfloat>
 #include <vector>
 #include <string>
@@ -11,6 +13,21 @@
 int main() {
     InitWindow((int)LARGURA, (int)ALTURA, "Cozinha");
     SetTargetFPS(60);
+
+    Imagens::TxtPack_Ingredientes pacote;
+    pacote.reserve(10);
+
+    Imagens::carregarTextura(pacote, "assets/bife.png", Geral::Ingredientes::CARNE, 0, 2.5);
+    Imagens::carregarTextura(pacote, "assets/pao.png", Geral::Ingredientes::PAO_INFERIOR, 0, 4);
+    Imagens::carregarTextura(pacote, "assets/topo.png", Geral::Ingredientes::PAO_SUPERIOR, 4.5, 10);
+    Imagens::carregarTextura(pacote, "assets/ketchup.png", Geral::Ingredientes::KETCHUP, 0, 0.5);
+    Imagens::carregarTextura(pacote, "assets/cheddar.png", Geral::Ingredientes::QUEIJO_CHEDDAR, 0.6, 0.6);
+    Geral::Hamburguer burgui {};
+    burgui.empilharIngrediente(Geral::Ingredientes::PAO_INFERIOR);
+    burgui.empilharIngrediente(Geral::Ingredientes::CARNE);
+    burgui.empilharIngrediente(Geral::Ingredientes::KETCHUP);
+    burgui.empilharIngrediente(Geral::Ingredientes::QUEIJO_CHEDDAR);
+    burgui.empilharIngrediente(Geral::Ingredientes::PAO_SUPERIOR);
 
     std::vector<Rectangle> paredes;
     std::vector<Bloco> blocos;
@@ -55,11 +72,12 @@ int main() {
         DrawText(estado.fogaoLigado ? "Fogao: LIGADO" : "Fogao: desligado",
                  (int)LARGURA - 220, 6, 20, WHITE);
 
-        EndDrawing();
-    }
-
     for (size_t i = 0; i < blocos.size(); i++)
         if (blocos[i].textura.id != 0) UnloadTexture(blocos[i].textura);
+    }
+
+    Imagens::descarregarPacote(pacote);
     CloseWindow();
     return 0;
+
 }

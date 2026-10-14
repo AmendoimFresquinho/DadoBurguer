@@ -1,6 +1,25 @@
 #pragma once
+#include "raylib.h"
+#include <iostream>
 #include "Funcoes.hpp"
 #include "Structs.hpp"
+#include "raymath.h"
+#include "Constantes.hpp"
+#include <cfloat>
+#include <vector>
+
+void Movimentacao(Jogador& player);
+void Colisoes(Jogador& player, float dt, const std::vector<Rectangle>& solids);
+Bloco* ProcuraInteragir(const Jogador& player, std::vector<Bloco>& blocks, float reach);
+void FazInteracao(const Bloco& block, EstadoJogo& state);
+void DrawBlock(const Bloco& b);
+Rectangle HitBox(const Jogador& p);
+
+void MostrarMensagem(EstadoJogo& estado, const char* texto);
+
+Bloco CriarBloco(Rectangle ret, const char* nome, const char* arquivoTextura, Color corReserva, bool interagivel, Acoes acao);
+void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos);
+void DesenharBloco(const Bloco& b);
 
 //PILHAS
 

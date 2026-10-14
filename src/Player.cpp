@@ -1,0 +1,92 @@
+#include "raylib.h"
+#include "raymath.h"
+#include "Funcoes.hpp"
+#include "Structs.hpp"
+#include "Constantes.hpp"
+#include <cfloat>
+#include <vector>
+#include <iostream>
+
+void Movimentacao(Jogador& player) {
+    Vector2 direction = { 0.0f, 0.0f };
+
+    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) direction.x += 1.0f;
+    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) direction.x -= 1.0f;
+    if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) direction.y += 1.0f;  
+    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) direction.y -= 1.0f;
+
+    if (Vector2LengthSqr(direction) > 0.0f) direction = Vector2Normalize(direction);
+
+    player.aceleracao = Vector2Scale(direction, player.velocidade);
+}
+
+Rectangle HitBox(const Jogador& p) {
+    return { p.posicao.x - p.tamanho / 2, p.posicao.y - p.tamanho / 2, p.tamanho, p.tamanho };
+}
+
+void Colisoes(Jogador& player, float dt, const std::vector<Rectangle>& solids) {
+
+    player.posicao.x += player.aceleracao.x * dt;        
+    Rectangle r = HitBox(player);                    
+    for (size_t i = 0; i < solids.size(); i++) {
+        const Rectangle& s = solids[i];
+        if (!CheckCollisionRecs(r, s)) continue;         
+
+        if (player.aceleracao.x > 0)                       
+            player.posicao.x = s.x - player.tamanho / 2;
+        else if (player.aceleracao.x < 0)                  
+            player.posicao.x = s.x + s.width + player.tamanho / 2;
+
+        r = HitBox(player);                          
+    }
+
+    player.posicao.y += player.aceleracao.y * dt;
+    r = HitBox(player);
+    for (size_t i = 0; i < solids.size(); i++) {
+        const Rectangle& s = solids[i];
+        if (!CheckCollisionRecs(r, s)) continue;
+
+        if (player.aceleracao.y > 0)                       
+            player.posicao.y = s.y - player.tamanho / 2;
+        else if (player.aceleracao.y < 0)                  
+            player.posicao.y = s.y + s.height + player.tamanho / 2;
+
+        r = HitBox(player);
+    }
+}
+
+Bloco* ProcuraInteragir(const Jogador& player, std::vector<Bloco>& blocks, float reach) {
+    Rectangle pr = HitBox(player);
+    Bloco* closest = nullptr;
+    float bestDist = FLT_MAX;
+
+    for (size_t i = 0; i < blocks.size(); i++) {
+        Bloco& b = blocks[i];
+        if (!b.interage) continue;
+
+        Rectangle area = { b.rect.x - reach, b.rect.y - reach, b.rect.width + 2 * reach, b.rect.height + 2 * reach };
+        if (!CheckCollisionRecs(pr, area)) continue;
+
+        Vector2 center = { b.rect.x + b.rect.width / 2, b.rect.y + b.rect.height / 2 };
+        float dist = Vector2LengthSqr(Vector2Subtract(player.posicao, center));
+        if (dist < bestDist) { bestDist = dist; closest = &b; }
+    }
+
+    return closest;
+}
+
+void FazInteracao(const Bloco& bloco, EstadoJogo& estado) {
+    switch (bloco.acao) {
+        case ABRIR_FOGAO:
+            estado.fogaoLigado = !estado.fogaoLigado;
+            MostrarMensagem(estado, estado.fogaoLigado ? "Fogao ligado" : "Fogao desligado");
+            break;
+        case ACAO_ABRIR_GELADEIRA: MostrarMensagem(estado, "Abriu a geladeira"); break;
+        case ACAO_ABRIR_ESTOQUE: MostrarMensagem(estado, "Abriu o estoque"); break;
+        case ACAO_CORTAR: MostrarMensagem(estado, "Cortando ingredientes..."); break;
+        case ACAO_ATENDER: MostrarMensagem(estado, "Atendendo cliente..."); break;
+        case SEM_ACAO:
+        default:
+            break;
+    }
+}

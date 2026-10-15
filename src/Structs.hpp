@@ -98,3 +98,9 @@ struct AnimJogador {
     DirecaoAnim direcao; 
 };
 
+enum ESTADO_PROGRAMA {
+    JOGANDO,
+    MENU,
+    PAUSADO,
+    CONFIGS
+};

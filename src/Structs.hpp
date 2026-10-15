@@ -62,6 +62,8 @@ struct Jogador {
     float tamanho;
     Vector2 posicao;
     Vector2 aceleracao;
+    float larguraHit;    
+    float alturaHit;     
 };
 
 struct Bloco {
@@ -81,3 +83,18 @@ struct TelaFogao {
     int bocaHover;                  
     int slotHover;                 
 };
+
+enum DirecaoAnim {
+    DIR_BAIXO = 0,
+    DIR_ESQUERDA = 1,
+    DIR_DIREITA = 2,
+    DIR_CIMA = 3
+};
+
+struct AnimJogador {
+    Texture2D sheet;      
+    int frame;          
+    float tempo;          
+    DirecaoAnim direcao; 
+};
+

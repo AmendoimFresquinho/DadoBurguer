@@ -21,7 +21,7 @@ void Movimentacao(Jogador& player) {
 }
 
 Rectangle HitBox(const Jogador& p) {
-    return { p.posicao.x - p.tamanho / 2, p.posicao.y - p.tamanho / 2, p.tamanho, p.tamanho };
+    return { p.posicao.x - p.larguraHit / 2, p.posicao.y - p.alturaHit / 2, p.larguraHit, p.alturaHit };
 }
 
 void Colisoes(Jogador& player, float dt, const std::vector<Rectangle>& solids) {
@@ -33,9 +33,9 @@ void Colisoes(Jogador& player, float dt, const std::vector<Rectangle>& solids) {
         if (!CheckCollisionRecs(r, s)) continue;         
 
         if (player.aceleracao.x > 0)                       
-            player.posicao.x = s.x - player.tamanho / 2;
+            player.posicao.x = s.x - player.larguraHit / 2;
         else if (player.aceleracao.x < 0)                  
-            player.posicao.x = s.x + s.width + player.tamanho / 2;
+            player.posicao.x = s.x + s.width + player.larguraHit / 2;
 
         r = HitBox(player);                          
     }
@@ -47,9 +47,9 @@ void Colisoes(Jogador& player, float dt, const std::vector<Rectangle>& solids) {
         if (!CheckCollisionRecs(r, s)) continue;
 
         if (player.aceleracao.y > 0)                       
-            player.posicao.y = s.y - player.tamanho / 2;
+            player.posicao.y = s.y - player.alturaHit / 2;
         else if (player.aceleracao.y < 0)                  
-            player.posicao.y = s.y + s.height + player.tamanho / 2;
+            player.posicao.y = s.y + s.height + player.alturaHit / 2;
 
         r = HitBox(player);
     }
@@ -86,4 +86,69 @@ void FazInteracao(const Bloco& bloco, EstadoJogo& estado) {
         default:
             break;
     }
+}
+
+const int ANIM_LARGURA_FRAME = 32;
+const int ANIM_ALTURA_FRAME = 32;
+const int ANIM_FRAMES_POR_DIRECAO = 4;
+const float ANIM_TEMPO_POR_FRAME = 0.125f;   
+ 
+ 
+AnimJogador CriarAnimJogador(const char* arquivo) {
+    AnimJogador a;
+    a.sheet = Texture2D();   // zerada: id == 0
+    a.frame = 0;
+    a.tempo = 0.0f;
+    a.direcao = DIR_BAIXO;
+ 
+    if (FileExists(arquivo)) {
+        a.sheet = LoadTexture(arquivo);
+        SetTextureFilter(a.sheet, TEXTURE_FILTER_POINT);   // pixel art sem borrão
+    } else {
+        TraceLog(LOG_WARNING, "Spritesheet nao encontrada: %s (pasta atual: %s)", arquivo, GetWorkingDirectory());
+    }
+    return a;
+}
+ 
+void DescarregarAnimJogador(AnimJogador& a) {
+    if (a.sheet.id != 0) UnloadTexture(a.sheet);
+}
+ 
+void AtualizarAnimJogador(AnimJogador& a, Vector2 deslocamento, float dt) {
+    bool andando = Vector2LengthSqr(deslocamento) > 0.01f;
+ 
+    if (andando) {
+        // Eixo dominante decide a direção
+        if (fabsf(deslocamento.x) > fabsf(deslocamento.y))
+            a.direcao = (deslocamento.x > 0) ? DIR_DIREITA : DIR_ESQUERDA;
+        else
+            a.direcao = (deslocamento.y > 0) ? DIR_BAIXO : DIR_CIMA;
+ 
+        // Avança o quadro quando acumular tempo suficiente
+        a.tempo += dt;
+        if (a.tempo >= ANIM_TEMPO_POR_FRAME) {
+            a.tempo -= ANIM_TEMPO_POR_FRAME;
+            a.frame = (a.frame + 1) % ANIM_FRAMES_POR_DIRECAO;
+        }
+    } else {
+        // Parado: pose parada, mantendo a última direção
+        a.frame = 0;
+        a.tempo = 0.0f;
+    }
+}
+ 
+void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox) {
+    if (a.sheet.id == 0) {                     
+        DrawRectangleRec(hitbox, MAROON);
+        return;
+    }
+ 
+    Rectangle origem = { (float)(a.frame * ANIM_LARGURA_FRAME),
+                         (float)((int)a.direcao * ANIM_ALTURA_FRAME),
+                         (float)ANIM_LARGURA_FRAME,
+                         (float)ANIM_ALTURA_FRAME };
+ 
+    
+    Rectangle destino = { roundf(hitbox.x), roundf(hitbox.y), hitbox.width, hitbox.height };
+    DrawTexturePro(a.sheet, origem, destino, { 0, 0 }, 0.0f, WHITE);
 }

@@ -24,6 +24,10 @@ TelaFogao CriarTelaFogao(float largura, float altura);
 bool AtualizarTelaFogao(TelaFogao& tela);
 void DesenharTelaFogao(const TelaFogao& tela);
 void DesenharPlaceholder(Rectangle r, Color cor);
+void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox);
+void AtualizarAnimJogador(AnimJogador& a, Vector2 deslocamento, float dt);
+void DescarregarAnimJogador(AnimJogador& a); 
+AnimJogador CriarAnimJogador(const char* arquivo);
 
 //PILHAS
 

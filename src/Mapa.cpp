@@ -27,9 +27,9 @@ Bloco CriarBloco(Rectangle ret, const char* nome, const char* arquivoTextura, Co
     b.rect = ret;
     b.nome = nome;
     b.textura = Texture2D();   
-    if (arquivoTextura != nullptr && FileExists(arquivoTextura)) {
+    if (arquivoTextura != nullptr && FileExists(arquivoTextura)) 
         b.textura = LoadTexture(arquivoTextura);
-    }
+    
     b.cor = corReserva;
     b.interage = interagivel;
     b.acao = acao;
@@ -47,19 +47,19 @@ void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos) 
     paredes.push_back({ xFina, ESPESSURA, ESPESSURA_FINA, 196 });                    
     paredes.push_back({ xFina, 398, ESPESSURA_FINA, ALTURA - ESPESSURA - 398 });          
 
-    blocos.push_back(CriarBloco({ 190, ESPESSURA, 88, 72 }, "Estoque", "assets/estoque.png", RED, true, ACAO_ABRIR_ESTOQUE));
+    blocos.push_back(CriarBloco({ 190, ESPESSURA, 88, 72 }, "Estoque", "DadoBurguer/assets/estoque.png", RED, true, ACAO_ABRIR_ESTOQUE));
 
     for (int i = 0; i < 3; i++) {
-        blocos.push_back(CriarBloco({ ESPESSURA, 146.0f + 70.0f * i, 64, 70 }, "Gabinete", "assets/gabinete.png", BROWN, false, SEM_ACAO));
+        blocos.push_back(CriarBloco({ ESPESSURA, 146.0f + 70.0f * i, 64, 70 }, "Gabinete", "DadoBurguer/assets/gabinete.png", BROWN, false, SEM_ACAO));
     }
 
-    blocos.push_back(CriarBloco({ ESPESSURA, 386, 80, 60 }, "Geladeira", "assets/geladeira.png", SKYBLUE, true, ACAO_ABRIR_GELADEIRA));
+    blocos.push_back(CriarBloco({ ESPESSURA, 386, 80, 60 }, "Geladeira", "DadoBurguer/assets/geladeira.png", SKYBLUE, true, ACAO_ABRIR_GELADEIRA));
 
-    blocos.push_back(CriarBloco({ ESPESSURA, 504, 68, 112 }, "Fogao", "assets/fogao.png", DARKGRAY, true, ABRIR_FOGAO));
+    blocos.push_back(CriarBloco({ ESPESSURA, 504, 68, 112 }, "Fogao", "DadoBurguer/assets/fogao.png", DARKGRAY, true, ABRIR_FOGAO));
 
-    blocos.push_back(CriarBloco({ 184, 620, 152, 68 }, "Mesa de corte", "assets/mesa_corte.png", ORANGE, true, ACAO_CORTAR));
+    blocos.push_back(CriarBloco({ 184, 620, 152, 68 }, "Mesa de corte", "DadoBurguer/assets/mesa_corte.png", ORANGE, true, ACAO_CORTAR));
 
-    blocos.push_back(CriarBloco({ xFina + ESPESSURA_FINA / 2 - 58, 228, 116, 170 }, "Atendimento", "assets/balcao.png", BEIGE, true, ACAO_ATENDER));
+    blocos.push_back(CriarBloco({ xFina + ESPESSURA_FINA / 2 - 58, 228, 116, 170 }, "Atendimento", "DadoBurguer/assets/balcao.png", BEIGE, true, ACAO_ATENDER));
 }
 
 void DesenharBloco(const Bloco& b) {
@@ -79,9 +79,7 @@ std::vector<Rectangle> GerarGrade(Rectangle zona, int colunas, int linhas, float
  
     for (int l = 0; l < linhas; l++) {
         for (int c = 0; c < colunas; c++) {
-            celulas.push_back({ zona.x + c * (larg + espaco),
-                                zona.y + l * (alt + espaco),
-                                larg, alt });
+            celulas.push_back({ zona.x + c * (larg + espaco), zona.y + l * (alt + espaco), larg, alt });
         }
     }
     return celulas;
@@ -160,5 +158,5 @@ void DesenharTelaFogao(const TelaFogao& tela) {
     }
  
     DrawText("FOGAO", (int)tela.painel.x, (int)tela.painel.y - 40, 30, WHITE);
-    DrawText("[ESC] ou [E] para fechar", (int)tela.painel.x, (int)(tela.painel.y + tela.painel.height) + 14, 20, WHITE);
+    DrawText("[E] para fechar", (int)tela.painel.x, (int)(tela.painel.y + tela.painel.height) + 14, 20, WHITE);
 }

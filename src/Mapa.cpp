@@ -44,13 +44,12 @@ void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos) 
 
     blocos.push_back(CriarBloco({ 190, ESPESSURA, 88, 72 }, "Estoque", "DadoBurguer/assets/estoque.png", RED, true, ACAO_ABRIR_ESTOQUE));
 
-    for (int i = 0; i < 3; i++) {
-        blocos.push_back(CriarBloco({ ESPESSURA, 146.0f + 70.0f * i, 64, 70 }, "Gabinete", "DadoBurguer/assets/gabinete.png", BROWN, false, SEM_ACAO));
-    }
-
+    for (int i = 0; i < 3; i++) 
+        blocos.push_back(CriarBloco({ ESPESSURA - 12, 100.0f + 80.0f * i, 76, 88 }, "Gabinete", "DadoBurguer/assets/gabinete.png", BROWN, false, SEM_ACAO));
+    
     blocos.push_back(CriarBloco({ ESPESSURA, 386, 60, 88 }, "Geladeira", "DadoBurguer/assets/geladeira.png", SKYBLUE, true, ACAO_ABRIR_GELADEIRA));
     
-    blocos.push_back(CriarBloco({ 22.0f, 504, 72, 88 }, "Fogao", "DadoBurguer/assets/fogao.png", DARKGRAY, true, ABRIR_FOGAO));
+    blocos.push_back(CriarBloco({ ESPESSURA - 15, 504, 90, 110 }, "Fogao", "DadoBurguer/assets/fogao.png", DARKGRAY, true, ABRIR_FOGAO));
 
     blocos.push_back(CriarBloco({ 184, 620, 152, 68 }, "Mesa de corte", "DadoBurguer/assets/mesa_corte.png", ORANGE, true, ACAO_CORTAR));
 
@@ -113,7 +112,7 @@ bool AtualizarTelaFogao(TelaFogao& tela) {
         if (CheckCollisionPointRec(mouse, tela.slots[i])) tela.slotHover = (int)i;
     }
   
-    return IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_E);
+    return IsKeyPressed(KEY_E);
 }
 
 void DesenharPlaceholder(Rectangle r, Color cor) {

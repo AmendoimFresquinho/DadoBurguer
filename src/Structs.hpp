@@ -51,9 +51,7 @@ enum Tela {
 };
 
 struct EstadoJogo {
-    bool fogaoLigado;
-    const char* mensagem;     
-    float tempoMensagem;      
+    bool fogaoLigado;      
     Tela tela;
 };
 

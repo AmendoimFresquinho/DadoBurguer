@@ -117,20 +117,18 @@ void AtualizarAnimJogador(AnimJogador& a, Vector2 deslocamento, float dt) {
     bool andando = Vector2LengthSqr(deslocamento) > 0.01f;
  
     if (andando) {
-        // Eixo dominante decide a direção
         if (fabsf(deslocamento.x) > fabsf(deslocamento.y))
             a.direcao = (deslocamento.x > 0) ? DIR_DIREITA : DIR_ESQUERDA;
         else
             a.direcao = (deslocamento.y > 0) ? DIR_BAIXO : DIR_CIMA;
  
-        // Avança o quadro quando acumular tempo suficiente
         a.tempo += dt;
         if (a.tempo >= ANIM_TEMPO_POR_FRAME) {
             a.tempo -= ANIM_TEMPO_POR_FRAME;
             a.frame = (a.frame + 1) % ANIM_FRAMES_POR_DIRECAO;
         }
-    } else {
-        // Parado: pose parada, mantendo a última direção
+    }   
+    else {
         a.frame = 0;
         a.tempo = 0.0f;
     }
@@ -142,12 +140,16 @@ void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox) {
         return;
     }
  
-    Rectangle origem = { (float)(a.frame * ANIM_LARGURA_FRAME),
-                         (float)((int)a.direcao * ANIM_ALTURA_FRAME),
-                         (float)ANIM_LARGURA_FRAME,
-                         (float)ANIM_ALTURA_FRAME };
+    Rectangle origem = { (float)(a.frame * ANIM_LARGURA_FRAME), (float)((int)a.direcao * ANIM_ALTURA_FRAME), (float)ANIM_LARGURA_FRAME, (float)ANIM_ALTURA_FRAME };
  
-    
     Rectangle destino = { roundf(hitbox.x), roundf(hitbox.y), hitbox.width, hitbox.height };
     DrawTexturePro(a.sheet, origem, destino, { 0, 0 }, 0.0f, WHITE);
+}
+
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim) {
+    jogador = { 250.0f, 64.0f,{ 200, 250 }, { 0, 0 }, 32.0f, 64.0f };
+    estado = { false, TELA_JOGO };
+    anim.frame = 0;
+    anim.tempo = 0.0f;
+    anim.direcao = DIR_BAIXO;
 }

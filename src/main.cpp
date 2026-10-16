@@ -12,10 +12,12 @@
 
 int main() {
     
-    InitWindow((int)LARGURA, (int)ALTURA, "Cozinha");
+    InitWindow((int)LARGURA, (int)ALTURA, "DADOBURGUER");
     SetTargetFPS(60);
 
-    Texture2D fundo = LoadTexture("DadoBurguer/assets/Fundo.png");
+    Texture2D menu = LoadTexture("DadoBurguer/assets/Menu.png");
+    Texture2D pausa = LoadTexture("DadoBurguer/assets/pausa.png");
+    Texture2D fundo = LoadTexture("DadoBurguer/assets/fundo.png");
 
     ESTADO_PROGRAMA EstadoPrograma = MENU; 
     std::vector<Rectangle> paredes;
@@ -23,7 +25,7 @@ int main() {
     ConstruirMapa(paredes, blocos);
     AnimJogador animJogador = CriarAnimJogador("DadoBurguer/assets/jogador.png");
     TelaFogao telaFogao = CriarTelaFogao(LARGURA, ALTURA);
-    EstadoJogo estado = { false, "", 0.0f, TELA_JOGO };
+    EstadoJogo estado = { false, TELA_JOGO };
     std::vector<Rectangle> solidos = paredes;
     
     for (size_t i = 0; i < blocos.size(); i++) 
@@ -31,13 +33,21 @@ int main() {
 
     Jogador jogador = { 250.0f, 64.0f, { 400, 360 }, { 0, 0 }, 32.0f, 64.0f };
 
-    Rectangle btnIniciar = { POS_X, POS_Y_INICIAL + (0 * ESPACAMENTO), LARGURA_BOTAO, ALTURA_BOTAO };
+    Rectangle btnIniciar = { POS_X, POS_Y_INICIAL + (0 * ESPACAMENTO), LARGURA_BOTAO, ALTURA_BOTAO }; // Menu
     Rectangle btnDificuldade = { POS_X, POS_Y_INICIAL + (1 * ESPACAMENTO), LARGURA_BOTAO, ALTURA_BOTAO };
     Rectangle btnComoJogar = { POS_X, POS_Y_INICIAL + (2 * ESPACAMENTO), LARGURA_BOTAO, ALTURA_BOTAO };
     Rectangle btnHistorico = { POS_X, POS_Y_INICIAL + (3 * ESPACAMENTO), LARGURA_BOTAO, ALTURA_BOTAO };
     Rectangle btnSair = { POS_X, POS_Y_INICIAL + (4 * ESPACAMENTO), LARGURA_BOTAO, ALTURA_BOTAO };
 
+    Rectangle pausaVoltar = { 480, 268, 320, 76 }; // Pausa
+    Rectangle pausaReiniciar = { 480, 366, 320, 76 };
+    Rectangle pausaMenu = { 480, 464, 320, 76 };
+
     while (!WindowShouldClose()) {
+
+        Rectangle hb = HitBox(jogador); // Variaveis dentro do while
+        Rectangle sprite = { jogador.posicao.x - jogador.tamanho / 2, (jogador.posicao.y + jogador.alturaHit / 2) - jogador.tamanho, jogador.tamanho, jogador.tamanho };
+        Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH);
 
         BeginDrawing();
 
@@ -45,112 +55,124 @@ int main() {
 
         switch(EstadoPrograma){
 
-        case JOGANDO: { //Caso o jogador esteja jogando
-            SetExitKey(0);
+            case JOGANDO: { //Caso o jogador esteja jogando
 
-            if(IsKeyPressed(KEY_ESCAPE)) 
-                EstadoPrograma = PAUSADO;
+                SetExitKey(KEY_NULL);
 
-            Movimentacao(jogador);
-            Colisoes(jogador, dt, solidos);
-            Vector2 antes = jogador.posicao;
+                if(IsKeyPressed(KEY_ESCAPE)) 
+                    EstadoPrograma = PAUSADO;
 
-            Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH);
+                Vector2 antes = jogador.posicao;
 
-            switch (estado.tela) { // SWITCH CASE DE LOGICA
-            
-                case TELA_JOGO:
-                    Movimentacao(jogador);
-                    Colisoes(jogador, dt, solidos);
-                    AtualizarAnimJogador(animJogador, Vector2Subtract(jogador.posicao, antes), dt);
-                    alvo = ProcuraInteragir(jogador, blocos, REACH);
-                    if (alvo != nullptr && IsKeyPressed(KEY_E)) 
-                        FazInteracao(*alvo, estado);
-                    break;
+                switch (estado.tela) { // SWITCH CASE DE LOGICA
                 
-                case TELA_FOGAO:
-                    if (AtualizarTelaFogao(telaFogao)) 
-                        estado.tela = TELA_JOGO;
-                    break;
-            }   
+                    case TELA_JOGO:
+                        Movimentacao(jogador);
+                        Colisoes(jogador, dt, solidos);
+                        AtualizarAnimJogador(animJogador, Vector2Subtract(jogador.posicao, antes), dt);
+                        if (alvo != nullptr && IsKeyPressed(KEY_E)) 
+                            FazInteracao(*alvo, estado);
+                        break;
+                    
+                    case TELA_FOGAO:
+                        if (AtualizarTelaFogao(telaFogao)) 
+                            estado.tela = TELA_JOGO;
+                        break;
+                }   
 
-            ClearBackground(RAYWHITE);
+                switch (estado.tela) { // SWITCH CASE DE GRAFICOS
 
-            DrawRectangle(32, 32, 585, 656, Color{ 235, 225, 210, 255 });
-            DrawRectangle(629, 32, 619, 656, Color{ 210, 225, 235, 255 });
+                    case TELA_JOGO:
+                        DrawTexture(fundo, 0, 0, WHITE);
+                        for (size_t i = 0; i < blocos.size(); i++)      
+                            DesenharBloco(blocos[i]);
+                        if (alvo != nullptr) {
+                            DrawText(TextFormat("[E] %s", alvo->nome.c_str()), (int)hb.x - 10, (int)hb.y - 24, 20, BLACK);
+                        }
+                        DesenharAnimJogador(animJogador, sprite); 
+                        break;              
 
-            for (size_t i = 0; i < paredes.size(); i++) DrawRectangleRec(paredes[i], GRAY);
-            for (size_t i = 0; i < blocos.size(); i++)  DesenharBloco(blocos[i]);
-
-            Rectangle hb = HitBox(jogador);
-            Rectangle sprite = { jogador.posicao.x - jogador.tamanho / 2, (jogador.posicao.y + jogador.alturaHit / 2) - jogador.tamanho, jogador.tamanho, jogador.tamanho };
-
-            if (alvo != nullptr) {
-                DrawText(TextFormat("[E] %s", alvo->nome.c_str()), (int)hb.x - 10, (int)hb.y - 24, 20, BLACK);
+                    case TELA_FOGAO:
+                        DrawTexture(fundo, 0, 0, WHITE);
+                         for (size_t i = 0; i < blocos.size(); i++)      
+                            DesenharBloco(blocos[i]);
+                        DesenharTelaFogao(telaFogao);
+                        break;
+                }   
+                break; //BREAK DO CASE GRANDE, NAO TIRAR (PARA MY PLISNO ASS)
             }
 
-            switch (estado.tela) { // SWITCH CASE DE GRAFICOS
-                case TELA_JOGO:
-                    DesenharAnimJogador(animJogador, sprite); 
-                break;                                   
-                case TELA_FOGAO:
-                    DesenharTelaFogao(telaFogao);
+            case MENU:{ // Caso o jogador esteja no menu
+
+                SetExitKey(KEY_NULL);
+
+                ClearBackground(WHITE); 
+                DrawTexture(menu, 0, 0, Fade(WHITE, 1.0f));
+
+                if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
+                    DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                        ReiniciarJogo(jogador, estado, animJogador);
+                        EstadoPrograma = JOGANDO;
+                    }
+                } if(CheckCollisionPointRec(GetMousePosition(), btnHistorico)) {
+                    DrawRectangleRounded(btnHistorico, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                        EstadoPrograma = HISTORICO;
+                } if(CheckCollisionPointRec(GetMousePosition(), btnDificuldade)) {
+                    DrawRectangleRounded(btnDificuldade, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                        EstadoPrograma = DIFICULDADE;
+                } if(CheckCollisionPointRec(GetMousePosition(), btnSair)) {
+                    DrawRectangleRounded(btnSair, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                        CloseWindow();
+                } if(CheckCollisionPointRec(GetMousePosition(), btnComoJogar)) {
+                    DrawRectangleRounded(btnComoJogar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                        EstadoPrograma = COMO_JOGAR;
+                }
+            
                 break;
-            }   
-        break;
-        }
-
-        case MENU:{ // Caso o jogador esteja no menu
-
-            SetExitKey(0);
-
-            ClearBackground(BLACK); // 1º Limpa a tela
-            DrawTexture(fundo, 0, 0, WHITE);
-
-            if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
-                DrawRectangleRounded(btnIniciar, 0.4f, 4, Fade(GREEN, 0.15f));
-                if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                    EstadoPrograma = JOGANDO;
-            } if(CheckCollisionPointRec(GetMousePosition(), btnHistorico)) {
-                DrawRectangleRounded(btnHistorico, 0.4f, 4, Fade(GREEN, 0.15f));
-                if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                    EstadoPrograma = HISTORICO;
-            } if(CheckCollisionPointRec(GetMousePosition(), btnDificuldade)) {
-                DrawRectangleRounded(btnDificuldade, 0.4f, 4, Fade(YELLOW, 0.15f));
-                if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                    EstadoPrograma = DIFICULDADE;
-            } if(CheckCollisionPointRec(GetMousePosition(), btnSair)) {
-                DrawRectangleRounded(btnSair, 0.4f, 4, Fade(GREEN, 0.15f));
-                if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                    WindowShouldClose();
-            } if(CheckCollisionPointRec(GetMousePosition(), btnComoJogar)) {
-                DrawRectangleRounded(btnComoJogar, 0.4f, 4, Fade(YELLOW, 0.15f));
-                if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                    EstadoPrograma = COMO_JOGAR;
             }
-            
-        break;
-        }
 
-        case PAUSADO: {
+            case PAUSADO: {
 
-            SetExitKey(0);
-            ClearBackground(BLACK);
-            DrawText("PAUSADO", LARGURA / 2, ALTURA / 2, 100, RED);
-            if(IsKeyPressed(KEY_ESCAPE))
-                EstadoPrograma = JOGANDO;
-            
-            break;
-        }
+                SetExitKey(KEY_NULL);
+
+                DrawTexture(pausa, 420, 140, Color{ 255, 255, 255, 60 });
+
+                 if(CheckCollisionPointRec(GetMousePosition(), pausaVoltar)) {
+                    DrawRectangleRounded(pausaVoltar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                        EstadoPrograma = JOGANDO;
+                    }
+                } 
+                if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
+                    DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                        ReiniciarJogo(jogador, estado, animJogador);
+                        EstadoPrograma = JOGANDO;
+                    }
+                } 
+                if(CheckCollisionPointRec(GetMousePosition(), pausaMenu)) {
+                    DrawRectangleRounded(pausaMenu, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                        EstadoPrograma = MENU;
+                }
+                break;
+            }
         }
     
     EndDrawing();
     }
 
     for (size_t i = 0; i < blocos.size(); i++)
-        if (blocos[i].textura.id != 0) UnloadTexture(blocos[i].textura);
+        if (blocos[i].textura.id != 0) 
+            UnloadTexture(blocos[i].textura);
 
     DescarregarAnimJogador(animJogador);
+    UnloadTexture(menu);
     UnloadTexture(fundo);
     CloseWindow();
     return 0;

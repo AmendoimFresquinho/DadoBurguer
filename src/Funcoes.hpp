@@ -20,6 +20,7 @@ Rectangle HitBox(const Jogador& p);
 void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox);
 void AtualizarAnimJogador(AnimJogador& a, Vector2 deslocamento, float dt);
 void DescarregarAnimJogador(AnimJogador& a); 
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim);
 
 //MAPA
 

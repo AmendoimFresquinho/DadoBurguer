@@ -17,11 +17,6 @@ void DrawBlock(const Bloco& b) {
     }
 }
 
-void MostrarMensagem(EstadoJogo& estado, const char* texto) {
-    estado.mensagem = texto;
-    estado.tempoMensagem = 2.0f;
-}
-
 Bloco CriarBloco(Rectangle ret, const char* nome, const char* arquivoTextura, Color corReserva, bool interagivel, Acoes acao) {
     Bloco b;
     b.rect = ret;
@@ -53,9 +48,9 @@ void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos) 
         blocos.push_back(CriarBloco({ ESPESSURA, 146.0f + 70.0f * i, 64, 70 }, "Gabinete", "DadoBurguer/assets/gabinete.png", BROWN, false, SEM_ACAO));
     }
 
-    blocos.push_back(CriarBloco({ ESPESSURA, 386, 80, 60 }, "Geladeira", "DadoBurguer/assets/geladeira.png", SKYBLUE, true, ACAO_ABRIR_GELADEIRA));
-
-    blocos.push_back(CriarBloco({ ESPESSURA, 504, 68, 112 }, "Fogao", "DadoBurguer/assets/fogao.png", DARKGRAY, true, ABRIR_FOGAO));
+    blocos.push_back(CriarBloco({ ESPESSURA, 386, 60, 88 }, "Geladeira", "DadoBurguer/assets/geladeira.png", SKYBLUE, true, ACAO_ABRIR_GELADEIRA));
+    
+    blocos.push_back(CriarBloco({ 22.0f, 504, 72, 88 }, "Fogao", "DadoBurguer/assets/fogao.png", DARKGRAY, true, ABRIR_FOGAO));
 
     blocos.push_back(CriarBloco({ 184, 620, 152, 68 }, "Mesa de corte", "DadoBurguer/assets/mesa_corte.png", ORANGE, true, ACAO_CORTAR));
 

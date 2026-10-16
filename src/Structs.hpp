@@ -21,9 +21,9 @@ struct FilaEnc {
     Nodo *fim;
 };
 
-typedef struct {
+struct ListaEnc {
     Nodo *ini;
-} ListaEnc;
+};
 
 struct PilhaEnc {
     Nodo *topo;
@@ -102,5 +102,8 @@ enum ESTADO_PROGRAMA {
     JOGANDO,
     MENU,
     PAUSADO,
-    CONFIGS
+    CONFIGS,
+    HISTORICO,
+    COMO_JOGAR,
+    DIFICULDADE
 };

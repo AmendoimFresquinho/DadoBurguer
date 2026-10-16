@@ -7,6 +7,11 @@
 #include <vector>
 #include <iostream>
 
+const int ANIM_LARGURA_FRAME = 32;
+const int ANIM_ALTURA_FRAME = 32;
+const int ANIM_FRAMES_POR_DIRECAO = 4;
+const float ANIM_TEMPO_POR_FRAME = 0.125f;   
+
 void Movimentacao(Jogador& player) {
     Vector2 direction = { 0.0f, 0.0f };
 
@@ -78,21 +83,15 @@ Bloco* ProcuraInteragir(const Jogador& player, std::vector<Bloco>& blocks, float
 void FazInteracao(const Bloco& bloco, EstadoJogo& estado) {
     switch (bloco.acao) {
         case ABRIR_FOGAO: estado.tela = TELA_FOGAO; break;
-        case ACAO_ABRIR_GELADEIRA: MostrarMensagem(estado, "Abriu a geladeira"); break;
-        case ACAO_ABRIR_ESTOQUE: MostrarMensagem(estado, "Abriu o estoque"); break;
-        case ACAO_CORTAR: MostrarMensagem(estado, "Cortando ingredientes..."); break;
-        case ACAO_ATENDER: MostrarMensagem(estado, "Atendendo cliente..."); break;
-        case SEM_ACAO:
+        case ACAO_ABRIR_GELADEIRA: break;
+        case ACAO_ABRIR_ESTOQUE: break;
+        case ACAO_CORTAR: break;
+        case ACAO_ATENDER: break;
+        case SEM_ACAO: break;
         default:
             break;
     }
 }
-
-const int ANIM_LARGURA_FRAME = 32;
-const int ANIM_ALTURA_FRAME = 32;
-const int ANIM_FRAMES_POR_DIRECAO = 4;
-const float ANIM_TEMPO_POR_FRAME = 0.125f;   
- 
  
 AnimJogador CriarAnimJogador(const char* arquivo) {
     AnimJogador a;

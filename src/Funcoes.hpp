@@ -9,13 +9,20 @@
 #include <cfloat>
 #include <vector>
 
+//PLAYER
+
 void Movimentacao(Jogador& player);
 void Colisoes(Jogador& player, float dt, const std::vector<Rectangle>& solids);
 Bloco* ProcuraInteragir(const Jogador& player, std::vector<Bloco>& blocks, float reach);
 void FazInteracao(const Bloco& block, EstadoJogo& state);
-void DrawBlock(const Bloco& b);
+AnimJogador CriarAnimJogador(const char* arquivo);
 Rectangle HitBox(const Jogador& p);
-void MostrarMensagem(EstadoJogo& estado, const char* texto); //TEMPORARIO
+void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox);
+void AtualizarAnimJogador(AnimJogador& a, Vector2 deslocamento, float dt);
+void DescarregarAnimJogador(AnimJogador& a); 
+
+//MAPA
+
 Bloco CriarBloco(Rectangle ret, const char* nome, const char* arquivoTextura, Color corReserva, bool interagivel, Acoes acao);
 void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos);
 void DesenharBloco(const Bloco& b);
@@ -24,10 +31,7 @@ TelaFogao CriarTelaFogao(float largura, float altura);
 bool AtualizarTelaFogao(TelaFogao& tela);
 void DesenharTelaFogao(const TelaFogao& tela);
 void DesenharPlaceholder(Rectangle r, Color cor);
-void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox);
-void AtualizarAnimJogador(AnimJogador& a, Vector2 deslocamento, float dt);
-void DescarregarAnimJogador(AnimJogador& a); 
-AnimJogador CriarAnimJogador(const char* arquivo);
+void DrawBlock(const Bloco& b);
 
 //PILHAS
 

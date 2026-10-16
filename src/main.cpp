@@ -58,6 +58,7 @@ int main() {
             case JOGANDO: { //Caso o jogador esteja jogando
 
                 SetExitKey(KEY_NULL);
+                HideCursor();
 
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = PAUSADO;
@@ -93,6 +94,7 @@ int main() {
                         break;              
 
                     case TELA_FOGAO:
+                        ShowCursor();
                         DrawTexture(fundo, 0, 0, WHITE);
                          for (size_t i = 0; i < blocos.size(); i++)      
                             DesenharBloco(blocos[i]);
@@ -102,12 +104,13 @@ int main() {
                 break; //BREAK DO CASE GRANDE, NAO TIRAR (PARA MY PLISNO ASS)
             }
 
-            case MENU:{ // Caso o jogador esteja no menu
+            case MENU: { // Caso o jogador esteja no menu
 
                 SetExitKey(KEY_NULL);
+                ShowCursor();
 
                 ClearBackground(WHITE); 
-                DrawTexture(menu, 0, 0, Fade(WHITE, 1.0f));
+                DrawTexture(menu, 0, 0, WHITE);
 
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
@@ -132,29 +135,31 @@ int main() {
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
                         EstadoPrograma = COMO_JOGAR;
                 }
-            
                 break;
             }
 
             case PAUSADO: {
 
                 SetExitKey(KEY_NULL);
+                if(IsKeyPressed(KEY_ESCAPE)) 
+                    EstadoPrograma = JOGANDO;
 
-                DrawTexture(pausa, 420, 140, Color{ 255, 255, 255, 60 });
+                ShowCursor();
+                DrawTexture(pausa, 420, 140, WHITE);
 
-                 if(CheckCollisionPointRec(GetMousePosition(), pausaVoltar)) {
-                    DrawRectangleRounded(pausaVoltar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
+                if(CheckCollisionPointRec(GetMousePosition(), pausaVoltar)) {
+                    DrawRectangleRounded(pausaVoltar, 0.4f, 4, ColorAlpha(BLACK, 0.5f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                         EstadoPrograma = JOGANDO;
                     }
-                } 
+                }
                 if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                         ReiniciarJogo(jogador, estado, animJogador);
                         EstadoPrograma = JOGANDO;
                     }
-                } 
+                }
                 if(CheckCollisionPointRec(GetMousePosition(), pausaMenu)) {
                     DrawRectangleRounded(pausaMenu, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -162,8 +167,31 @@ int main() {
                 }
                 break;
             }
+
+            case HISTORICO: {
+                ClearBackground(GREEN);
+                if(GetCharPressed() > 0)
+                    EstadoPrograma = MENU;
+                DrawText("MANUTENCAO", 200, 200, 100, BLACK);
+                DrawText("CLIQUE QUALQUER COISA PRA SAIR", 200, 400, 50, BLACK);
+            }
+
+            case DIFICULDADE: {
+                ClearBackground(GREEN);
+                if(GetCharPressed() > 0)
+                    EstadoPrograma = MENU;
+                DrawText("MANUTENCAO", 200, 200, 100, BLACK);
+                DrawText("CLIQUE QUALQUER COISA PRA SAIR", 200, 400, 50, BLACK);
+            }
+
+            case COMO_JOGAR: {
+                ClearBackground(GREEN);
+                if(GetCharPressed() > 0)
+                    EstadoPrograma = MENU;
+                DrawText("MANUTENCAO", 200, 200, 100, BLACK);
+                DrawText("CLIQUE QUALQUER COISA PRA SAIR", 200, 400, 50, BLACK);
+            }
         }
-    
     EndDrawing();
     }
 
@@ -174,6 +202,7 @@ int main() {
     DescarregarAnimJogador(animJogador);
     UnloadTexture(menu);
     UnloadTexture(fundo);
+    UnloadTexture(pausa);
     CloseWindow();
     return 0;
 }

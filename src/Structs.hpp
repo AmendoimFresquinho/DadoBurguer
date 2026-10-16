@@ -83,10 +83,10 @@ struct TelaFogao {
 };
 
 enum DirecaoAnim {
-    DIR_BAIXO = 0,
-    DIR_ESQUERDA = 1,
-    DIR_DIREITA = 2,
-    DIR_CIMA = 3
+    DIR_BAIXO,
+    DIR_ESQUERDA,
+    DIR_DIREITA,
+    DIR_CIMA 
 };
 
 struct AnimJogador {

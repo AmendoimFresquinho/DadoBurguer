@@ -32,7 +32,8 @@ Rectangle HitBox(const Jogador& p) {
 void Colisoes(Jogador& player, float dt, const std::vector<Rectangle>& solids) {
 
     player.posicao.x += player.aceleracao.x * dt;        
-    Rectangle r = HitBox(player);                    
+    Rectangle r = HitBox(player);  
+
     for (size_t i = 0; i < solids.size(); i++) {
         const Rectangle& s = solids[i];
         if (!CheckCollisionRecs(r, s)) continue;         
@@ -47,6 +48,7 @@ void Colisoes(Jogador& player, float dt, const std::vector<Rectangle>& solids) {
 
     player.posicao.y += player.aceleracao.y * dt;
     r = HitBox(player);
+    
     for (size_t i = 0; i < solids.size(); i++) {
         const Rectangle& s = solids[i];
         if (!CheckCollisionRecs(r, s)) continue;

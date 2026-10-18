@@ -21,12 +21,11 @@ void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox);
 void AtualizarAnimJogador(AnimJogador& a, Vector2 deslocamento, float dt);
 void DescarregarAnimJogador(AnimJogador& a); 
 void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim);
-TelaEstoque CriarTelaEstoque(float largura, float altura);
+TelaEstoque CriarTelaEstoque(float largura, float altura,IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles );
 void DescarregarTelaEstoque(TelaEstoque& t);
-bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhido);
+bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhidoEST, int& escolhidoINV);
 void DesenharIngrediente(const TelaEstoque& tela, char codigo, Rectangle area);
-void DesenharTelaEstoque(const TelaEstoque& tela);
-
+void DesenharTelaEstoque(const TelaEstoque& tela, ListaContiguaINV &inventario);
 
 //MAPA
 
@@ -89,3 +88,24 @@ int fpEstaVazia(const FilaPrioridade &fp);
 int fpInserir(FilaPrioridade &fp, int valor);
 int fpMinimo(const FilaPrioridade &fp, int &valor);
 int fpRemoverMinimo(FilaPrioridade &fp, int &valor);
+
+//LISTA CONTIGUA
+
+void inicializar(ListaContiguaINV &l);
+int tamanho(const ListaContiguaINV &l);
+int inserir(ListaContiguaINV &l, IngredienteJogo novo, int pos);
+IngredienteJogo acessar(const ListaContiguaINV &l, int pos);
+int buscar(const ListaContiguaINV &l, int cod);
+int remover(ListaContiguaINV &l, int pos);
+void destruir(ListaContiguaINV &l);
+
+//INVENTARIO
+
+TelaInventario CriarTelaInventario(float largura, float altura);
+bool AtualizarTelaInventario(TelaInventario& tela, int& clicado);
+void DesenharIconeNoSlot(Texture2D tex, Rectangle area);
+void DesenharTelaInventario(const TelaInventario& tela, const ListaContiguaINV &inventario);
+void adicionaNoInventario(char escolhidoEST, ListaContiguaINV &inventario, IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles );
+void removeDoInventario(int escolhidoINV, ListaContiguaINV &inventario);
+void imprime(ListaContiguaINV inv);
+

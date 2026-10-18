@@ -3,7 +3,6 @@
 #include "Structs.hpp"
 #include "raymath.h"
 #include "Constantes.hpp"
-#include "ingredientes.hpp"
 #include <cfloat>
 #include <vector>
 #include <string>
@@ -15,7 +14,7 @@ const int ESTOQUE_LINHAS = 3;
 const float ESTOQUE_ICONE = 96.0f;   
 const float ESTOQUE_ESPACO = 10.0f;   
 
-TelaEstoque CriarTelaEstoque(float largura, float altura) {
+TelaEstoque CriarTelaEstoque(float largura, float altura, IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles ) {
     TelaEstoque t;
     t.painel = { 80, (altura - 500) / 2, largura - 160, 500 };
     t.xDivisoria = t.painel.x + t.painel.width * 0.52f;
@@ -26,35 +25,7 @@ TelaEstoque CriarTelaEstoque(float largura, float altura) {
     t.zonaEsq = { t.painel.x + pad, t.painel.y + pad, (t.xDivisoria - t.painel.x) - 2 * pad, t.painel.height - 2 * pad };
     t.zonaDir = { t.xDivisoria + pad, t.painel.y + pad, (t.painel.x + t.painel.width - t.xDivisoria) - 2 * pad, t.painel.height - 2 * pad };
 
-    Texture2D paoCima = LoadTexture("DadoBurguer/assets/INV/cima_pao_inventario.png");
-    Texture2D paoBaixo = LoadTexture("DadoBurguer/assets/INV/baixo_pao_inventario.png");
-    Texture2D cheddar = LoadTexture("DadoBurguer/assets/INV/cheddar_inventario.png");
-    Texture2D suico = LoadTexture("DadoBurguer/assets/INV/suico_inventario.png");
-    Texture2D carne_crua = LoadTexture("DadoBurguer/assets/INV/carne_crua_inventario.png");
-    Texture2D alface = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D tomate = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D ketchup = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D mostarda = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D cebola = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D ovo = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D bacon = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D picles = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-
-    IngredienteJogo Pao_cima = { 'z', false, paoCima, "Pao de Cima", 0 };
-    IngredienteJogo Pao_baixo ={ 'x', false, paoBaixo, "Pao de Baixo", 0 };
-    IngredienteJogo Carne = { 'n', true, carne_crua, "Carne", VALIDADE };
-    IngredienteJogo Queijo_Suico = { 's', true, suico, "Suico", VALIDADE };
-    IngredienteJogo Cheddar = { 'q', true, cheddar, "Cheddar", VALIDADE };
-    IngredienteJogo Alface = { 'a', false, alface, "Alface", 0};
-    IngredienteJogo Ketchup = { 'k', false, ketchup, "Ketchup", 0};
-    IngredienteJogo Mostarda = { 'm', false, mostarda, "Mostarda", 0};
-    IngredienteJogo Picles = { 'p', false, picles, "Picles", 0};
-    IngredienteJogo Cebola = { 'c', false, cebola, "Cebola", 0};
-    IngredienteJogo Tomate = { 't', false, tomate, "Tomate", 0};
-    IngredienteJogo Ovo = { 'o', false, ovo, "Ovo", 0};
-    IngredienteJogo Bacon = { 'b', false, bacon, "Bacon", 0};
-    
-    IngredienteJogo Ingredientes[QUANTIDADE_INGREDIENTES] = {Pao_cima, Pao_baixo, Carne, Queijo_Suico, Cheddar, Alface, Ketchup, Mostarda, Picles, Cebola, Tomate, Ovo, Bacon};
+    IngredienteJogo Ingredientes[QUANTIDADE_INGREDIENTES] = {PaoCima, PaoBaixo, Carne, QueijoSuico, Cheddar, Alface, Ketchup, Mostarda, Picles, Cebola, Tomate, Ovo, Bacon};
  
     for (int i = 0; i < QUANTIDADE_INGREDIENTES; i++) {
         t.ingredientes.push_back({ Ingredientes[i].codigo, Ingredientes[i].ehPerecivel, Ingredientes[i].textura, Ingredientes[i].nome, Ingredientes[i].turnoEstraga });
@@ -82,8 +53,9 @@ void DescarregarTelaEstoque(TelaEstoque& t) {
     }
 }
 
-bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhido) {
-    escolhido = '\0';
+bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhidoEST, int& escolhidoINV) {
+    escolhidoEST = '\0';
+    escolhidoINV = -1;
     Vector2 mouse = GetMousePosition();
  
     tela.ingredienteHover = -1;
@@ -97,7 +69,15 @@ bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhido) {
     }
  
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.ingredienteHover >= 0) {
-        escolhido = tela.ingredientes[tela.ingredienteHover].codigo;
+        escolhidoEST = tela.ingredientes[tela.ingredienteHover].codigo;
+    }
+
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.ingredienteHover >= 0) {
+        escolhidoEST = tela.ingredientes[tela.ingredienteHover].codigo;
+    }
+
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.slotHover >= 0) {
+        escolhidoINV = tela.slotHover;
     }
  
     return IsKeyPressed(KEY_E);
@@ -132,9 +112,8 @@ void DesenharIngrediente(const TelaEstoque& tela, char codigo, Rectangle area) {
     }
 }
  
-void DesenharTelaEstoque(const TelaEstoque& tela) {
+void DesenharTelaEstoque(const TelaEstoque& tela, ListaContiguaINV &inventario) {
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Color{ 0, 0, 0, 160 });
- 
     DrawRectangleRec(tela.painel, RAYWHITE);
     DrawRectangleLinesEx(tela.painel, 3, BLACK);
     DrawLineEx({ tela.xDivisoria, tela.painel.y }, { tela.xDivisoria, tela.painel.y + tela.painel.height }, 3, GRAY);
@@ -147,7 +126,6 @@ void DesenharTelaEstoque(const TelaEstoque& tela) {
         const IngredienteJogo& ing = tela.ingredientes[i];
         bool hover = ((int)i == tela.ingredienteHover);
  
-        // Moldura por FORA da célula, para o ícone ocupar os 96 px inteiros
         Rectangle moldura = { c.x - 3, c.y - 3, c.width + 6, c.height + 6 };
         if (hover) DrawRectangleRec(moldura, Color{ 255, 200, 0, 60 });
         DrawRectangleLinesEx(moldura, 3, hover ? ORANGE : GRAY);
@@ -164,6 +142,10 @@ void DesenharTelaEstoque(const TelaEstoque& tela) {
         bool hover = ((int)i == tela.slotHover);
         if (hover) DrawRectangleRec(s, Color{ 255, 200, 0, 60 });
         DrawRectangleLinesEx(s, 3, hover ? ORANGE : GRAY);
+
+        Rectangle iconeInv = { s.x, s.y, s.width, s.width };   
+        DesenharIngrediente(tela, acessar(inventario, i).codigo, iconeInv);
+ 
     }
  
     DrawText("ESTOQUE", (int)tela.painel.x, (int)tela.painel.y - 40, 30, WHITE);

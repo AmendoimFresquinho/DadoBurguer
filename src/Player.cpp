@@ -90,6 +90,7 @@ void FazInteracao(const Bloco& bloco, EstadoJogo& estado) {
         case ACAO_CORTAR: break;
         case ACAO_ATENDER: break;
         case SEM_ACAO: break;
+        case ACAO_ABRIR_INVENTARIO: estado.tela = TELA_ESTOQUE; break;
         default:
         break;
     }

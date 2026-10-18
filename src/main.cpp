@@ -3,8 +3,6 @@
 #include "Structs.hpp"
 #include "raymath.h"
 #include "Constantes.hpp"
-#include "imagens.hpp"
-#include "ingredientes.hpp"
 #include <cfloat>
 #include <vector>
 #include <string>
@@ -14,6 +12,34 @@ int main() {
     
     InitWindow((int)LARGURA, (int)ALTURA, "DADOBURGUER");
     SetTargetFPS(60);
+
+    Texture2D paoCima = LoadTexture("DadoBurguer/assets/INV/cima_pao_inventario.png");
+    Texture2D paoBaixo = LoadTexture("DadoBurguer/assets/INV/baixo_pao_inventario.png");
+    Texture2D cheddar = LoadTexture("DadoBurguer/assets/INV/cheddar_inventario.png");
+    Texture2D suico = LoadTexture("DadoBurguer/assets/INV/suico_inventario.png");
+    Texture2D carne_crua = LoadTexture("DadoBurguer/assets/INV/carne_crua_inventario.png");
+    Texture2D alface = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+    Texture2D tomate = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+    Texture2D ketchup = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+    Texture2D mostarda = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+    Texture2D cebola = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+    Texture2D ovo = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+    Texture2D bacon = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+    Texture2D picles = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+
+    IngredienteJogo Pao_cima = { 'z', false, paoCima, "Pao de Cima", 0 };
+    IngredienteJogo Pao_baixo ={ 'x', false, paoBaixo, "Pao de Baixo", 0 };
+    IngredienteJogo Carne = { 'n', true, carne_crua, "Carne", VALIDADE };
+    IngredienteJogo Queijo_Suico = { 's', true, suico, "Suico", VALIDADE };
+    IngredienteJogo Cheddar = { 'q', true, cheddar, "Cheddar", VALIDADE };
+    IngredienteJogo Alface = { 'a', false, alface, "Alface", 0};
+    IngredienteJogo Ketchup = { 'k', false, ketchup, "Ketchup", 0};
+    IngredienteJogo Mostarda = { 'm', false, mostarda, "Mostarda", 0};
+    IngredienteJogo Picles = { 'p', false, picles, "Picles", 0};
+    IngredienteJogo Cebola = { 'c', false, cebola, "Cebola", 0};
+    IngredienteJogo Tomate = { 't', false, tomate, "Tomate", 0};
+    IngredienteJogo Ovo = { 'o', false, ovo, "Ovo", 0};
+    IngredienteJogo Bacon = { 'b', false, bacon, "Bacon", 0};
 
     Texture2D menu = LoadTexture("DadoBurguer/assets/Menu.png");
     Texture2D pausa = LoadTexture("DadoBurguer/assets/pausa.png");
@@ -25,10 +51,13 @@ int main() {
     ConstruirMapa(paredes, blocos);
     AnimJogador animJogador = CriarAnimJogador("DadoBurguer/assets/jogador.png");
     TelaFogao telaFogao = CriarTelaFogao(LARGURA, ALTURA);
-    TelaEstoque telaEstoque = CriarTelaEstoque(LARGURA, ALTURA);
+    TelaEstoque telaEstoque = CriarTelaEstoque(LARGURA, ALTURA, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles);
+    TelaInventario telaInventario = CriarTelaInventario(LARGURA, ALTURA);
     EstadoJogo estado = { false, TELA_JOGO };
     std::vector<Rectangle> solidos = paredes;
-    
+    ListaContiguaINV Inventario;
+    Inventario.tamanho = 0;
+
     for (size_t i = 0; i < blocos.size(); i++) 
         solidos.push_back(blocos[i].rect);
 
@@ -61,7 +90,7 @@ int main() {
 
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = PAUSADO;
-
+                    
                 Vector2 antes = jogador.posicao;
 
                 switch (estado.tela) { // SWITCH CASE DE LOGICA
@@ -72,15 +101,22 @@ int main() {
                         AtualizarAnimJogador(animJogador, Vector2Subtract(jogador.posicao, antes), dt);
                         if (alvo != nullptr && IsKeyPressed(KEY_E)) 
                             FazInteracao(*alvo, estado);
+                            if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) estado.tela = TELA_INVENTARIO;
                         break;
                     case TELA_FOGAO:
                         if (AtualizarTelaFogao(telaFogao)) 
                         estado.tela = TELA_JOGO;
                         break;
                     case TELA_ESTOQUE:
-                        char escolhido;
-                        if (AtualizarTelaEstoque(telaEstoque, escolhido)) estado.tela = TELA_JOGO;
+                        char escolhidoEST;
+                        int escolhidoINV;
+                        if (AtualizarTelaEstoque(telaEstoque, escolhidoEST, escolhidoINV)) estado.tela = TELA_JOGO;
+                        if(escolhidoEST != '\0') {adicionaNoInventario(escolhidoEST, Inventario, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles); imprime(Inventario);}
+                        if(escolhidoINV != -1) {removeDoInventario(escolhidoINV, Inventario); imprime(Inventario);}
                         break;
+                    case TELA_INVENTARIO:
+                        int clicado;
+                        if (AtualizarTelaInventario(telaInventario, clicado)) estado.tela = TELA_JOGO;          
                 }   
 
                 switch (estado.tela) { // SWITCH CASE DE GRAFICOS
@@ -102,9 +138,18 @@ int main() {
                         DrawTexture(fundo, 0, 0, WHITE);
                          for (size_t i = 0; i < blocos.size(); i++)      
                             DesenharBloco(blocos[i]);  // Isso deixa o fundo escuro
-                        DesenharTelaEstoque(telaEstoque);
+                        DesenharTelaEstoque(telaEstoque, Inventario);
                         break;
-                    }            
+                    }       
+                    
+                    case TELA_INVENTARIO:{
+                        ShowCursor();
+                        DrawTexture(fundo, 0, 0, WHITE);
+                        for (size_t i = 0; i < blocos.size(); i++)      
+                            DesenharBloco(blocos[i]);  // Isso deixa o fundo escuro
+                        DesenharTelaInventario(telaInventario, Inventario);
+                        break;
+                    }
                 }   
                 break; //BREAK DO CASE GRANDE, NAO TIRAR (PARA MY PLISNO ASS)
             }

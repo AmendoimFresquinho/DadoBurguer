@@ -43,13 +43,15 @@ enum Acoes {
     ACAO_ABRIR_GELADEIRA,
     ACAO_ABRIR_ESTOQUE,
     ACAO_CORTAR,
-    ACAO_ATENDER
+    ACAO_ATENDER,
+    ACAO_ABRIR_INVENTARIO
 };
 
 enum Tela {
     TELA_JOGO,
     TELA_FOGAO,
-    TELA_ESTOQUE
+    TELA_ESTOQUE,
+    TELA_INVENTARIO
 };
 
 struct EstadoJogo {
@@ -131,4 +133,15 @@ struct TelaEstoque {
 struct FilaPrioridade {
     int dados[HEAP_CAP];
     int tamanho = 0;
+};
+
+typedef struct {
+    int tamanho;
+    IngredienteJogo dados[CAPACIDADE];
+} ListaContiguaINV;
+
+struct TelaInventario {
+    Rectangle painel;
+    std::vector<Rectangle> slots;   
+    int slotHover;                 
 };

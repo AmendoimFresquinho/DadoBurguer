@@ -127,26 +127,20 @@ int main() {
 
                     case TELA_FOGAO:
                         ShowCursor();
-                        DrawTexture(fundo, 0, 0, WHITE);
-                         for (size_t i = 0; i < blocos.size(); i++)      
-                            DesenharBloco(blocos[i]); // Isso deixa o fundo escuro
-                        DesenharTelaFogao(telaFogao);
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado);  //Desenha o mundo para ficar bonito de fundo
+                        DesenharTelaFogao(telaFogao, Inventario);
                         break;
 
                     case TELA_ESTOQUE: {
                         ShowCursor();
-                        DrawTexture(fundo, 0, 0, WHITE);
-                         for (size_t i = 0; i < blocos.size(); i++)      
-                            DesenharBloco(blocos[i]);  // Isso deixa o fundo escuro
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaEstoque(telaEstoque, Inventario);
                         break;
                     }       
                     
                     case TELA_INVENTARIO:{
                         ShowCursor();
-                        DrawTexture(fundo, 0, 0, WHITE);
-                        for (size_t i = 0; i < blocos.size(); i++)      
-                            DesenharBloco(blocos[i]);  // Isso deixa o fundo escuro
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaInventario(telaInventario, Inventario);
                         break;
                     }
@@ -165,7 +159,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario);
                         EstadoPrograma = JOGANDO;
                     }
                 } 
@@ -212,7 +206,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario);
                         EstadoPrograma = JOGANDO;
                     }
                 }
@@ -258,9 +252,24 @@ int main() {
     DescarregarAnimJogador(animJogador);
     DescarregarTelaEstoque(telaEstoque);
     UnloadTexture(menu);
+    UnloadTexture(pausa);
     UnloadTexture(fundo);
     UnloadTexture(pausa);
+    UnloadTexture(paoCima);
+    UnloadTexture(paoBaixo);
+    UnloadTexture(cheddar);
+    UnloadTexture(suico);
+    UnloadTexture(carne_crua);
+    UnloadTexture(alface);
+    UnloadTexture(tomate);
+    UnloadTexture(ketchup);
+    UnloadTexture(mostarda);
+    UnloadTexture(cebola);
+    UnloadTexture(ovo);
+    UnloadTexture(bacon);
+    UnloadTexture(picles);
+
     CloseWindow();
+
     return 0;
 }
-

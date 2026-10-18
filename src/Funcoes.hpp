@@ -20,7 +20,7 @@ Rectangle HitBox(const Jogador& p);
 void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox);
 void AtualizarAnimJogador(AnimJogador& a, Vector2 deslocamento, float dt);
 void DescarregarAnimJogador(AnimJogador& a); 
-void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim);
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv);
 TelaEstoque CriarTelaEstoque(float largura, float altura,IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles );
 void DescarregarTelaEstoque(TelaEstoque& t);
 bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhidoEST, int& escolhidoINV);
@@ -35,7 +35,7 @@ void DesenharBloco(const Bloco& b);
 std::vector<Rectangle> GerarGrade(Rectangle zona, int colunas, int linhas, float espaco);
 TelaFogao CriarTelaFogao(float largura, float altura);
 bool AtualizarTelaFogao(TelaFogao& tela);
-void DesenharTelaFogao(const TelaFogao& tela);
+void DesenharTelaFogao(const TelaFogao& tela, ListaContiguaINV &inv);
 void DesenharPlaceholder(Rectangle r, Color cor);
 void DrawBlock(const Bloco& b);
 void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos,const Jogador& jogador, const AnimJogador& anim, const Bloco* alvo, const EstadoJogo& estado);
@@ -108,4 +108,4 @@ void DesenharTelaInventario(const TelaInventario& tela, const ListaContiguaINV &
 void adicionaNoInventario(char escolhidoEST, ListaContiguaINV &inventario, IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles );
 void removeDoInventario(int escolhidoINV, ListaContiguaINV &inventario);
 void imprime(ListaContiguaINV inv);
-
+void DesenharDicaMouse(const char* texto);

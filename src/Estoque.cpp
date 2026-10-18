@@ -65,7 +65,9 @@ bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhidoEST, int& escolhidoI
  
     tela.slotHover = -1;
     for (size_t i = 0; i < tela.slotsInventario.size(); i++) {
-        if (CheckCollisionPointRec(mouse, tela.slotsInventario[i])) tela.slotHover = (int)i;
+        if (CheckCollisionPointRec(mouse, tela.slotsInventario[i])) {
+            tela.slotHover = (int)i;
+        }
     }
  
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.ingredienteHover >= 0) {
@@ -75,7 +77,7 @@ bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhidoEST, int& escolhidoI
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.ingredienteHover >= 0) {
         escolhidoEST = tela.ingredientes[tela.ingredienteHover].codigo;
     }
-
+   
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.slotHover >= 0) {
         escolhidoINV = tela.slotHover;
     }
@@ -145,9 +147,27 @@ void DesenharTelaEstoque(const TelaEstoque& tela, ListaContiguaINV &inventario) 
 
         Rectangle iconeInv = { s.x, s.y, s.width, s.width };   
         DesenharIngrediente(tela, acessar(inventario, i).codigo, iconeInv);
- 
     }
  
     DrawText("ESTOQUE", (int)tela.painel.x, (int)tela.painel.y - 40, 30, WHITE);
     DrawText("Clique em um ingrediente para pegar / [E] para fechar", (int)tela.painel.x, (int)(tela.painel.y + tela.painel.height) + 14, 20, WHITE);
+
+    if (tela.slotHover >= 0 && tamanho(inventario) > tela.slotHover) {
+        DesenharDicaMouse("Clique para remover");
+    }
+}
+
+void DesenharDicaMouse(const char* texto) {
+    const int tam = 18;
+    int larg = MeasureText(texto, tam);
+    Vector2 m = GetMousePosition();
+
+    float x = m.x + 16;      
+    float y = m.y + 20;
+
+    if (x + larg + 16 > GetScreenWidth()) x = m.x - larg - 24;
+    if (y + 28 > GetScreenHeight())       y = m.y - 36;
+
+    DrawRectangleRounded({ x, y, (float)larg + 16, 28 }, 0.4f, 6, Color{ 40, 28, 22, 230 });
+    DrawText(texto, (int)x + 8, (int)y + 5, tam, RED);
 }

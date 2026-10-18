@@ -149,10 +149,11 @@ void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox) {
     DrawTexturePro(a.sheet, origem, destino, { 0, 0 }, 0.0f, WHITE);
 }
 
-void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim) {
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv) {
     jogador = { 250.0f, 64.0f, { 340, 360 }, { 0, 0 }, 32.0f, 64.0f };
     estado = { false, TELA_JOGO };
     anim.frame = 0;
     anim.tempo = 0.0f;
     anim.direcao = DIR_BAIXO;
+    inv.tamanho = 0;
 }

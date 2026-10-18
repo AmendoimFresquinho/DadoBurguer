@@ -46,7 +46,7 @@ int main() {
 
     while (!WindowShouldClose()) {
 
-        Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH);
+        Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH); // Sempre procura um bloco possivelmente interagivel
 
         BeginDrawing();
 
@@ -56,7 +56,7 @@ int main() {
 
             case JOGANDO: { //Caso o jogador esteja jogando
 
-                SetExitKey(KEY_NULL);
+                SetExitKey(KEY_NULL); // Nao deixa que ele saia com esc
                 HideCursor();
 
                 if(IsKeyPressed(KEY_ESCAPE)) 
@@ -93,7 +93,7 @@ int main() {
                         ShowCursor();
                         DrawTexture(fundo, 0, 0, WHITE);
                          for (size_t i = 0; i < blocos.size(); i++)      
-                            DesenharBloco(blocos[i]);
+                            DesenharBloco(blocos[i]); // Isso deixa o fundo escuro
                         DesenharTelaFogao(telaFogao);
                         break;
 
@@ -101,7 +101,7 @@ int main() {
                         ShowCursor();
                         DrawTexture(fundo, 0, 0, WHITE);
                          for (size_t i = 0; i < blocos.size(); i++)      
-                            DesenharBloco(blocos[i]);
+                            DesenharBloco(blocos[i]);  // Isso deixa o fundo escuro
                         DesenharTelaEstoque(telaEstoque);
                         break;
                     }            
@@ -111,7 +111,7 @@ int main() {
 
             case MENU: { // Caso o jogador esteja no menu
 
-                SetExitKey(KEY_NULL);
+                SetExitKey(KEY_NULL); // Nao deixa que ele saia com esc
                 ShowCursor();
 
                 ClearBackground(WHITE); 
@@ -123,19 +123,23 @@ int main() {
                         ReiniciarJogo(jogador, estado, animJogador);
                         EstadoPrograma = JOGANDO;
                     }
-                } if(CheckCollisionPointRec(GetMousePosition(), btnHistorico)) {
+                } 
+                if(CheckCollisionPointRec(GetMousePosition(), btnHistorico)) {
                     DrawRectangleRounded(btnHistorico, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
                         EstadoPrograma = HISTORICO;
-                } if(CheckCollisionPointRec(GetMousePosition(), btnDificuldade)) {
+                } 
+                if(CheckCollisionPointRec(GetMousePosition(), btnDificuldade)) {
                     DrawRectangleRounded(btnDificuldade, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
                         EstadoPrograma = DIFICULDADE;
-                } if(CheckCollisionPointRec(GetMousePosition(), btnSair)) {
+                } 
+                if(CheckCollisionPointRec(GetMousePosition(), btnSair)) {
                     DrawRectangleRounded(btnSair, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
                         CloseWindow();
-                } if(CheckCollisionPointRec(GetMousePosition(), btnComoJogar)) {
+                } 
+                if(CheckCollisionPointRec(GetMousePosition(), btnComoJogar)) {
                     DrawRectangleRounded(btnComoJogar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
                         EstadoPrograma = COMO_JOGAR;
@@ -143,9 +147,9 @@ int main() {
                 break;
             }
 
-            case PAUSADO: {
+            case PAUSADO: { // Caso o jogador tenha pausado
 
-                SetExitKey(KEY_NULL);
+                SetExitKey(KEY_NULL); // Nao deixa que ele saia com esc
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = JOGANDO;
 

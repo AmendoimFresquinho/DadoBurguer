@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 
-
 namespace Imagens {
     struct ImagemIngrediente {
         Geral::Ingredientes tipo;

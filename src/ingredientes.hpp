@@ -18,7 +18,7 @@ namespace Geral {
         CEBOLA = 'c',
         TOMATE = 't',
         OVO = 'o',
-        BACON = 'b', // 13 Ingredientes ao total
+        BACON = 'b', 
     };
 
     struct Hamburguer{
@@ -36,7 +36,7 @@ namespace Geral {
                 return 1;
 
             pilha[altura] = ingrediente;
-            altura++;
+            altura++;   
 
             return 0;
         }

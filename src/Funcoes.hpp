@@ -21,6 +21,12 @@ void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox);
 void AtualizarAnimJogador(AnimJogador& a, Vector2 deslocamento, float dt);
 void DescarregarAnimJogador(AnimJogador& a); 
 void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim);
+TelaEstoque CriarTelaEstoque(float largura, float altura);
+void DescarregarTelaEstoque(TelaEstoque& t);
+bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhido);
+void DesenharIngrediente(const TelaEstoque& tela, char codigo, Rectangle area);
+void DesenharTelaEstoque(const TelaEstoque& tela);
+
 
 //MAPA
 
@@ -33,6 +39,7 @@ bool AtualizarTelaFogao(TelaFogao& tela);
 void DesenharTelaFogao(const TelaFogao& tela);
 void DesenharPlaceholder(Rectangle r, Color cor);
 void DrawBlock(const Bloco& b);
+void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos,const Jogador& jogador, const AnimJogador& anim, const Bloco* alvo, const EstadoJogo& estado);
 
 //PILHAS
 
@@ -70,3 +77,15 @@ NodoAvl *avlBuscar(NodoAvl *raiz, int dado);
 NodoAvl *avlInserir(NodoAvl *raiz, int dado);
 NodoAvl *avlRemover(NodoAvl *raiz, int dado);
 NodoAvl *avlDestruir(NodoAvl *raiz);
+
+//HEAP
+
+void heapify(int a[], int n, int i);
+void siftUp(int a[], int i);
+void buildHeap(int a[], int n);
+
+void fpInicializar(FilaPrioridade &fp);
+int fpEstaVazia(const FilaPrioridade &fp);
+int fpInserir(FilaPrioridade &fp, int valor);
+int fpMinimo(const FilaPrioridade &fp, int &valor);
+int fpRemoverMinimo(FilaPrioridade &fp, int &valor);

@@ -85,7 +85,7 @@ int removerPorCod(ListaEnc &lista, int cod) {
 
     if (ant == nullptr) // removendo o primeiro nodo
         lista.ini = aux->prox;
-    else                // removendo do meio ou do final
+    else // removendo do meio ou do final
         ant->prox = aux->prox;
 
     delete aux;

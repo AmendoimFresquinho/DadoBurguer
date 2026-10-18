@@ -42,7 +42,7 @@ void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos) 
     paredes.push_back({ xFina, ESPESSURA, ESPESSURA_FINA, 196 });                    
     paredes.push_back({ xFina, 398, ESPESSURA_FINA, ALTURA - ESPESSURA - 398 });          
 
-    blocos.push_back(CriarBloco({ 190, ESPESSURA, 88, 72 }, "Estoque", "DadoBurguer/assets/estoque.png", RED, true, ACAO_ABRIR_ESTOQUE));
+    blocos.push_back(CriarBloco({ 190, ESPESSURA - 30, 60, 100 }, "Estoque", "DadoBurguer/assets/estoque.png", RED, true, ACAO_ABRIR_ESTOQUE));
 
     for (int i = 0; i < 3; i++) 
         blocos.push_back(CriarBloco({ ESPESSURA - 12, 100.0f + 80.0f * i, 76, 88 }, "Gabinete", "DadoBurguer/assets/gabinete.png", BROWN, false, SEM_ACAO));
@@ -153,4 +153,29 @@ void DesenharTelaFogao(const TelaFogao& tela) {
  
     DrawText("FOGAO", (int)tela.painel.x, (int)tela.painel.y - 40, 30, WHITE);
     DrawText("[E] para fechar", (int)tela.painel.x, (int)(tela.painel.y + tela.painel.height) + 14, 20, WHITE);
+}
+
+void DesenharEtiqueta(const char* texto, int x, int y) {
+    int larg = MeasureText(texto, 20);
+    DrawRectangleRounded({ (float)x - 8, (float)y - 3, (float)larg + 16, 26 }, 0.4f, 6, { 40, 28, 22, 220 });
+    DrawText(texto, x, y, 20, WHITE);
+}
+
+void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos, const Jogador& jogador, const AnimJogador& anim, const Bloco* alvo, const EstadoJogo& estado) {
+
+    Rectangle hb = HitBox(jogador);
+    Rectangle sprite = { jogador.posicao.x - jogador.tamanho / 2,(jogador.posicao.y + jogador.alturaHit / 2) - jogador.tamanho, jogador.tamanho, jogador.tamanho };
+
+    DrawTexture(fundo, 0, 0, WHITE);
+
+    for (size_t i = 0; i < blocos.size(); i++) 
+        DesenharBloco(blocos[i]);
+
+    DesenharAnimJogador(anim, sprite);
+
+    if (alvo != nullptr) {
+        const char* texto = TextFormat("[E] %s", alvo->nome.c_str());
+        int x = (int)(hb.x + hb.width / 2) - MeasureText(texto, 20) / 2;
+        DesenharEtiqueta(texto, x, (int)hb.y - 34);
+    }
 }

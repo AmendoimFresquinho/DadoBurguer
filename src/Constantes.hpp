@@ -12,3 +12,6 @@
 #define POS_Y_INICIAL 720.0f * 0.267f  
 #define ESPACAMENTO 720.0f * 0.136f     
 #define LARGURA_BOTAO 1280.0f * 0.20f  
+#define HEAP_CAP 1024
+#define VALIDADE 10
+#define QUANTIDADE_INGREDIENTES 13

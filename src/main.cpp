@@ -25,13 +25,14 @@ int main() {
     ConstruirMapa(paredes, blocos);
     AnimJogador animJogador = CriarAnimJogador("DadoBurguer/assets/jogador.png");
     TelaFogao telaFogao = CriarTelaFogao(LARGURA, ALTURA);
+    TelaEstoque telaEstoque = CriarTelaEstoque(LARGURA, ALTURA);
     EstadoJogo estado = { false, TELA_JOGO };
     std::vector<Rectangle> solidos = paredes;
     
     for (size_t i = 0; i < blocos.size(); i++) 
         solidos.push_back(blocos[i].rect);
 
-    Jogador jogador = { 250.0f, 64.0f, { 400, 360 }, { 0, 0 }, 32.0f, 64.0f };
+    Jogador jogador = { 250.0f, 64.0f, { 350, 360 }, { 0, 0 }, 32.0f, 64.0f };
 
     Rectangle btnIniciar = { POS_X, POS_Y_INICIAL + (0 * ESPACAMENTO), LARGURA_BOTAO, ALTURA_BOTAO }; // Menu
     Rectangle btnDificuldade = { POS_X, POS_Y_INICIAL + (1 * ESPACAMENTO), LARGURA_BOTAO, ALTURA_BOTAO };
@@ -45,8 +46,6 @@ int main() {
 
     while (!WindowShouldClose()) {
 
-        Rectangle hb = HitBox(jogador); // Variaveis dentro do while
-        Rectangle sprite = { jogador.posicao.x - jogador.tamanho / 2, (jogador.posicao.y + jogador.alturaHit / 2) - jogador.tamanho, jogador.tamanho, jogador.tamanho };
         Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH);
 
         BeginDrawing();
@@ -74,24 +73,21 @@ int main() {
                         if (alvo != nullptr && IsKeyPressed(KEY_E)) 
                             FazInteracao(*alvo, estado);
                         break;
-                    
                     case TELA_FOGAO:
                         if (AtualizarTelaFogao(telaFogao)) 
-                            estado.tela = TELA_JOGO;
+                        estado.tela = TELA_JOGO;
+                        break;
+                    case TELA_ESTOQUE:
+                        char escolhido;
+                        if (AtualizarTelaEstoque(telaEstoque, escolhido)) estado.tela = TELA_JOGO;
                         break;
                 }   
 
                 switch (estado.tela) { // SWITCH CASE DE GRAFICOS
 
                     case TELA_JOGO:
-                        DrawTexture(fundo, 0, 0, WHITE);
-                        for (size_t i = 0; i < blocos.size(); i++)      
-                            DesenharBloco(blocos[i]);
-                        if (alvo != nullptr) {
-                            DrawText(TextFormat("[E] %s", alvo->nome.c_str()), (int)hb.x - 10, (int)hb.y - 24, 20, BLACK);
-                        }
-                        DesenharAnimJogador(animJogador, sprite); 
-                        break;              
+                        DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado);   // EM_JOGO             
+                    break;              
 
                     case TELA_FOGAO:
                         ShowCursor();
@@ -100,6 +96,15 @@ int main() {
                             DesenharBloco(blocos[i]);
                         DesenharTelaFogao(telaFogao);
                         break;
+
+                    case TELA_ESTOQUE: {
+                        ShowCursor();
+                        DrawTexture(fundo, 0, 0, WHITE);
+                         for (size_t i = 0; i < blocos.size(); i++)      
+                            DesenharBloco(blocos[i]);
+                        DesenharTelaEstoque(telaEstoque);
+                        break;
+                    }            
                 }   
                 break; //BREAK DO CASE GRANDE, NAO TIRAR (PARA MY PLISNO ASS)
             }
@@ -145,10 +150,12 @@ int main() {
                     EstadoPrograma = JOGANDO;
 
                 ShowCursor();
+                DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado);   // PAUSADO
+                DrawRectangle(0, 0, LARGURA, ALTURA, Color{ 0, 0, 0, 167 });   // película preta translúcida
                 DrawTexture(pausa, 420, 140, WHITE);
 
                 if(CheckCollisionPointRec(GetMousePosition(), pausaVoltar)) {
-                    DrawRectangleRounded(pausaVoltar, 0.4f, 4, ColorAlpha(BLACK, 0.5f));
+                    DrawRectangleRounded(pausaVoltar, 0.4f, 4, ColorAlpha(LIGHTGRAY, 0.5f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                         EstadoPrograma = JOGANDO;
                     }
@@ -200,9 +207,11 @@ int main() {
             UnloadTexture(blocos[i].textura);
 
     DescarregarAnimJogador(animJogador);
+    DescarregarTelaEstoque(telaEstoque);
     UnloadTexture(menu);
     UnloadTexture(fundo);
     UnloadTexture(pausa);
     CloseWindow();
     return 0;
 }
+

@@ -86,12 +86,12 @@ void FazInteracao(const Bloco& bloco, EstadoJogo& estado) {
     switch (bloco.acao) {
         case ABRIR_FOGAO: estado.tela = TELA_FOGAO; break;
         case ACAO_ABRIR_GELADEIRA: break;
-        case ACAO_ABRIR_ESTOQUE: break;
+        case ACAO_ABRIR_ESTOQUE: estado.tela = TELA_ESTOQUE; break;
         case ACAO_CORTAR: break;
         case ACAO_ATENDER: break;
         case SEM_ACAO: break;
         default:
-            break;
+        break;
     }
 }
  
@@ -149,7 +149,7 @@ void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox) {
 }
 
 void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim) {
-    jogador = { 250.0f, 64.0f,{ 200, 250 }, { 0, 0 }, 32.0f, 64.0f };
+    jogador = { 250.0f, 64.0f, { 340, 360 }, { 0, 0 }, 32.0f, 64.0f };
     estado = { false, TELA_JOGO };
     anim.frame = 0;
     anim.tempo = 0.0f;

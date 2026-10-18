@@ -1,6 +1,7 @@
 #pragma once
 #include "Funcoes.hpp"
 #include "Structs.hpp"
+#include "Constantes.hpp"
 #include "raylib.h"
 #include <string>
 #include <vector>
@@ -47,7 +48,8 @@ enum Acoes {
 
 enum Tela {
     TELA_JOGO,
-    TELA_FOGAO
+    TELA_FOGAO,
+    TELA_ESTOQUE
 };
 
 struct EstadoJogo {
@@ -104,4 +106,29 @@ enum ESTADO_PROGRAMA {
     HISTORICO,
     COMO_JOGAR,
     DIFICULDADE
+};
+
+struct IngredienteJogo {
+    char codigo;
+    bool ehPerecivel;
+    Texture2D textura;      
+    std :: string nome;
+    int turnoEstraga;
+};
+
+struct TelaEstoque {
+    Rectangle painel;
+    float xDivisoria;
+    Rectangle zonaEsq;
+    Rectangle zonaDir;
+    std::vector<IngredienteJogo> ingredientes;
+    std::vector<Rectangle> celulas;          
+    std::vector<Rectangle> slotsInventario;  
+    int ingredienteHover;                    
+    int slotHover;       
+}; 
+
+struct FilaPrioridade {
+    int dados[HEAP_CAP];
+    int tamanho = 0;
 };

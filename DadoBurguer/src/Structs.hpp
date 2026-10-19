@@ -75,6 +75,7 @@ struct Bloco {
     Color cor;
     bool interage;
     Acoes acao;
+    int staminaGasta;
 };
 
 struct TelaFogao {

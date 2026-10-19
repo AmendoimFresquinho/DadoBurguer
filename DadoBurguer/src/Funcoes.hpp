@@ -28,7 +28,7 @@ void DesenharTelaEstoque(const TelaEstoque& tela, ListaContiguaINV &inventario);
 
 //MAPA
 
-Bloco CriarBloco(Rectangle ret, const char* nome, const char* arquivoTextura, Color corReserva, bool interagivel, Acoes acao);
+Bloco CriarBloco(Rectangle ret, const char* nome, const char* arquivoTextura, Color corReserva, bool interagivel, Acoes acao, int staminaGasta);
 void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos);
 void DesenharBloco(const Bloco& b);
 std::vector<Rectangle> GerarGrade(Rectangle zona, int colunas, int linhas, float espaco);
@@ -115,3 +115,5 @@ void passaTurno(int &turno, int &stamina);
 void desenhaTurno(const int &turno, const int &stamina);
 void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &menu, Texture2D &pausa, Texture2D &fundo, Texture2D &paoCima, Texture2D &paoBaixo,Texture2D &cheddar,Texture2D &suico, Texture2D &carne_crua, Texture2D &alface, Texture2D &tomate, Texture2D &ketchup, Texture2D &mostarda, Texture2D &cebola, Texture2D &ovo, Texture2D &bacon, Texture2D &picles);
 void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina);
+int gastaStamina(int &stamina, const int quantoGasta);
+int testaStamina (const int &stamina, const int quantoGasta);

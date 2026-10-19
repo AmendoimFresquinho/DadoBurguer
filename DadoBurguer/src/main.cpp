@@ -101,7 +101,7 @@ int main() {
 
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = PAUSADO;
-                if(Stamina == 0)
+                if(Stamina <= 0)
                     passaTurno(Turno, Stamina);
                     
                 Vector2 antes = jogador.posicao;
@@ -112,9 +112,11 @@ int main() {
                         Movimentacao(jogador);
                         Colisoes(jogador, dt, solidos);
                         AtualizarAnimJogador(animJogador, Vector2Subtract(jogador.posicao, antes), dt);
-                        if (alvo != nullptr && IsKeyPressed(KEY_E)) 
+                        if (alvo != nullptr && IsKeyPressed(KEY_E) && testaStamina(Stamina, alvo->staminaGasta) >= 0){
                             FazInteracao(*alvo, estado);
-                            if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) estado.tela = TELA_INVENTARIO;
+                            gastaStamina(Stamina, alvo->staminaGasta);
+                        } 
+                        if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) estado.tela = TELA_INVENTARIO;
                         break;
                     case TELA_FOGAO:
                         if (AtualizarTelaFogao(telaFogao)) 
@@ -123,7 +125,7 @@ int main() {
                     case TELA_ESTOQUE:
                         char escolhidoEST;
                         int escolhidoINV;
-                        if (AtualizarTelaEstoque(telaEstoque, escolhidoEST, escolhidoINV)){ Stamina--; estado.tela = TELA_JOGO; }
+                        if (AtualizarTelaEstoque(telaEstoque, escolhidoEST, escolhidoINV)){ estado.tela = TELA_JOGO; }
                         if(escolhidoEST != '\0') {adicionaNoInventario(escolhidoEST, Inventario, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles); imprime(Inventario);}
                         if(escolhidoINV != -1) {removeDoInventario(escolhidoINV, Inventario); imprime(Inventario);}
                         break;

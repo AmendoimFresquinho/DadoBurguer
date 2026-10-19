@@ -17,7 +17,7 @@ void DrawBlock(const Bloco& b) {
     }
 }
 
-Bloco CriarBloco(Rectangle ret, const char* nome, const char* arquivoTextura, Color corReserva, bool interagivel, Acoes acao) {
+Bloco CriarBloco(Rectangle ret, const char* nome, const char* arquivoTextura, Color corReserva, bool interagivel, Acoes acao, int staminaGasta) {
     Bloco b;
     b.rect = ret;
     b.nome = nome;
@@ -28,6 +28,7 @@ Bloco CriarBloco(Rectangle ret, const char* nome, const char* arquivoTextura, Co
     b.cor = corReserva;
     b.interage = interagivel;
     b.acao = acao;
+    b.staminaGasta = staminaGasta;
     return b;
 }
 
@@ -42,18 +43,18 @@ void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos) 
     paredes.push_back({ xFina, ESPESSURA, ESPESSURA_FINA, 196 });                    
     paredes.push_back({ xFina, 398, ESPESSURA_FINA, ALTURA - ESPESSURA - 398 });          
 
-    blocos.push_back(CriarBloco({ 190, ESPESSURA - 30, 60, 100 }, "Estoque", "DadoBurguer/assets/estoque.png", RED, true, ACAO_ABRIR_ESTOQUE));
+    blocos.push_back(CriarBloco({ 190, ESPESSURA - 30, 60, 100 }, "Estoque", "DadoBurguer/assets/estoque.png", RED, true, ACAO_ABRIR_ESTOQUE, STAMINA_ESTOQUE));
 
     for (int i = 0; i < 3; i++) 
-        blocos.push_back(CriarBloco({ ESPESSURA - 12, 100.0f + 80.0f * i, 76, 88 }, "Gabinete", "DadoBurguer/assets/gabinete.png", BROWN, false, SEM_ACAO));
+        blocos.push_back(CriarBloco({ ESPESSURA - 12, 100.0f + 80.0f * i, 76, 88 }, "Gabinete", "DadoBurguer/assets/gabinete.png", BROWN, false, SEM_ACAO, 0));
     
-    blocos.push_back(CriarBloco({ ESPESSURA, 386, 60, 88 }, "Geladeira", "DadoBurguer/assets/geladeira.png", SKYBLUE, true, ACAO_ABRIR_GELADEIRA));
+    blocos.push_back(CriarBloco({ ESPESSURA, 386, 60, 88 }, "Geladeira", "DadoBurguer/assets/geladeira.png", SKYBLUE, true, ACAO_ABRIR_GELADEIRA, STAMINA_GELADEIRA));
     
-    blocos.push_back(CriarBloco({ ESPESSURA - 15, 504, 90, 110 }, "Fogao", "DadoBurguer/assets/fogao.png", DARKGRAY, true, ABRIR_FOGAO));
+    blocos.push_back(CriarBloco({ ESPESSURA - 15, 504, 90, 110 }, "Fogao", "DadoBurguer/assets/fogao.png", DARKGRAY, true, ABRIR_FOGAO, STAMINA_FOGAO));
 
-    blocos.push_back(CriarBloco({ 184, 620, 152, 68 }, "Mesa de corte", "DadoBurguer/assets/mesa_corte.png", ORANGE, true, ACAO_CORTAR));
+    blocos.push_back(CriarBloco({ 184, 620, 152, 68 }, "Mesa de corte", "DadoBurguer/assets/mesa_corte.png", ORANGE, true, ACAO_CORTAR, STAMINA_MESA_CORTE));
 
-    blocos.push_back(CriarBloco({ xFina + ESPESSURA_FINA / 2 - 58, 228, 116, 170 }, "Atendimento", "DadoBurguer/assets/balcao.png", BEIGE, true, ACAO_ATENDER));
+    blocos.push_back(CriarBloco({ xFina + ESPESSURA_FINA / 2 - 58, 228, 116, 170 }, "Atendimento", "DadoBurguer/assets/balcao.png", BEIGE, true, ACAO_ATENDER, 1));
 }
 
 void DesenharBloco(const Bloco& b) {

@@ -110,7 +110,7 @@ int main() {
                         AtualizarAnimJogador(animJogador, Vector2Subtract(jogador.posicao, antes), dt);
                         if (alvo != nullptr && IsKeyPressed(KEY_E)) 
                             FazInteracao(*alvo, estado);
-                            if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) estado.tela = TELA_INVENTARIO;
+                        if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) estado.tela = TELA_INVENTARIO;
                         break;
                     case TELA_FOGAO:
                         if (AtualizarTelaFogao(telaFogao)) 
@@ -119,14 +119,15 @@ int main() {
                     case TELA_ESTOQUE:
                         char escolhidoEST;
                         int escolhidoINV;
-                        if (AtualizarTelaEstoque(telaEstoque, escolhidoEST, escolhidoINV)) estado.tela = TELA_JOGO;
+                        if (AtualizarTelaEstoque(telaEstoque, escolhidoEST, escolhidoINV)){ Stamina--; estado.tela = TELA_JOGO; }
                         if(escolhidoEST != '\0') {adicionaNoInventario(escolhidoEST, Inventario, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles); imprime(Inventario);}
                         if(escolhidoINV != -1) {removeDoInventario(escolhidoINV, Inventario); imprime(Inventario);}
                         break;
                     case TELA_INVENTARIO:
                         int clicado;
-                        if (AtualizarTelaInventario(telaInventario, clicado)) estado.tela = TELA_JOGO;          
-                }   
+                        if (AtualizarTelaInventario(telaInventario, clicado)) estado.tela = TELA_JOGO;
+                        break;        
+                }
 
                 switch (estado.tela) { // SWITCH CASE DE GRAFICOS
 
@@ -147,7 +148,6 @@ int main() {
                         DesenharTelaEstoque(telaEstoque, Inventario);
                         break;
                            
-                    
                     case TELA_INVENTARIO: 
                         ShowCursor();
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado);  //Desenha o mundo para ficar bonito de fundo
@@ -155,6 +155,7 @@ int main() {
                         break;
                     
                 }   
+
                 break; //BREAK DO CASE GRANDE, NAO TIRAR (PARA MY PLISNO ASS)
             }
 
@@ -169,7 +170,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Stamina, Turno);
                         EstadoPrograma = JOGANDO;
                     }
                 } 
@@ -216,7 +217,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Stamina, Turno);
                         EstadoPrograma = JOGANDO;
                     }
                 }

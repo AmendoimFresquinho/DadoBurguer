@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Todos os Arquivos C++",
+      "type": "shell",
+      "command": "C:/mingw64/mingw64/bin/g++.exe",
+      "args": [
+        "-std=c++17",
+        "${fileDirname}/*.cpp",
+        "-o",
+        "${workspaceFolder}/jogo.exe",
+        "-I",
+        "C:/raylib/raylib/include",
+        "-L",
+        "C:/raylib/raylib/lib",
+        "-lraylib",
+        "-lopengl32",
+        "-lgdi32",
+        "-lwinmm"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}

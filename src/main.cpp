@@ -170,7 +170,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Stamina, Turno);
                         EstadoPrograma = JOGANDO;
                     }
                 } 

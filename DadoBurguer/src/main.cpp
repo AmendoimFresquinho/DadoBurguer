@@ -123,13 +123,14 @@ int main() {
                     case TELA_ESTOQUE:
                         char escolhidoEST;
                         int escolhidoINV;
-                        if (AtualizarTelaEstoque(telaEstoque, escolhidoEST, escolhidoINV)) estado.tela = TELA_JOGO;
+                        if (AtualizarTelaEstoque(telaEstoque, escolhidoEST, escolhidoINV)){ Stamina--; estado.tela = TELA_JOGO; }
                         if(escolhidoEST != '\0') {adicionaNoInventario(escolhidoEST, Inventario, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles); imprime(Inventario);}
                         if(escolhidoINV != -1) {removeDoInventario(escolhidoINV, Inventario); imprime(Inventario);}
                         break;
                     case TELA_INVENTARIO:
                         int clicado;
-                        if (AtualizarTelaInventario(telaInventario, clicado)) estado.tela = TELA_JOGO;          
+                        if (AtualizarTelaInventario(telaInventario, clicado)) estado.tela = TELA_JOGO;        
+                        break;  
                 }   
 
                 switch (estado.tela) { // SWITCH CASE DE GRAFICOS
@@ -150,7 +151,6 @@ int main() {
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaEstoque(telaEstoque, Inventario);
                         break;
-                           
                     
                     case TELA_INVENTARIO: 
                         //ShowCursor();
@@ -173,7 +173,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina);
                         EstadoPrograma = JOGANDO;
                     }
                 } 
@@ -220,7 +220,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina);
                         EstadoPrograma = JOGANDO;
                     }
                 }

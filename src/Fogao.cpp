@@ -101,3 +101,4 @@ void DesenharTelaFogao(const TelaFogao& tela, ListaContiguaINV &inv) {
     DrawText("FOGAO", (int)tela.painel.x, (int)tela.painel.y - 40, 30, WHITE);
     DrawText("[E] para fechar", (int)tela.painel.x, (int)(tela.painel.y + tela.painel.height) + 14, 20, WHITE);
 }
+

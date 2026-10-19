@@ -109,3 +109,20 @@ void adicionaNoInventario(char escolhidoEST, ListaContiguaINV &inventario, Ingre
 void removeDoInventario(int escolhidoINV, ListaContiguaINV &inventario);
 void imprime(ListaContiguaINV inv);
 void DesenharDicaMouse(const char* texto);
+
+// JOGABILIDADE
+
+void passaTurno(int &turno, int &stamina);
+void desenhaTurno(const int &turno, const int &stamina);
+void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &menu, Texture2D &pausa, Texture2D &fundo, Texture2D &paoCima, Texture2D &paoBaixo,
+    Texture2D &cheddar,
+    Texture2D &suico,
+    Texture2D &carne_crua,
+    Texture2D &alface,
+    Texture2D &tomate,
+    Texture2D &ketchup,
+    Texture2D &mostarda,
+    Texture2D &cebola,
+    Texture2D &ovo,
+    Texture2D &bacon,
+    Texture2D &picles);

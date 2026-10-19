@@ -166,7 +166,7 @@ void DesenharDicaMouse(const char* texto) {
     float y = m.y + 20;
 
     if (x + larg + 16 > GetScreenWidth()) x = m.x - larg - 24;
-    if (y + 28 > GetScreenHeight())       y = m.y - 36;
+    if (y + 28 > GetScreenHeight()) y = m.y - 36;
 
     DrawRectangleRounded({ x, y, (float)larg + 16, 28 }, 0.4f, 6, Color{ 40, 28, 22, 230 });
     DrawText(texto, (int)x + 8, (int)y + 5, tam, RED);

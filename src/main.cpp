@@ -26,6 +26,7 @@ int main() {
     Texture2D ovo = LoadTexture("DadoBurguer/assets/INV/plisno.png");
     Texture2D bacon = LoadTexture("DadoBurguer/assets/INV/plisno.png");
     Texture2D picles = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+    Texture2D carne_assada = LoadTexture("DadoBurguer/assets/INV/carne_assada_inventario.png");
 
     IngredienteJogo Pao_cima = { 'z', false, paoCima, "Pao de Cima", 0 };
     IngredienteJogo Pao_baixo ={ 'x', false, paoBaixo, "Pao de Baixo", 0 };
@@ -40,6 +41,7 @@ int main() {
     IngredienteJogo Tomate = { 't', false, tomate, "Tomate", 0};
     IngredienteJogo Ovo = { 'o', false, ovo, "Ovo", 0};
     IngredienteJogo Bacon = { 'b', false, bacon, "Bacon", 0};
+    IngredienteJogo Carne_Assada = {'k', true, carne_assada, "Carne Assada"};
 
     Texture2D menu = LoadTexture("DadoBurguer/assets/Menu.png");
     Texture2D pausa = LoadTexture("DadoBurguer/assets/pausa.png");
@@ -48,15 +50,20 @@ int main() {
     ESTADO_PROGRAMA EstadoPrograma = MENU; 
     std::vector<Rectangle> paredes;
     std::vector<Bloco> blocos;
+    
     ConstruirMapa(paredes, blocos);
     AnimJogador animJogador = CriarAnimJogador("DadoBurguer/assets/jogador.png");
     TelaFogao telaFogao = CriarTelaFogao(LARGURA, ALTURA);
     TelaEstoque telaEstoque = CriarTelaEstoque(LARGURA, ALTURA, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles);
     TelaInventario telaInventario = CriarTelaInventario(LARGURA, ALTURA);
+
     EstadoJogo estado = { false, TELA_JOGO };
     std::vector<Rectangle> solidos = paredes;
+    
     ListaContiguaINV Inventario;
     Inventario.tamanho = 0;
+    int Turno = 0;
+    int Stamina = STAMINA;
 
     for (size_t i = 0; i < blocos.size(); i++) 
         solidos.push_back(blocos[i].rect);
@@ -90,6 +97,8 @@ int main() {
 
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = PAUSADO;
+                if(Stamina == 0)
+                    passaTurno(Turno, Stamina);
                     
                 Vector2 antes = jogador.posicao;
 
@@ -122,7 +131,8 @@ int main() {
                 switch (estado.tela) { // SWITCH CASE DE GRAFICOS
 
                     case TELA_JOGO:
-                        DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado);   // EM_JOGO             
+                        DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado);   // EM_JOGO
+                        desenhaTurno(Turno, Stamina);
                     break;              
 
                     case TELA_FOGAO:
@@ -131,19 +141,19 @@ int main() {
                         DesenharTelaFogao(telaFogao, Inventario);
                         break;
 
-                    case TELA_ESTOQUE: {
+                    case TELA_ESTOQUE: 
                         ShowCursor();
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaEstoque(telaEstoque, Inventario);
                         break;
-                    }       
+                           
                     
-                    case TELA_INVENTARIO:{
+                    case TELA_INVENTARIO: 
                         ShowCursor();
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaInventario(telaInventario, Inventario);
                         break;
-                    }
+                    
                 }   
                 break; //BREAK DO CASE GRANDE, NAO TIRAR (PARA MY PLISNO ASS)
             }
@@ -176,7 +186,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnSair)) {
                     DrawRectangleRounded(btnSair, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                        CloseWindow();
+                        FechaJogo(animJogador, telaEstoque, menu, pausa, fundo, paoCima, paoBaixo, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles);
                 } 
                 if(CheckCollisionPointRec(GetMousePosition(), btnComoJogar)) {
                     DrawRectangleRounded(btnComoJogar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));

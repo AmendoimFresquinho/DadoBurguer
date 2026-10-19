@@ -37,7 +37,7 @@ bool AtualizarTelaFogao(TelaFogao& tela);
 void DesenharTelaFogao(const TelaFogao& tela, ListaContiguaINV &inv);
 void DesenharPlaceholder(Rectangle r, Color cor);
 void DrawBlock(const Bloco& b);
-void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos,const Jogador& jogador, const AnimJogador& anim, const Bloco* alvo, const EstadoJogo& estado);
+void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos, const Jogador& jogador, const AnimJogador& anim, const Bloco* alvo, const EstadoJogo& estado, const int &turno, const int &stamina);
 
 //PILHAS
 

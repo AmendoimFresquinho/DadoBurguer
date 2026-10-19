@@ -136,25 +136,24 @@ int main() {
                 switch (estado.tela) { // SWITCH CASE DE GRAFICOS
 
                     case TELA_JOGO:
-                        DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado);   // EM_JOGO
-                        desenhaTurno(Turno, Stamina);
+                        DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado, Turno, Stamina);   // EM_JOGO
                     break;              
 
                     case TELA_FOGAO:
                         //ShowCursor();
-                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado);  //Desenha o mundo para ficar bonito de fundo
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaFogao(telaFogao, Inventario);
                         break;
 
                     case TELA_ESTOQUE: 
                         //ShowCursor();
-                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado);  //Desenha o mundo para ficar bonito de fundo
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaEstoque(telaEstoque, Inventario);
                         break;
                     
                     case TELA_INVENTARIO: 
                         //ShowCursor();
-                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado);  //Desenha o mundo para ficar bonito de fundo
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaInventario(telaInventario, Inventario);
                         break;
                     
@@ -207,7 +206,7 @@ int main() {
                     EstadoPrograma = JOGANDO;
 
                 //ShowCursor();
-                DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado);   // PAUSADO
+                DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);   // PAUSADO
                 DrawRectangle(0, 0, LARGURA, ALTURA, Color{ 0, 0, 0, 167 });   // película preta translúcida
                 DrawTexture(pausa, 420, 140, WHITE);
 

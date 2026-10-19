@@ -115,6 +115,7 @@ void DesenharIngrediente(const TelaEstoque& tela, char codigo, Rectangle area) {
 }
  
 void DesenharTelaEstoque(const TelaEstoque& tela, ListaContiguaINV &inventario) {
+    
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Color{ 0, 0, 0, 160 });
     DrawRectangleRec(tela.painel, RAYWHITE);
     DrawRectangleLinesEx(tela.painel, 3, BLACK);

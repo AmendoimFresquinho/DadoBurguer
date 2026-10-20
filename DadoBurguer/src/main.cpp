@@ -29,6 +29,10 @@ int main() {
     Texture2D carne_assada = LoadTexture("DadoBurguer/assets/INV/carne_assada_inventario.png");
     Texture2D mouse = LoadTexture("DadoBurguer/assets/mouse.png");
 
+    Rectangle mouseRect = {0.0f, 0.0f, (float) mouse.width, (float) mouse.height};
+    float mouseLarg, mouseEscala;
+    Rectangle mouseDestRect;
+
     IngredienteJogo Pao_cima = { 'z', false, paoCima, "Pao de Cima", 0 };
     IngredienteJogo Pao_baixo ={ 'x', false, paoBaixo, "Pao de Baixo", 0 };
     IngredienteJogo Carne = { 'n', true, carne_crua, "Carne", VALIDADE };
@@ -258,7 +262,12 @@ int main() {
                 DrawText("CLIQUE QUALQUER COISA PRA SAIR", 200, 400, 50, BLACK);
             }
         }
-    DrawTexture(mouse, mousePos.x - mouse.width / 2, mousePos.y - mouse.height / 2, WHITE);
+
+    mouseEscala = ((float)(((int)(GetTime() * 100) % 120)+1) / 60);          // Gera de 1/60 até 2
+    mouseEscala = (mouseEscala > 1.0f)? 2.0f - mouseEscala : mouseEscala;
+    mouseLarg = (mouse.width) * mouseEscala;
+    mouseDestRect = {mousePos.x - (mouseLarg/2), mousePos.y - (mouse.height/2), mouseLarg, (float) mouse.height};
+    DrawTexturePro(mouse, mouseRect, mouseDestRect, (Vector2) {0.0f, 0.0f}, 0.0f, WHITE);
     EndDrawing();
     }
 

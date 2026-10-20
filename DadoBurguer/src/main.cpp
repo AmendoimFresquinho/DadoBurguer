@@ -139,6 +139,7 @@ int main() {
 
                     case TELA_JOGO:
                         DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado, Turno, Stamina);   // EM_JOGO
+                        BotaoPassaTurno(Turno, Stamina);
                     break;              
 
                     case TELA_FOGAO:

@@ -13,6 +13,19 @@ void passaTurno(int &turno, int &stamina){
     stamina = STAMINA; 
 }
 
+void BotaoPassaTurno(int &turno, int &stamina){
+
+    Rectangle passaTurnoRec = {LARGURA - 157, ALTURA - 26.5, 150, 20 };
+    DrawRectangleRounded(passaTurnoRec, 2.67, 67/6.7, LIGHTGRAY);
+    DrawText("PASSAR TURNO", LARGURA - 151, ALTURA - 25, 18, RED);
+     
+    if(CheckCollisionPointRec(GetMousePosition(), passaTurnoRec)){
+        DrawRectangleRounded(passaTurnoRec, 2.67, 67/6.7, Fade(WHITE, 0.4f));
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+            passaTurno(turno, stamina);
+    }
+}
+
 void desenhaTurno(const int &turno, const int &stamina){
     int distancia = 0;
     DrawText("Turno:", 5, 5, 20, BLACK);

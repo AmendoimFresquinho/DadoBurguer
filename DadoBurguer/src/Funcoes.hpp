@@ -117,3 +117,4 @@ void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &me
 void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina);
 int gastaStamina(int &stamina, const int quantoGasta);
 int testaStamina (const int &stamina, const int quantoGasta);
+void BotaoPassaTurno(int &turno, int &stamina);

@@ -9,12 +9,14 @@
 #include <iostream>
 #include <random>
 
-void passaTurno(int &turno, int &stamina){
+void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS){
     turno++;
     stamina = STAMINA; 
+      if(HEAP_PERECIVEIS.tamanho > 0)
+        verificaSeEstragou(HEAP_PERECIVEIS, Inventario, turno);
 }
 
-void BotaoPassaTurno(int &turno, int &stamina){
+void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS){
 
     Rectangle passaTurnoRec = {LARGURA - 157, ALTURA - 26.5, 150, 20 };
     DrawRectangleRounded(passaTurnoRec, 2.67, 67/6.7, LIGHTGRAY);
@@ -23,7 +25,7 @@ void BotaoPassaTurno(int &turno, int &stamina){
     if(CheckCollisionPointRec(GetMousePosition(), passaTurnoRec)){
         DrawRectangleRounded(passaTurnoRec, 2.67, 67/6.7, Fade(WHITE, 0.4f));
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-            passaTurno(turno, stamina);
+            passaTurno(turno, stamina, Inventario, HEAP_PERECIVEIS);
     }
 }
 
@@ -86,7 +88,14 @@ void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, List
 void colocaNoHeapEstragado(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam, int &turno){
 
     if(Ingrediente->ehPerecivel){
-        Ingrediente->turnoEstraga = turno + VALIDADE; 
+        Ingrediente->turnoEstraga = turno + Ingrediente->turnoEstraga; 
+        fpInserir(comidasEstragam, Ingrediente);
+    }
+}
+
+void colocaNoHeapEstragadoSemTurno(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam){ //Para organizar sem ferrar com a validade
+
+    if(Ingrediente->ehPerecivel){
         fpInserir(comidasEstragam, Ingrediente);
     }
 }
@@ -98,19 +107,21 @@ void reconstroiHeapDesatualizado(ListaContiguaINV &inventario, FilaPrioridade &h
     for(int i = 0; i < inventario.tamanho; i++){
         if(acessar(inventario, i).ehPerecivel){
             IngredienteJogo *p = enderecoDe(inventario, i);
-            int turno = p->turnoEstraga - VALIDADE;
-            colocaNoHeapEstragado(p, heap, turno);        
+            colocaNoHeapEstragadoSemTurno(p, heap);        
         }
     }
     buildHeap(heap.dados, heap.tamanho);
 }
 
-//bool verificaSeEstragou(FilaPrioridade &comidasEstragam, const int &turnoAtual, ListaContiguaINV &inventario){
-
+void verificaSeEstragou(FilaPrioridade &comidasEstragam, ListaContiguaINV &inventario, const int &turnoAtual){
     
-
-
-//}
+    while(comidasEstragam.dados[0]->turnoEstraga <= turnoAtual && comidasEstragam.tamanho > 0){
+        removeDoInventario(buscarIngrediente(inventario, comidasEstragam.dados[0]), inventario);
+        fpRemoverMinimo(comidasEstragam);
+        reconstroiHeapDesatualizado(inventario, comidasEstragam);
+    }
+}
+         
 
 IngredienteJogo* enderecoDe(ListaContiguaINV &l, int pos){ // Uma versao de acessar que devolve ponteiro, pq senao da bo
 

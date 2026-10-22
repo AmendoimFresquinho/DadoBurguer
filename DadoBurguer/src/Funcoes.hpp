@@ -98,6 +98,7 @@ IngredienteJogo acessar(const ListaContiguaINV &l, int pos);
 int buscar(const ListaContiguaINV &l, int cod);
 int remover(ListaContiguaINV &l, int pos);
 void destruir(ListaContiguaINV &l);
+int buscarIngrediente(const ListaContiguaINV& l, IngredienteJogo *Ingrediente);
 
 //INVENTARIO
 
@@ -111,16 +112,18 @@ void DesenharDicaMouse(const char* texto, ListaContiguaINV &inventario, int esco
 
 // JOGABILIDADE
 
-void passaTurno(int &turno, int &stamina);
+void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);
 void desenhaTurno(const int &turno, const int &stamina);
 void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &menu, Texture2D &pausa, Texture2D &fundo, Texture2D &paoCima, Texture2D &paoBaixo,Texture2D &cheddar,Texture2D &suico, Texture2D &carne_crua, Texture2D &alface, Texture2D &tomate, Texture2D &ketchup, Texture2D &mostarda, Texture2D &cebola, Texture2D &ovo, Texture2D &bacon, Texture2D &picles);
 void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina);
 int gastaStamina(int &stamina, const int quantoGasta);
 int testaStamina (const int &stamina, const int quantoGasta);
-void BotaoPassaTurno(int &turno, int &stamina);
+void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);
 void colocaNoHeapEstragado(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam, int &turno);
 IngredienteJogo* enderecoDe(ListaContiguaINV &lista, int i);
 void reconstroiHeapDesatualizado(ListaContiguaINV &inventario, FilaPrioridade &heap);
+void colocaNoHeapEstragadoSemTurno(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam);
+void verificaSeEstragou(FilaPrioridade &comidasEstragam, ListaContiguaINV &inventario, const int &turnoAtual);
 
 // DEBUGGING
 

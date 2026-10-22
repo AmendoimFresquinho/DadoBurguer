@@ -35,9 +35,9 @@ int main() {
 
     IngredienteJogo Pao_cima = { 'z', false, paoCima, "Pao de Cima", 0 };
     IngredienteJogo Pao_baixo ={ 'x', false, paoBaixo, "Pao de Baixo", 0 };
-    IngredienteJogo Carne = { 'n', true, carne_crua, "Carne", VALIDADE };
-    IngredienteJogo Queijo_Suico = { 's', true, suico, "Suico", VALIDADE };
-    IngredienteJogo Cheddar = { 'q', true, cheddar, "Cheddar", VALIDADE };
+    IngredienteJogo Carne = { 'n', true, carne_crua, "Carne", VALIDADE_CARNE_CRUA };
+    IngredienteJogo Queijo_Suico = { 's', true, suico, "Suico", VALIDADE_QUEIJO };
+    IngredienteJogo Cheddar = { 'q', true, cheddar, "Cheddar", VALIDADE_QUEIJO };
     IngredienteJogo Alface = { 'a', false, alface, "Alface", 0};
     IngredienteJogo Ketchup = { 'k', false, ketchup, "Ketchup", 0};
     IngredienteJogo Mostarda = { 'm', false, mostarda, "Mostarda", 0};
@@ -46,7 +46,7 @@ int main() {
     IngredienteJogo Tomate = { 't', false, tomate, "Tomate", 0};
     IngredienteJogo Ovo = { 'o', false, ovo, "Ovo", 0};
     IngredienteJogo Bacon = { 'b', false, bacon, "Bacon", 0};
-    IngredienteJogo Carne_Assada = {'k', true, carne_assada, "Carne Assada"};
+    IngredienteJogo Carne_Assada = {'k', true, carne_assada, "Carne Assada", VALIDADE_CARNE_ASSADA};
 
     Texture2D menu = LoadTexture("DadoBurguer/assets/Menu.png");
     Texture2D pausa = LoadTexture("DadoBurguer/assets/pausa.png");
@@ -107,8 +107,8 @@ int main() {
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = PAUSADO;
                 if(Stamina <= 0)
-                    passaTurno(Turno, Stamina);
-                    
+                    passaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS);
+
                 Vector2 antes = jogador.posicao;
 
                 switch (estado.tela) { // SWITCH CASE DE LOGICA
@@ -121,7 +121,7 @@ int main() {
                             FazInteracao(*alvo, estado);
                             gastaStamina(Stamina, alvo->staminaGasta);
                         } 
-                        if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) estado.tela = TELA_INVENTARIO;
+                        if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) {estado.tela = TELA_INVENTARIO; fpImprimir(HEAP_PERECIVEIS); imprime(Inventario);}
                         break;
                     case TELA_FOGAO:
                         if (AtualizarTelaFogao(telaFogao)) 
@@ -131,9 +131,10 @@ int main() {
                         char escolhidoEST;
                         int escolhidoINV;
                         if (AtualizarTelaEstoque(telaEstoque, escolhidoEST, escolhidoINV)){ estado.tela = TELA_JOGO; }
-                        if(escolhidoEST != '\0') {
+                        if(escolhidoEST != '\0' && Inventario.tamanho < CAPACIDADE) {
                             adicionaNoInventario(escolhidoEST, Inventario, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles); 
                             colocaNoHeapEstragado(enderecoDe(Inventario, Inventario.tamanho - 1), HEAP_PERECIVEIS, Turno);
+                            imprime(Inventario);
                             fpImprimir(HEAP_PERECIVEIS);
                         }
                         if(escolhidoINV != -1) {
@@ -153,7 +154,7 @@ int main() {
 
                     case TELA_JOGO:
                         DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado, Turno, Stamina);   // EM_JOGO
-                        BotaoPassaTurno(Turno, Stamina);
+                        BotaoPassaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS);
                     break;              
 
                     case TELA_FOGAO:

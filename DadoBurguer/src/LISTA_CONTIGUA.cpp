@@ -52,6 +52,18 @@ int buscar(const ListaContiguaINV& l, char cod) {
     return -1; // não encontrado
 }
 
+int buscarIngrediente(const ListaContiguaINV& l, IngredienteJogo *Ingrediente) {
+    int i;
+
+    for (i = 0; i < l.tamanho; i++) {
+        if (&l.dados[i] == Ingrediente) {
+            return i; // posição onde o produto foi encontrado
+        }
+    }
+    return -1;
+}
+
+
 int remover(ListaContiguaINV& l, int pos) {
     int i;
 

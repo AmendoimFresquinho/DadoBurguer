@@ -74,15 +74,16 @@ void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &me
     CloseWindow();
 }
 
-void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina) {
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap) {
     jogador = { 250.0f, 64.0f, { 340, 360 }, { 0, 0 }, 32.0f, 64.0f };
     estado = { false, TELA_JOGO };
     anim.frame = 0;
     anim.tempo = 0.0f;
     anim.direcao = DIR_BAIXO;
     inv.tamanho = 0;
-    stamina =  STAMINA;
+    stamina = STAMINA;
     turno = 0;
+    heap.tamanho = 0;
 }
 
 void colocaNoHeapEstragado(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam, int &turno){
@@ -122,7 +123,6 @@ void verificaSeEstragou(FilaPrioridade &comidasEstragam, ListaContiguaINV &inven
     }
 }
          
-
 IngredienteJogo* enderecoDe(ListaContiguaINV &l, int pos){ // Uma versao de acessar que devolve ponteiro, pq senao da bo
 
     if (pos >= l.tamanho || pos < 0)

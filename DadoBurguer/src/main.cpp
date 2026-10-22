@@ -121,7 +121,7 @@ int main() {
                             FazInteracao(*alvo, estado);
                             gastaStamina(Stamina, alvo->staminaGasta);
                         } 
-                        if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) {estado.tela = TELA_INVENTARIO; fpImprimir(HEAP_PERECIVEIS); imprime(Inventario);}
+                        if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) estado.tela = TELA_INVENTARIO;
                         break;
                     case TELA_FOGAO:
                         if (AtualizarTelaFogao(telaFogao)) 
@@ -130,18 +130,18 @@ int main() {
                     case TELA_ESTOQUE:
                         char escolhidoEST;
                         int escolhidoINV;
-                        if (AtualizarTelaEstoque(telaEstoque, escolhidoEST, escolhidoINV)){ estado.tela = TELA_JOGO; }
+                        if (AtualizarTelaEstoque(telaEstoque, escolhidoEST, escolhidoINV)) estado.tela = TELA_JOGO;
                         if(escolhidoEST != '\0' && Inventario.tamanho < CAPACIDADE) {
                             adicionaNoInventario(escolhidoEST, Inventario, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles); 
                             colocaNoHeapEstragado(enderecoDe(Inventario, Inventario.tamanho - 1), HEAP_PERECIVEIS, Turno);
-                            imprime(Inventario);
-                            fpImprimir(HEAP_PERECIVEIS);
+                            imprime(Inventario); // temp
+                            fpImprimir(HEAP_PERECIVEIS);// temp
                         }
                         if(escolhidoINV != -1) {
                             removeDoInventario(escolhidoINV, Inventario); 
                             reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
-                            imprime(Inventario);
-                            fpImprimir(HEAP_PERECIVEIS);
+                            imprime(Inventario);// temp
+                            fpImprimir(HEAP_PERECIVEIS);// temp
                         }
                         break;
                     case TELA_INVENTARIO:
@@ -190,7 +190,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS);
                         EstadoPrograma = JOGANDO;
                     }
                 } 
@@ -237,7 +237,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS);
                         EstadoPrograma = JOGANDO;
                     }
                 }
@@ -248,7 +248,7 @@ int main() {
                 }
                 break;
             }
-
+            
             case HISTORICO: {
                 ClearBackground(GREEN);
                 if(GetCharPressed() > 0)

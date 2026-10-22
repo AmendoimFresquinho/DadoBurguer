@@ -105,7 +105,7 @@ int buscarIngrediente(const ListaContiguaINV& l, IngredienteJogo *Ingrediente);
 TelaInventario CriarTelaInventario(float largura, float altura);
 bool AtualizarTelaInventario(TelaInventario& tela, int& clicado);
 void DesenharIconeNoSlot(Texture2D tex, Rectangle area);
-void DesenharTelaInventario(const TelaInventario& tela, const ListaContiguaINV &inventario);
+void DesenharTelaInventario(const TelaInventario& tela, ListaContiguaINV &inventario);
 void adicionaNoInventario(char escolhidoEST, ListaContiguaINV &inventario, IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles );
 void removeDoInventario(int escolhidoINV, ListaContiguaINV &inventario);
 void DesenharDicaMouse(const char* texto, ListaContiguaINV &inventario, int escolhido);
@@ -115,7 +115,7 @@ void DesenharDicaMouse(const char* texto, ListaContiguaINV &inventario, int esco
 void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);
 void desenhaTurno(const int &turno, const int &stamina);
 void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &menu, Texture2D &pausa, Texture2D &fundo, Texture2D &paoCima, Texture2D &paoBaixo,Texture2D &cheddar,Texture2D &suico, Texture2D &carne_crua, Texture2D &alface, Texture2D &tomate, Texture2D &ketchup, Texture2D &mostarda, Texture2D &cebola, Texture2D &ovo, Texture2D &bacon, Texture2D &picles);
-void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina);
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap);
 int gastaStamina(int &stamina, const int quantoGasta);
 int testaStamina (const int &stamina, const int quantoGasta);
 void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);
@@ -124,6 +124,8 @@ IngredienteJogo* enderecoDe(ListaContiguaINV &lista, int i);
 void reconstroiHeapDesatualizado(ListaContiguaINV &inventario, FilaPrioridade &heap);
 void colocaNoHeapEstragadoSemTurno(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam);
 void verificaSeEstragou(FilaPrioridade &comidasEstragam, ListaContiguaINV &inventario, const int &turnoAtual);
+void DesenharDicaMouseInventario(const char* texto, ListaContiguaINV &inventario, int escolhido);
+
 
 // DEBUGGING
 

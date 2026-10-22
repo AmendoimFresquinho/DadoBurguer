@@ -81,7 +81,7 @@ void DesenharIconeNoSlot(Texture2D tex, Rectangle area) {
     DrawTexturePro(tex, origem, destino, { 0, 0 }, 0.0f, WHITE);
 }
 
-void DesenharTelaInventario(const TelaInventario& tela, const ListaContiguaINV &inventario) {
+void DesenharTelaInventario(const TelaInventario& tela, ListaContiguaINV &inventario) {
 
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Color{ 0, 0, 0, 160 });
     DrawRectangleRec(tela.painel, RAYWHITE);
@@ -107,4 +107,27 @@ void DesenharTelaInventario(const TelaInventario& tela, const ListaContiguaINV &
  
     DrawText("INVENTARIO", (int)tela.painel.x, (int)tela.painel.y - 40, 30, WHITE);
     DrawText("[TAB] ou [I] para fechar", (int)tela.painel.x, (int)(tela.painel.y + tela.painel.height) + 14, 20, WHITE);
+
+     if (tela.slotHover >= 0 && tamanho(inventario) > tela.slotHover) {
+        DesenharDicaMouseInventario("Vence no Turno: ", inventario, tela.slotHover);
+    }
+}
+
+void DesenharDicaMouseInventario(const char* texto,ListaContiguaINV &inventario, int escolhido) {
+    const int tam = 18;
+    int larg = MeasureText(texto, tam) + 10;
+
+    Vector2 m = GetMousePosition();
+
+    float x = m.x + 16;      
+    float y = m.y + 20;
+
+    if (x + larg + 16 > GetScreenWidth()) x = m.x - larg - 24;
+    if (y + 28 > GetScreenHeight()) y = m.y - 36;
+
+    if(acessar(inventario, escolhido).ehPerecivel){
+        DrawRectangleRounded({ x, y, (float)larg + 16, 28 }, 0.4f, 6, Color{ 40, 28, 22, 230 });
+        DrawText(texto, (int)x + 8, (int)y + 5, tam, WHITE);
+        DrawText(TextFormat("%d", acessar(inventario, escolhido).turnoEstraga), (int)x + MeasureText("Turno que vence:", tam) + 8, (int)y + 5, tam, RED);
+    }
 }

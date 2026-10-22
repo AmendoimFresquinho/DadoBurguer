@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <random>
 
 void passaTurno(int &turno, int &stamina){
     turno++;
@@ -80,4 +81,55 @@ void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, List
     inv.tamanho = 0;
     stamina =  STAMINA;
     turno = 0;
+}
+
+void colocaNoHeapEstragado(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam, int &turno){
+
+    if(Ingrediente->ehPerecivel){
+        Ingrediente->turnoEstraga = turno + VALIDADE; 
+        fpInserir(comidasEstragam, Ingrediente);
+    }
+}
+
+void reconstroiHeapDesatualizado(ListaContiguaINV &inventario, FilaPrioridade &heap){ // serve como remocao do heap tambem, pq se remove do inventario e chama isso ele nao coloca o que foi removido do inventario
+
+    heap.tamanho = 0; // zera o heap
+    
+    for(int i = 0; i < inventario.tamanho; i++){
+        if(acessar(inventario, i).ehPerecivel){
+            IngredienteJogo *p = enderecoDe(inventario, i);
+            int turno = p->turnoEstraga - VALIDADE;
+            colocaNoHeapEstragado(p, heap, turno);        
+        }
+    }
+    buildHeap(heap.dados, heap.tamanho);
+}
+
+//bool verificaSeEstragou(FilaPrioridade &comidasEstragam, const int &turnoAtual, ListaContiguaINV &inventario){
+
+    
+
+
+//}
+
+IngredienteJogo* enderecoDe(ListaContiguaINV &l, int pos){ // Uma versao de acessar que devolve ponteiro, pq senao da bo
+
+    if (pos >= l.tamanho || pos < 0)
+        return nullptr;
+
+    return &l.dados[pos];
+}
+
+void fpImprimir(const FilaPrioridade &fp) { //FUNCAO TEMPORARIA PARA DEBUGAR
+
+    std::cout << "Heap (tamanho " << fp.tamanho << ")\n";
+    for (int i = 0; i < fp.tamanho; i++) {
+        std::cout << "[" << i << "] " << fp.dados[i]->codigo << "  turnoEstraga=" << fp.dados[i]->turnoEstraga;
+
+        // a raiz é o menor, então nenhum filho pode ser menor que o pai
+        if (i > 0 && fp.dados[i]->turnoEstraga < fp.dados[(i - 1) / 2]->turnoEstraga)
+            std::cout << "  <-- viola o heap";
+
+        std::cout << "\n";
+    }
 }

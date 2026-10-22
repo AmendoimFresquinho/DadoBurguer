@@ -78,15 +78,16 @@ NodoAvl *avlDestruir(NodoAvl *raiz);
 
 //HEAP
 
-void heapify(int a[], int n, int i);
-void siftUp(int a[], int i);
-void buildHeap(int a[], int n);
+static void trocar(IngredienteJogo *a[], int i, int j);
+void heapify(IngredienteJogo *a[], int n, int i);
+void siftUp(IngredienteJogo *a[], int i);
+void buildHeap(IngredienteJogo *a[], int n);
 
 void fpInicializar(FilaPrioridade &fp);
 int fpEstaVazia(const FilaPrioridade &fp);
-int fpInserir(FilaPrioridade &fp, int valor);
-int fpMinimo(const FilaPrioridade &fp, int &valor);
-int fpRemoverMinimo(FilaPrioridade &fp, int &valor);
+int fpInserir(FilaPrioridade &fp, IngredienteJogo *pIngrediente);
+IngredienteJogo* fpMinimo(const FilaPrioridade &fp);
+void fpRemoverMinimo(FilaPrioridade &fp);
 
 //LISTA CONTIGUA
 
@@ -106,8 +107,7 @@ void DesenharIconeNoSlot(Texture2D tex, Rectangle area);
 void DesenharTelaInventario(const TelaInventario& tela, const ListaContiguaINV &inventario);
 void adicionaNoInventario(char escolhidoEST, ListaContiguaINV &inventario, IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles );
 void removeDoInventario(int escolhidoINV, ListaContiguaINV &inventario);
-void imprime(ListaContiguaINV inv);
-void DesenharDicaMouse(const char* texto);
+void DesenharDicaMouse(const char* texto, ListaContiguaINV &inventario, int escolhido);
 
 // JOGABILIDADE
 
@@ -118,3 +118,11 @@ void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, List
 int gastaStamina(int &stamina, const int quantoGasta);
 int testaStamina (const int &stamina, const int quantoGasta);
 void BotaoPassaTurno(int &turno, int &stamina);
+void colocaNoHeapEstragado(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam, int &turno);
+IngredienteJogo* enderecoDe(ListaContiguaINV &lista, int i);
+void reconstroiHeapDesatualizado(ListaContiguaINV &inventario, FilaPrioridade &heap);
+
+// DEBUGGING
+
+void fpImprimir(const FilaPrioridade &fp);
+void imprime(ListaContiguaINV inv);

@@ -154,13 +154,14 @@ void DesenharTelaEstoque(const TelaEstoque& tela, ListaContiguaINV &inventario) 
     DrawText("Clique em um ingrediente para pegar / [E] para fechar", (int)tela.painel.x, (int)(tela.painel.y + tela.painel.height) + 14, 20, WHITE);
 
     if (tela.slotHover >= 0 && tamanho(inventario) > tela.slotHover) {
-        DesenharDicaMouse("Clique para remover");
+        DesenharDicaMouse("Clique para remover", inventario, tela.slotHover);
     }
 }
 
-void DesenharDicaMouse(const char* texto) {
+void DesenharDicaMouse(const char* texto, ListaContiguaINV &inventario, int escolhido) {
     const int tam = 18;
     int larg = MeasureText(texto, tam);
+
     Vector2 m = GetMousePosition();
 
     float x = m.x + 16;      
@@ -169,6 +170,14 @@ void DesenharDicaMouse(const char* texto) {
     if (x + larg + 16 > GetScreenWidth()) x = m.x - larg - 24;
     if (y + 28 > GetScreenHeight()) y = m.y - 36;
 
-    DrawRectangleRounded({ x, y, (float)larg + 16, 28 }, 0.4f, 6, Color{ 40, 28, 22, 230 });
-    DrawText(texto, (int)x + 8, (int)y + 5, tam, RED);
+    if(acessar(inventario, escolhido).ehPerecivel){
+        DrawRectangleRounded({ x, y, (float)larg + 16, 46 }, 0.4f, 6, Color{ 40, 28, 22, 230 });
+        DrawText(texto, (int)x + 8, (int)y + 5, tam, RED);
+        DrawText("Turno que vence:" , (int)x + 8, (int)y + 25, tam, WHITE);
+        DrawText(TextFormat("%d", acessar(inventario, escolhido).turnoEstraga), (int)x + MeasureText("Turno que vence:", tam) + 15, (int)y + 25, tam, RED);
+    }
+    else{
+        DrawRectangleRounded({ x, y, (float)larg + 16, 28 }, 0.4f, 6, Color{ 40, 28, 22, 230 });
+        DrawText(texto, (int)x + 8, (int)y + 5, tam, RED);
+    }
 }

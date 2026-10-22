@@ -65,6 +65,9 @@ int main() {
     EstadoJogo estado = { false, TELA_JOGO };
     std::vector<Rectangle> solidos = paredes;
     
+    FilaPrioridade HEAP_PERECIVEIS;
+    HEAP_PERECIVEIS.tamanho = 0;
+
     ListaContiguaINV Inventario;
     Inventario.tamanho = 0;
     int Turno = 0;
@@ -84,8 +87,6 @@ int main() {
     Rectangle pausaVoltar = { 480, 268, 320, 76 }; // Pausa
     Rectangle pausaReiniciar = { 480, 366, 320, 76 };
     Rectangle pausaMenu = { 480, 464, 320, 76 };
-
-    
 
     while (!WindowShouldClose()) {
         HideCursor();
@@ -130,8 +131,17 @@ int main() {
                         char escolhidoEST;
                         int escolhidoINV;
                         if (AtualizarTelaEstoque(telaEstoque, escolhidoEST, escolhidoINV)){ estado.tela = TELA_JOGO; }
-                        if(escolhidoEST != '\0') {adicionaNoInventario(escolhidoEST, Inventario, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles); imprime(Inventario);}
-                        if(escolhidoINV != -1) {removeDoInventario(escolhidoINV, Inventario); imprime(Inventario);}
+                        if(escolhidoEST != '\0') {
+                            adicionaNoInventario(escolhidoEST, Inventario, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles); 
+                            colocaNoHeapEstragado(enderecoDe(Inventario, Inventario.tamanho - 1), HEAP_PERECIVEIS, Turno);
+                            fpImprimir(HEAP_PERECIVEIS);
+                        }
+                        if(escolhidoINV != -1) {
+                            removeDoInventario(escolhidoINV, Inventario); 
+                            reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
+                            imprime(Inventario);
+                            fpImprimir(HEAP_PERECIVEIS);
+                        }
                         break;
                     case TELA_INVENTARIO:
                         int clicado;

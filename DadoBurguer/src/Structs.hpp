@@ -132,14 +132,14 @@ struct TelaEstoque {
 }; 
 
 struct FilaPrioridade {
-    int dados[HEAP_CAP];
+    IngredienteJogo *dados[HEAP_CAP];
     int tamanho = 0;
 };
 
-typedef struct {
+ struct ListaContiguaINV{
     int tamanho;
     IngredienteJogo dados[CAPACIDADE];
-} ListaContiguaINV;
+};
 
 struct TelaInventario {
     Rectangle painel;

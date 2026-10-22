@@ -2,19 +2,19 @@
 #include "Funcoes.hpp"
 #include "Structs.hpp"
 
-static void trocar(int a[], int i, int j) {
-    int tmp = a[i];
+static void trocar(IngredienteJogo *a[], int i, int j) {
+    IngredienteJogo* tmp = a[i];
     a[i] = a[j];
     a[j] = tmp;
 }
 
-void heapify(int a[], int n, int i) {
+void heapify(IngredienteJogo *a[], int n, int i) {
     int menor = i;
-    int esq   = 2 * i + 1;
-    int dir   = 2 * i + 2;
+    int esq = 2 * i + 1;
+    int dir = 2 * i + 2;
 
-    if (esq < n && a[esq] < a[menor]) menor = esq;   
-    if (dir < n && a[dir] < a[menor]) menor = dir;   
+    if (esq < n && a[esq]->turnoEstraga < a[menor]->turnoEstraga) menor = esq;
+    if (dir < n && a[dir]->turnoEstraga < a[menor]->turnoEstraga) menor = dir;
 
     if (menor != i) {
         trocar(a, i, menor);
@@ -22,19 +22,20 @@ void heapify(int a[], int n, int i) {
     }
 }
 
-void siftUp(int a[], int i) {
+void siftUp(IngredienteJogo *a[], int i) {
     while (i > 0) {
         int pai = (i - 1) / 2;
-        if (a[i] < a[pai]) {
+        if (a[i]->turnoEstraga < a[pai]->turnoEstraga) {
             trocar(a, i, pai);
             i = pai;
-        } else {
+        } 
+        else {
             break;
         }
     }
 }
 
-void buildHeap(int a[], int n) {
+void buildHeap(IngredienteJogo *a[], int n) {
     for (int i = n / 2 - 1; i >= 0; i--)
         heapify(a, n, i);
 }
@@ -47,25 +48,21 @@ int fpEstaVazia(const FilaPrioridade &fp) {
     return fp.tamanho == 0;
 }
 
-int fpInserir(FilaPrioridade &fp, int valor) {
+int fpInserir(FilaPrioridade &fp, IngredienteJogo *pIngrediente) {
     if (fp.tamanho >= HEAP_CAP) return 0;
-    fp.dados[fp.tamanho] = valor;
+    fp.dados[fp.tamanho] = pIngrediente;
     siftUp(fp.dados, fp.tamanho);
     fp.tamanho++;
     return 1;
 }
 
-int fpMinimo(const FilaPrioridade &fp, int &valor) {
-    if (fpEstaVazia(fp)) return 0;
-    valor = fp.dados[0];
-    return 1;
+IngredienteJogo* fpMinimo(const FilaPrioridade &fp) {
+    if (fpEstaVazia(fp)) return nullptr;
+    return fp.dados[0];
 }
 
-int fpRemoverMinimo(FilaPrioridade &fp, int &valor) {
-    if (fpEstaVazia(fp)) return 0;
-    valor = fp.dados[0];
+void fpRemoverMinimo(FilaPrioridade &fp) {
     fp.tamanho--;
     fp.dados[0] = fp.dados[fp.tamanho];
     heapify(fp.dados, fp.tamanho, 0);
-    return 1;
-}
+}   

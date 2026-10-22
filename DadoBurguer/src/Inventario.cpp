@@ -12,7 +12,7 @@ const bool INV_MOSTRAR_NUMEROS = true;   // número pequeno em cada slot (ajuda 
 void imprime(ListaContiguaINV inv){
 
  for (int i = 0; i < CAPACIDADE; i++) {
-        std::cout << acessar(inv, i).codigo << " "; // Saída: 2 4 6 8 10
+        std::cout << acessar(inv, i).codigo << " ";
     }
 }
 

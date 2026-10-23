@@ -118,7 +118,6 @@ void verificaSeEstragou(FilaPrioridade &comidasEstragam, ListaContiguaINV &inven
     
     while(comidasEstragam.dados[0]->turnoEstraga <= turnoAtual && comidasEstragam.tamanho > 0){
         removeDoInventario(buscarIngrediente(inventario, comidasEstragam.dados[0]), inventario);
-        fpRemoverMinimo(comidasEstragam);
         reconstroiHeapDesatualizado(inventario, comidasEstragam);
     }
 }

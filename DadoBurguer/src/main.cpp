@@ -30,6 +30,8 @@ int main() {
     Texture2D picles = LoadTexture("DadoBurguer/assets/INV/plisno.png");
     Texture2D carne_assada = LoadTexture("DadoBurguer/assets/INV/carne_assada_inventario.png");
     Texture2D mouse = LoadTexture("DadoBurguer/assets/mouse.png");
+    Texture2D panela = LoadTexture("DadoBurguer/assets/panela.png");
+    Texture2D fogo = LoadTexture("DadoBurguer/assets/fogo.png");
 
     Rectangle mouseRect = {0.0f, 0.0f, (float) mouse.width, (float) mouse.height};
     float mouseLarg, mouseEscala;
@@ -102,9 +104,9 @@ int main() {
     std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
     std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
     std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
-    std ::cout << "\n ACERTOS:" << HIT << "\n ERROS" << MISS << "\n";
+    std ::cout << "\n ACERTOS: " << HIT << "\n ERROS: " << MISS << "\n";
     encImprimir(HashPedidos);
-    
+
     while (!WindowShouldClose()) {
         HideCursor();
         Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH); // Sempre procura um bloco possivelmente interagivel
@@ -140,10 +142,19 @@ int main() {
                         } 
                         if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) estado.tela = TELA_INVENTARIO;
                         break;
-                    case TELA_FOGAO:
-                        if (AtualizarTelaFogao(telaFogao)) 
-                        estado.tela = TELA_JOGO;
+                    case TELA_FOGAO: {
+                        int escolhidoFogBoc = -1;
+                        int escolhidoFogInv = -1;
+                        if (AtualizarTelaFogao(telaFogao, escolhidoFogInv, escolhidoFogBoc, Inventario)) 
+                            estado.tela = TELA_JOGO;
+                        if(escolhidoFogInv != -1 && telaFogao.carnes.tamanho < 4){
+                            inserir(telaFogao.carnes, Carne, telaFogao.carnes.tamanho);
+                            imprime(telaFogao.carnes);
+                            removeDoInventario(escolhidoFogInv, Inventario);
+                            reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
+                        }
                         break;
+                    }
                     case TELA_ESTOQUE:
                         char escolhidoEST;
                         int escolhidoINV;
@@ -178,6 +189,7 @@ int main() {
                         //ShowCursor();
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaFogao(telaFogao, Inventario);
+                        desenhaPanelas(telaFogao.carnes, telaFogao.bocas, panela, carne_crua, fogo);
                         break;
 
                     case TELA_ESTOQUE: 
@@ -207,7 +219,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao);
                         EstadoPrograma = JOGANDO;
                     }
                 } 
@@ -254,7 +266,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao);
                         EstadoPrograma = JOGANDO;
                     }
                 }

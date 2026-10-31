@@ -51,7 +51,7 @@ std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, Tab
     nodo = avlBuscar(raiz, sorteado);
     
     if(nodo != nullptr){
-        std::cout <<"\n\nFOI NA ARVORE\n\n";
+        std::cout <<"\nFOI NA ARVORE\n";
         encInserir(hash, sorteado, nodo);
         MISS++;
         return nodo->receita;  

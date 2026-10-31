@@ -92,13 +92,27 @@ struct Bloco {
     int staminaGasta;
 };
 
+struct IngredienteJogo {
+    char codigo;
+    bool ehPerecivel;
+    Texture2D textura;      
+    std :: string nome;
+    int turnoEstraga;
+};
+
+struct ListaContiguaINV{
+    int tamanho;
+    IngredienteJogo dados[CAPACIDADE];
+};
+
 struct TelaFogao {
     Rectangle painel;            
     float xDivisoria;              
     std::vector<Rectangle> bocas;   
     std::vector<Rectangle> slots;   
     int bocaHover;                  
-    int slotHover;                 
+    int slotHover;
+    ListaContiguaINV carnes;
 };
 
 enum DirecaoAnim {
@@ -125,14 +139,6 @@ enum ESTADO_PROGRAMA {
     DIFICULDADE
 };
 
-struct IngredienteJogo {
-    char codigo;
-    bool ehPerecivel;
-    Texture2D textura;      
-    std :: string nome;
-    int turnoEstraga;
-};
-
 struct TelaEstoque {
     Rectangle painel;
     float xDivisoria;
@@ -148,11 +154,6 @@ struct TelaEstoque {
 struct FilaPrioridade {
     IngredienteJogo *dados[HEAP_CAP];
     int tamanho = 0;
-};
-
- struct ListaContiguaINV{
-    int tamanho;
-    IngredienteJogo dados[CAPACIDADE];
 };
 
 struct TelaInventario {

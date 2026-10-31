@@ -25,7 +25,7 @@ TelaFogao CriarTelaFogao(float largura, float altura) {
     return t;
 }
 
-bool AtualizarTelaFogao(TelaFogao& tela) {
+bool AtualizarTelaFogao(TelaFogao& tela, int &escolhidoFogInv, int &escolhidoFogBoc, ListaContiguaINV &inventario) {
     Vector2 mouse = GetMousePosition();
  
     tela.bocaHover = -1;
@@ -37,7 +37,11 @@ bool AtualizarTelaFogao(TelaFogao& tela) {
     for (size_t i = 0; i < tela.slots.size(); i++) {
         if (CheckCollisionPointRec(mouse, tela.slots[i])) tela.slotHover = (int)i;
     }
-  
+
+    escolhidoFogInv = IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && acessar(inventario, tela.slotHover).nome == "Carne" ? tela.slotHover : -1;
+
+    escolhidoFogBoc = IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.carnes.tamanho < 4 ? tela.bocaHover : -1;
+
     return IsKeyPressed(KEY_E);
 }
 
@@ -102,3 +106,43 @@ void DesenharTelaFogao(const TelaFogao& tela, ListaContiguaINV &inv) {
     DrawText("[E] para fechar", (int)tela.painel.x, (int)(tela.painel.y + tela.painel.height) + 14, 20, WHITE);
 }
 
+static bool ehCarne(const IngredienteJogo &ing) {
+    return ing.codigo == 'c';
+}
+
+// SEU: como a carne muda de acordo com o caractere
+static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarne, float escala) {
+    Color tint = WHITE;
+
+    switch (c) {
+        case 'c':  tint = WHITE;  break;
+        case 'a':  tint = BROWN;  break;
+        case 'q':  tint = BLACK;  break;
+        default:   break;
+    }
+
+    Vector2 pos = { centro.x - texCarne.width  * escala / 2.0f, centro.y - texCarne.height * escala / 2.0f };
+    DrawTextureEx(texCarne, pos, 0.0f, escala, tint);
+}
+
+void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &bocas, const Texture2D &texPanela, const Texture2D &texCarne, const Texture2D &texFogo) {
+    const float escalaPanela = 1.4f;  
+    const float escalaCarne = 2.0f; 
+    const float escalaFogo = 1.0f;  
+ 
+    for (int i = 0; i < fogao.tamanho && i < (int)bocas.size(); i++) {        
+            
+        IngredienteJogo *ing = enderecoDe(fogao, i);
+        if (ing == nullptr) continue;
+
+        Vector2 centro = { bocas[i].x + bocas[i].width  / 2.0f, bocas[i].y + bocas[i].height / 2.0f };
+
+        Vector2 posFogo = { centro.x - texFogo.width  * escalaFogo / 2.0f, centro.y - texFogo.height * escalaFogo / 2.0f };
+        DrawTextureEx(texFogo, posFogo, 0.0f, escalaFogo, WHITE);
+
+        Vector2 posPanela = { centro.x - texPanela.width  * escalaPanela / 2.0f, centro.y - texPanela.height * escalaPanela / 2.0f };
+        DrawTextureEx(texPanela, posPanela, 0.0f, escalaPanela, WHITE);
+
+        desenhaCarne(ing->codigo, centro, texCarne, escalaCarne);
+    }
+}

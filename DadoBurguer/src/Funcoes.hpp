@@ -33,11 +33,13 @@ void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos);
 void DesenharBloco(const Bloco& b);
 std::vector<Rectangle> GerarGrade(Rectangle zona, int colunas, int linhas, float espaco);
 TelaFogao CriarTelaFogao(float largura, float altura);
-bool AtualizarTelaFogao(TelaFogao& tela);
+bool AtualizarTelaFogao(TelaFogao& tela, int &escolhidoFogInv, int &escolhidoFogBoc, ListaContiguaINV &inventario);
 void DesenharTelaFogao(const TelaFogao& tela, ListaContiguaINV &inv);
 void DesenharPlaceholder(Rectangle r, Color cor);
 void DrawBlock(const Bloco& b);
 void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos, const Jogador& jogador, const AnimJogador& anim, const Bloco* alvo, const EstadoJogo& estado, const int &turno, const int &stamina);
+void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &bocas, const Texture2D &texPanela, const Texture2D &texCarne, const Texture2D &texFogo);
+static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarne, float escala);
 
 //PILHAS
 
@@ -75,8 +77,6 @@ int avlAltura(const NodoAvl *n);
 int avlFb(const NodoAvl *n);
 const NodoAvl* avlBuscar(NodoAvl *raiz, int dado);
 void avlEmOrdem(const NodoAvl *raiz);
-
-// Modificação (recebem a raiz por referência)
 void avlInserir(NodoAvl *&raiz, int dado, const std :: string &receita);
 void avlRemover(NodoAvl *&raiz, int dado);
 void avlDestruir(NodoAvl *&raiz);
@@ -132,7 +132,7 @@ void DesenharDicaMouse(const char* texto, ListaContiguaINV &inventario, int esco
 void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);
 void desenhaTurno(const int &turno, const int &stamina);
 void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &menu, Texture2D &pausa, Texture2D &fundo, Texture2D &paoCima, Texture2D &paoBaixo,Texture2D &cheddar,Texture2D &suico, Texture2D &carne_crua, Texture2D &alface, Texture2D &tomate, Texture2D &ketchup, Texture2D &mostarda, Texture2D &cebola, Texture2D &ovo, Texture2D &bacon, Texture2D &picles);
-void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &Hash);
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &Hash, TelaFogao &telafogao);
 int gastaStamina(int &stamina, const int quantoGasta);
 int testaStamina (const int &stamina, const int quantoGasta);
 void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);

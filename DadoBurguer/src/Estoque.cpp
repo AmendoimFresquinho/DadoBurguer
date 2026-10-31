@@ -73,10 +73,6 @@ bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhidoEST, int& escolhidoI
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.ingredienteHover >= 0) {
         escolhidoEST = tela.ingredientes[tela.ingredienteHover].codigo;
     }
-
-    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.ingredienteHover >= 0) {
-        escolhidoEST = tela.ingredientes[tela.ingredienteHover].codigo;
-    }
    
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.slotHover >= 0) {
         escolhidoINV = tela.slotHover;

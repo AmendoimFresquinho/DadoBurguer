@@ -31,7 +31,8 @@ struct PilhaEnc {
 };
 
 struct NodoAvl {
-    int dado;
+    int codigo;
+    std :: string receita;
     int altura;
     struct NodoAvl *esq;
     struct NodoAvl *dir;

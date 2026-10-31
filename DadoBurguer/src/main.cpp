@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <fstream>
 
 int main() {
     
@@ -19,7 +20,7 @@ int main() {
     Texture2D suico = LoadTexture("DadoBurguer/assets/INV/suico_inventario.png");
     Texture2D carne_crua = LoadTexture("DadoBurguer/assets/INV/carne_crua_inventario.png");
     Texture2D alface = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D tomate = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+    Texture2D tomate = LoadTexture("DadoBurguer/assets/INV/plisno.png");    
     Texture2D ketchup = LoadTexture("DadoBurguer/assets/INV/plisno.png");
     Texture2D mostarda = LoadTexture("DadoBurguer/assets/INV/plisno.png");
     Texture2D cebola = LoadTexture("DadoBurguer/assets/INV/plisno.png");
@@ -87,6 +88,11 @@ int main() {
     Rectangle pausaVoltar = { 480, 268, 320, 76 }; // Pausa
     Rectangle pausaReiniciar = { 480, 366, 320, 76 };
     Rectangle pausaMenu = { 480, 464, 320, 76 };
+
+    NodoAvl *Raiz = nullptr;
+    int TamanhoAVL = 0;
+
+    carregaPedidos("DadoBurguer/Arquivos/pedidos.txt", Raiz, TamanhoAVL);
 
     while (!WindowShouldClose()) {
         HideCursor();

@@ -70,11 +70,15 @@ void destruir(ListaEnc *lista);
 int tamanho(const ListaEnc *lista);
 
 //AVL
+int avlAltura(const NodoAvl *n);
+int avlFb(const NodoAvl *n);
+std :: string avlBuscar(NodoAvl *raiz, int dado);
+void avlEmOrdem(const NodoAvl *raiz);
 
-NodoAvl *avlBuscar(NodoAvl *raiz, int dado);
-NodoAvl *avlInserir(NodoAvl *raiz, int dado);
-NodoAvl *avlRemover(NodoAvl *raiz, int dado);
-NodoAvl *avlDestruir(NodoAvl *raiz);
+// Modificação (recebem a raiz por referência)
+void avlInserir(NodoAvl *&raiz, int dado, const std :: string &receita);
+void avlRemover(NodoAvl *&raiz, int dado);
+void avlDestruir(NodoAvl *&raiz);
 
 //HEAP
 
@@ -126,6 +130,10 @@ void colocaNoHeapEstragadoSemTurno(IngredienteJogo *Ingrediente, FilaPrioridade 
 void verificaSeEstragou(FilaPrioridade &comidasEstragam, ListaContiguaINV &inventario, const int &turnoAtual);
 void DesenharDicaMouseInventario(const char* texto, ListaContiguaINV &inventario, int escolhido);
 
+// PEDIDOS
+
+bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &contador);
+std :: string SorteiaPedidos(NodoAvl *&raiz, int &tamanhoAVL);
 
 // DEBUGGING
 

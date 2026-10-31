@@ -1,5 +1,5 @@
 #include "raylib.h"
-#include "raymath.h"
+#include <cmath>
 #include "Funcoes.hpp"
 #include "Structs.hpp"
 #include "Constantes.hpp"
@@ -128,7 +128,7 @@ static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarne, floa
 void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &bocas, const Texture2D &texPanela, const Texture2D &texCarne, const Texture2D &texFogo) {
     const float escalaPanela = 1.4f;  
     const float escalaCarne = 2.0f; 
-    const float escalaFogo = 1.0f;  
+    const float escalaFogo = 1.0f + 0.03f * sinf(GetTime() * 8.0f);
  
     for (int i = 0; i < fogao.tamanho && i < (int)bocas.size(); i++) {        
             

@@ -1,17 +1,13 @@
 #include "raylib.h"
 #include "Funcoes.hpp"
 #include "Structs.hpp"
-#include "raymath.h"
 #include "Constantes.hpp"
-#include <cfloat>
-#include <vector>
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <random>
 
-
-bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &tamanhoAVL) {
+bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoMax, int &codigoMin) {
 
     std::ifstream arq(nomeArquivo);
     if (!arq.is_open()){
@@ -24,22 +20,58 @@ bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &tamanho
 
     while (arq >> codigo >> pedido) {
         avlInserir(raiz, codigo, pedido);
-        tamanhoAVL++; // limite para o random depois
+        if (codigo > codigoMax) codigoMax = codigo;
+        if (codigo < codigoMin) codigoMin = codigo;     
     }
+
+    std :: cout << "\n"<< codigoMax << "\n" << "MAXIMO";
+    std :: cout << "\n"<< codigoMin << "\n" << "MINIMO";
 
     return true;  
 }
 
-std :: string SorteiaPedidos(NodoAvl *&raiz, int &tamanhoAVL){
+std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, TabelaEnc &hash, int &HIT, int &MISS){
 
+    const NodoAvl* nodo = nullptr;
+
+    do {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(1, tamanhoAVL);
+    std::uniform_int_distribution<> distrib(codigoMin, codigoMax); // Pega um random entre os codigos maximo e minimo
 
     int sorteado = distrib(gen);
 
-    std :: cout << "\n\n\n"<< sorteado << "\n\n\n\n";
+    const NodoAvl* NoHash = encBuscar(hash, sorteado);
 
-    return avlBuscar(raiz, sorteado);
+    if(NoHash != nullptr){
+        HIT++;
+        return NoHash->receita;
+    } 
+             
+    nodo = avlBuscar(raiz, sorteado);
+    
+    if(nodo != nullptr){
+        std::cout <<"\n\nFOI NA ARVORE\n\n";
+        encInserir(hash, sorteado, nodo);
+        MISS++;
+        return nodo->receita;  
+    }
+
+    } while(nodo == nullptr);
+
+    return nodo->receita; // Senao da warning (nao gosto grrrrr)
 }
 
+void encImprimir(const TabelaEnc &t) { // TEMP
+    std::cout << "Hash (n = " << t.n << ")\n";
+
+    for (int i = 0; i < TAMANHO_HASH; i++) {
+        if (t.tabela[i] == nullptr)
+            continue;                       // pula os baldes vazios
+
+        std::cout << "[" << i << "]";
+        for (NoHash *p = t.tabela[i]; p != nullptr; p = p->prox)
+            std::cout << " -> " << p->chave;
+        std::cout << "\n";
+    }
+}

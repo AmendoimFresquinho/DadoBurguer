@@ -51,11 +51,11 @@ void reequilibrar(NodoAvl *&raiz) {
     }
 }
  
-std :: string avlBuscar(NodoAvl *raiz, int codigo) {
+const NodoAvl* avlBuscar(NodoAvl *raiz, int codigo) {
     if (!raiz) return nullptr;
     if (codigo < raiz->codigo) return avlBuscar(raiz->esq, codigo);
     if (codigo > raiz->codigo) return avlBuscar(raiz->dir, codigo);
-    return raiz->receita;
+    return raiz;
 }
  
 void avlInserir(NodoAvl *&raiz, int codigo, const std :: string &receita) {

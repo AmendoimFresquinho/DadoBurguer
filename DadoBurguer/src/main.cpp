@@ -8,6 +8,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <climits>
 
 int main() {
     
@@ -74,6 +75,9 @@ int main() {
     int Turno = 0;
     int Stamina = STAMINA;
 
+    TabelaEnc HashPedidos;
+    encInicializar(HashPedidos, TAMANHO_HASH);
+
     for (size_t i = 0; i < blocos.size(); i++) 
         solidos.push_back(blocos[i].rect);
 
@@ -90,10 +94,17 @@ int main() {
     Rectangle pausaMenu = { 480, 464, 320, 76 };
 
     NodoAvl *Raiz = nullptr;
-    int TamanhoAVL = 0;
+    int CodigoMax = 0, CodigoMin = INT_MAX, HIT = 0, MISS = 0;
 
-    carregaPedidos("DadoBurguer/Arquivos/pedidos.txt", Raiz, TamanhoAVL);
-
+    carregaPedidos("DadoBurguer/Arquivos/pedidos.txt", Raiz, CodigoMax, CodigoMin);
+    std :: cout << "\n" << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
+    std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
+    std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
+    std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
+    std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
+    std ::cout << "\n ACERTOS:" << HIT << "\n ERROS" << MISS << "\n";
+    encImprimir(HashPedidos);
+    
     while (!WindowShouldClose()) {
         HideCursor();
         Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH); // Sempre procura um bloco possivelmente interagivel
@@ -196,7 +207,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos);
                         EstadoPrograma = JOGANDO;
                     }
                 } 
@@ -243,7 +254,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos);
                         EstadoPrograma = JOGANDO;
                     }
                 }

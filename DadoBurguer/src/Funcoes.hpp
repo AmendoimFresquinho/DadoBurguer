@@ -70,9 +70,10 @@ void destruir(ListaEnc *lista);
 int tamanho(const ListaEnc *lista);
 
 //AVL
+
 int avlAltura(const NodoAvl *n);
 int avlFb(const NodoAvl *n);
-std :: string avlBuscar(NodoAvl *raiz, int dado);
+const NodoAvl* avlBuscar(NodoAvl *raiz, int dado);
 void avlEmOrdem(const NodoAvl *raiz);
 
 // Modificação (recebem a raiz por referência)
@@ -104,6 +105,18 @@ int remover(ListaContiguaINV &l, int pos);
 void destruir(ListaContiguaINV &l);
 int buscarIngrediente(const ListaContiguaINV& l, IngredienteJogo *Ingrediente);
 
+// HASH
+
+int hashDivisao(int k, int m);
+int hashMultiplicativo(int k, int m);
+int hashString(const char *s, int m);
+
+void encInicializar(TabelaEnc &t, int m);
+void encInserir(TabelaEnc &t, int chave, const NodoAvl *valor);
+const NodoAvl* encBuscar(const TabelaEnc &t, int chave);
+int encRemover(TabelaEnc &t, int chave);
+void encDestruir(TabelaEnc &t);
+
 //INVENTARIO
 
 TelaInventario CriarTelaInventario(float largura, float altura);
@@ -119,7 +132,7 @@ void DesenharDicaMouse(const char* texto, ListaContiguaINV &inventario, int esco
 void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);
 void desenhaTurno(const int &turno, const int &stamina);
 void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &menu, Texture2D &pausa, Texture2D &fundo, Texture2D &paoCima, Texture2D &paoBaixo,Texture2D &cheddar,Texture2D &suico, Texture2D &carne_crua, Texture2D &alface, Texture2D &tomate, Texture2D &ketchup, Texture2D &mostarda, Texture2D &cebola, Texture2D &ovo, Texture2D &bacon, Texture2D &picles);
-void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap);
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &Hash);
 int gastaStamina(int &stamina, const int quantoGasta);
 int testaStamina (const int &stamina, const int quantoGasta);
 void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);
@@ -132,10 +145,11 @@ void DesenharDicaMouseInventario(const char* texto, ListaContiguaINV &inventario
 
 // PEDIDOS
 
-bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &contador);
-std :: string SorteiaPedidos(NodoAvl *&raiz, int &tamanhoAVL);
+bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoMax, int &codigoMin);
+std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, TabelaEnc &hash, int &HIT, int &MISS);
 
 // DEBUGGING
 
 void fpImprimir(const FilaPrioridade &fp);
 void imprime(ListaContiguaINV inv);
+void encImprimir(const TabelaEnc &t);

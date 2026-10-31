@@ -38,6 +38,19 @@ struct NodoAvl {
     struct NodoAvl *dir;
 };
 
+struct NoHash {
+    int chave;
+    const NodoAvl *valor;
+    NoHash *prox;
+};
+
+struct TabelaEnc {
+    int m = 0;                  // tamanho da tabela
+    int n = 0;                  // quantidade de chaves guardadas
+    NoHash **tabela = nullptr;  // vetor de m listas
+};
+
+
 enum Acoes {
     SEM_ACAO,
     ABRIR_FOGAO,

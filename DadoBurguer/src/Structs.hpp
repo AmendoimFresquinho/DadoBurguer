@@ -51,7 +51,26 @@ enum Tela {
     TELA_JOGO,
     TELA_FOGAO,
     TELA_ESTOQUE,
-    TELA_INVENTARIO
+    TELA_INVENTARIO,
+    TELA_MONTAGEM
+};
+
+enum Ingredientes {
+    VAZIO = 0,
+    PAO_CIMA = 'z',
+    PAO_BAIXO = 'x',
+    CARNE = 'n',
+    SUICO = 's',
+    CHEDDAR = 'q',
+    ALFACE = 'a',
+    KETCHUP = 'k',
+    MOSTARDA = 'm',
+    PICLES = 'p',
+    CEBOLA = 'c',
+    TOMATE = 't',
+    OVO = 'o',
+    BACON = 'b',
+    CARNE_ASSADA = 'f'
 };
 
 struct EstadoJogo {

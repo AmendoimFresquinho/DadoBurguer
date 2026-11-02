@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include "Montagem.hpp"
 
 int main() {
     
@@ -88,6 +89,11 @@ int main() {
     Rectangle pausaReiniciar = { 480, 366, 320, 76 };
     Rectangle pausaMenu = { 480, 464, 320, 76 };
 
+
+    Montagem::Pilha hamburguer = Montagem::Pilha();
+    Image tmp_img1 {}, tmp_img2 {};
+
+
     while (!WindowShouldClose()) {
         HideCursor();
         Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH); // Sempre procura um bloco possivelmente interagivel
@@ -110,6 +116,16 @@ int main() {
                     passaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS);
 
                 Vector2 antes = jogador.posicao;
+
+                if(IsKeyPressed(KEY_ONE))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::ALFACE, tmp_img1);
+                if(IsKeyPressed(KEY_TWO))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE, tmp_img1);
+                if(IsKeyPressed(KEY_THREE))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE_ASSADA, tmp_img1);
+                if(IsKeyPressed(KEY_FOUR))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::TOMATE, tmp_img1);
+                if(IsKeyPressed(KEY_FIVE))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::CHEDDAR, tmp_img1);
+
+                if(IsKeyPressed(KEY_ZERO))   Montagem::removerIngrediente(hamburguer, tmp_img1, tmp_img2);
+
+                DrawTexture(hamburguer.textura, 50, 50, WHITE);
 
                 switch (estado.tela) { // SWITCH CASE DE LOGICA
                 

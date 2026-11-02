@@ -32,6 +32,8 @@ int main() {
     Texture2D mouse = LoadTexture("DadoBurguer/assets/mouse.png");
     Texture2D panela = LoadTexture("DadoBurguer/assets/panela.png");
     Texture2D fogo = LoadTexture("DadoBurguer/assets/fogo.png");
+    Texture2D carne_queimada = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+
 
     Rectangle mouseRect = {0.0f, 0.0f, (float) mouse.width, (float) mouse.height};
     float mouseLarg, mouseEscala;
@@ -50,7 +52,8 @@ int main() {
     IngredienteJogo Tomate = { 't', false, tomate, "Tomate", 0};
     IngredienteJogo Ovo = { 'o', false, ovo, "Ovo", 0};
     IngredienteJogo Bacon = { 'b', false, bacon, "Bacon", 0};
-    IngredienteJogo Carne_Assada = {'k', true, carne_assada, "Carne Assada", VALIDADE_CARNE_ASSADA};
+    IngredienteJogo Carne_Assada = {'u', true, carne_assada, "Carne Assada", VALIDADE_CARNE_ASSADA};
+    IngredienteJogo Carne_Queimada = {'l', true, carne_queimada, "Carne Queimada", VALIDADE_CARNE_ASSADA};
 
     Texture2D menu = LoadTexture("DadoBurguer/assets/Menu.png");
     Texture2D pausa = LoadTexture("DadoBurguer/assets/pausa.png");
@@ -63,7 +66,7 @@ int main() {
     ConstruirMapa(paredes, blocos);
     AnimJogador animJogador = CriarAnimJogador("DadoBurguer/assets/jogador.png");
     TelaFogao telaFogao = CriarTelaFogao(LARGURA, ALTURA);
-    TelaEstoque telaEstoque = CriarTelaEstoque(LARGURA, ALTURA, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles);
+    TelaEstoque telaEstoque = CriarTelaEstoque(LARGURA, ALTURA, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles, Carne_Assada);
     TelaInventario telaInventario = CriarTelaInventario(LARGURA, ALTURA);
 
     EstadoJogo estado = { false, TELA_JOGO };
@@ -97,6 +100,9 @@ int main() {
 
     NodoAvl *Raiz = nullptr;
     int CodigoMax = 0, CodigoMin = INT_MAX, HIT = 0, MISS = 0;
+
+    int TurnoAssado[4] = {};
+    int QualTurno = 0;
 
     carregaPedidos("DadoBurguer/Arquivos/pedidos.txt", Raiz, CodigoMax, CodigoMin);
     std :: cout << "\n" << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
@@ -142,16 +148,57 @@ int main() {
                         } 
                         if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) estado.tela = TELA_INVENTARIO;
                         break;
+
                     case TELA_FOGAO: {
                         int escolhidoFogBoc = -1;
                         int escolhidoFogInv = -1;
                         if (AtualizarTelaFogao(telaFogao, escolhidoFogInv, escolhidoFogBoc, Inventario)) 
                             estado.tela = TELA_JOGO;
+                            
+                        //std :: cout << "\n TAMANHO CARNES: "<< telaFogao.carnes.tamanho<< "\n";
+                        //std :: cout << "\n TAMANHO INVENTARIO: "<< Inventario.tamanho << "\n";
+
                         if(escolhidoFogInv != -1 && telaFogao.carnes.tamanho < 4){
+                        
+                            TurnoAssado[QualTurno] = Turno;
+                            QualTurno++;
+
+                            std :: cout << "\n Turno que deve assar (INV): " << TurnoAssado[QualTurno - 1] << "\n";
+                            std :: cout << "\n posicao do vetor (INV): "<< QualTurno << "\n";
+
                             inserir(telaFogao.carnes, Carne, telaFogao.carnes.tamanho);
                             imprime(telaFogao.carnes);
                             removeDoInventario(escolhidoFogInv, Inventario);
                             reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
+                        }
+                        if(escolhidoFogBoc != -1 && enderecoDe(telaFogao.carnes, escolhidoFogBoc) != nullptr){
+                            
+                            TurnoAssado[escolhidoFogBoc] = 0;
+                            for (int i = escolhidoFogBoc; i < QualTurno - 1; i++)
+                                TurnoAssado[i] = TurnoAssado[i + 1];
+                            QualTurno--;
+
+                            std :: cout << "\n Turno que deve assar (BOC): " << TurnoAssado[QualTurno - 1] << "\n";
+                            std :: cout << "\n posicao do vetor (BOC): "<< QualTurno << "\n";
+
+                            if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'n'){
+                                inserir(Inventario, Carne, Inventario.tamanho); 
+                                reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
+                                remover(telaFogao.carnes, escolhidoFogBoc);
+                                std :: cout << "ta indo";
+                            }
+                            if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'u'){
+                                inserir(Inventario, Carne_Assada, Inventario.tamanho); 
+                                reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
+                                remover(telaFogao.carnes, escolhidoFogBoc);
+
+                            }
+                            if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'l'){
+                                inserir(Inventario, Carne_Queimada, Inventario.tamanho); 
+                                reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
+                                remover(telaFogao.carnes, escolhidoFogBoc);
+                            }
+                            imprime(telaFogao.carnes);
                         }
                         break;
                     }
@@ -185,13 +232,13 @@ int main() {
                         BotaoPassaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS);
                     break;              
 
-                    case TELA_FOGAO:
+                    case TELA_FOGAO: {
                         //ShowCursor();
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaFogao(telaFogao, Inventario);
-                        desenhaPanelas(telaFogao.carnes, telaFogao.bocas, panela, carne_crua, fogo);
+                        desenhaPanelas(telaFogao.carnes, telaFogao.bocas, panela, carne_crua, carne_assada, carne_queimada, fogo, TurnoAssado, Turno);
                         break;
-
+                    }
                     case TELA_ESTOQUE: 
                         //ShowCursor();
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo

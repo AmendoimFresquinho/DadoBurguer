@@ -40,7 +40,7 @@ bool AtualizarTelaFogao(TelaFogao& tela, int &escolhidoFogInv, int &escolhidoFog
 
     escolhidoFogInv = IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && acessar(inventario, tela.slotHover).nome == "Carne" ? tela.slotHover : -1;
 
-    escolhidoFogBoc = IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.carnes.tamanho < 4 ? tela.bocaHover : -1;
+    escolhidoFogBoc = IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.carnes.tamanho < 5 ? tela.bocaHover : -1;
 
     return IsKeyPressed(KEY_E);
 }
@@ -111,21 +111,19 @@ static bool ehCarne(const IngredienteJogo &ing) {
 }
 
 // SEU: como a carne muda de acordo com o caractere
-static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarne, float escala) {
-    Color tint = WHITE;
+static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, float escala) {
+
+    Vector2 pos = { centro.x - texCarneCrua.width  * escala / 2.0f, centro.y - texCarneCrua.height * escala / 2.0f };
 
     switch (c) {
-        case 'c':  tint = WHITE;  break;
-        case 'a':  tint = BROWN;  break;
-        case 'q':  tint = BLACK;  break;
+        case 'n':  DrawTextureEx(texCarneCrua, pos, 0.0f, escala, WHITE); break;
+        case 'u':  DrawTextureEx(texCarneAssada, pos, 0.0f, escala, WHITE); break;
+        case 'l':  DrawTextureEx(texCarneCrua, pos, 0.0f, escala, BLACK); break;
         default:   break;
-    }
-
-    Vector2 pos = { centro.x - texCarne.width  * escala / 2.0f, centro.y - texCarne.height * escala / 2.0f };
-    DrawTextureEx(texCarne, pos, 0.0f, escala, tint);
+    }   
 }
 
-void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &bocas, const Texture2D &texPanela, const Texture2D &texCarne, const Texture2D &texFogo) {
+void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &bocas, const Texture2D &texPanela, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, const Texture2D &texFogo, int turnoEstraga[4], int &turno) {
     const float escalaPanela = 1.4f;  
     const float escalaCarne = 2.0f; 
     const float escalaFogo = 1.0f + 0.03f * sinf(GetTime() * 8.0f);
@@ -135,6 +133,9 @@ void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &boc
         IngredienteJogo *ing = enderecoDe(fogao, i);
         if (ing == nullptr) continue;
 
+        if(turnoEstraga[i] + 2 <= turno && ing->codigo == 'n') ing->codigo = 'u';
+        if(turnoEstraga[i] + 4 <= turno && ing->codigo == 'u') ing->codigo = 'l';
+
         Vector2 centro = { bocas[i].x + bocas[i].width  / 2.0f, bocas[i].y + bocas[i].height / 2.0f };
 
         Vector2 posFogo = { centro.x - texFogo.width  * escalaFogo / 2.0f, centro.y - texFogo.height * escalaFogo / 2.0f };
@@ -143,6 +144,6 @@ void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &boc
         Vector2 posPanela = { centro.x - texPanela.width  * escalaPanela / 2.0f, centro.y - texPanela.height * escalaPanela / 2.0f };
         DrawTextureEx(texPanela, posPanela, 0.0f, escalaPanela, WHITE);
 
-        desenhaCarne(ing->codigo, centro, texCarne, escalaCarne);
+        desenhaCarne(ing->codigo, centro, texCarneCrua, texCarneAssada, texCarneQueimada, escalaCarne);
     }
 }

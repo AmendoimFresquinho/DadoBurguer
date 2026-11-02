@@ -63,7 +63,6 @@ int buscarIngrediente(const ListaContiguaINV& l, IngredienteJogo *Ingrediente) {
     return -1;
 }
 
-
 int remover(ListaContiguaINV& l, int pos) {
     int i;
 

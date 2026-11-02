@@ -20,7 +20,7 @@ Rectangle HitBox(const Jogador& p);
 void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox);
 void AtualizarAnimJogador(AnimJogador& a, Vector2 deslocamento, float dt);
 void DescarregarAnimJogador(AnimJogador& a); 
-TelaEstoque CriarTelaEstoque(float largura, float altura,IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles );
+TelaEstoque CriarTelaEstoque(float largura, float altura,IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles, IngredienteJogo CarneAssada);
 void DescarregarTelaEstoque(TelaEstoque& t);
 bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhidoEST, int& escolhidoINV);
 void DesenharIngrediente(const TelaEstoque& tela, char codigo, Rectangle area);
@@ -38,8 +38,8 @@ void DesenharTelaFogao(const TelaFogao& tela, ListaContiguaINV &inv);
 void DesenharPlaceholder(Rectangle r, Color cor);
 void DrawBlock(const Bloco& b);
 void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos, const Jogador& jogador, const AnimJogador& anim, const Bloco* alvo, const EstadoJogo& estado, const int &turno, const int &stamina);
-void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &bocas, const Texture2D &texPanela, const Texture2D &texCarne, const Texture2D &texFogo);
-static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarne, float escala);
+void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &bocas, const Texture2D &texPanela, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, const Texture2D &texFogo, int turnoEstraga[4], int &turno);
+static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, float escala);
 
 //PILHAS
 

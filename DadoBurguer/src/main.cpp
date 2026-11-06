@@ -3,7 +3,6 @@
 #include "Structs.hpp"
 #include "raymath.h"
 #include "Constantes.hpp"
-#include <cfloat>
 #include <vector>
 #include <string>
 #include <iostream>
@@ -32,8 +31,7 @@ int main() {
     Texture2D mouse = LoadTexture("DadoBurguer/assets/mouse.png");
     Texture2D panela = LoadTexture("DadoBurguer/assets/panela.png");
     Texture2D fogo = LoadTexture("DadoBurguer/assets/fogo.png");
-    Texture2D carne_queimada = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-
+    Texture2D carne_queimada = LoadTexture("DadoBurguer/assets/INV/carne_queimada_inventario.png");
 
     Rectangle mouseRect = {0.0f, 0.0f, (float) mouse.width, (float) mouse.height};
     float mouseLarg, mouseEscala;
@@ -66,7 +64,7 @@ int main() {
     ConstruirMapa(paredes, blocos);
     AnimJogador animJogador = CriarAnimJogador("DadoBurguer/assets/jogador.png");
     TelaFogao telaFogao = CriarTelaFogao(LARGURA, ALTURA);
-    TelaEstoque telaEstoque = CriarTelaEstoque(LARGURA, ALTURA, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles, Carne_Assada);
+    TelaEstoque telaEstoque = CriarTelaEstoque(LARGURA, ALTURA, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles, Carne_Assada, Carne_Queimada);
     TelaInventario telaInventario = CriarTelaInventario(LARGURA, ALTURA);
 
     EstadoJogo estado = { false, TELA_JOGO };
@@ -182,19 +180,20 @@ int main() {
                             std :: cout << "\n posicao do vetor (BOC): "<< QualTurno << "\n";
 
                             if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'n'){
-                                inserir(Inventario, Carne, Inventario.tamanho); 
+                                IngredienteJogo Carne_atualizada1 = {'n', true, carne_crua, "Carne", Turno + VALIDADE_CARNE_CRUA};
+                                inserir(Inventario, Carne_atualizada1, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
-                                std :: cout << "ta indo";
                             }
                             if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'u'){
-                                inserir(Inventario, Carne_Assada, Inventario.tamanho); 
+                                IngredienteJogo Carne_atualizada2 = {'u', true, carne_assada, "Carne Assada", Turno + 1};
+                                inserir(Inventario, Carne_atualizada2, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
-
                             }
                             if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'l'){
-                                inserir(Inventario, Carne_Queimada, Inventario.tamanho); 
+                                IngredienteJogo Carne_atualizada3 = {'l', true, carne_queimada, "Carne Queimada", Turno + 1};
+                                inserir(Inventario, Carne_atualizada3, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }

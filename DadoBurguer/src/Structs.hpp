@@ -1,5 +1,4 @@
 #pragma once
-#include "Funcoes.hpp"
 #include "Structs.hpp"
 #include "Constantes.hpp"
 #include "raylib.h"
@@ -137,6 +136,11 @@ enum ESTADO_PROGRAMA {
     HISTORICO,
     COMO_JOGAR,
     DIFICULDADE
+};
+
+struct Historico {
+    std::string nome;
+    int pontuacao;
 };
 
 struct TelaEstoque {

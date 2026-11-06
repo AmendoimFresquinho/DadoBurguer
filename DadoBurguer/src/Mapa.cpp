@@ -1,9 +1,7 @@
 #include "raylib.h"
-#include "raymath.h"
 #include "Funcoes.hpp"
 #include "Structs.hpp"
 #include "Constantes.hpp"
-#include <cfloat>
 #include <vector>
 #include <iostream>
 

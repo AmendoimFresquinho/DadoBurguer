@@ -1,13 +1,8 @@
 #include "raylib.h"
 #include "Funcoes.hpp"
 #include "Structs.hpp"
-#include "raymath.h"
 #include "Constantes.hpp"
-#include <cfloat>
-#include <vector>
-#include <string>
 #include <iostream>
-#include <random>
 
 void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS){
     turno++;

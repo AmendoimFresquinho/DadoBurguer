@@ -1,16 +1,16 @@
-#include "raylib.h"
 #include "Funcoes.hpp"
 #include "Structs.hpp"
 #include "Constantes.hpp"
 #include <string>
 #include <iostream>
+#include <cmath>
 
 int hashDivisao(int k, int m) {
     return k % m;
 }
 
 int hashMultiplicativo(int k, int m) {
-    constexpr double A = 0.6180339887;   
+    constexpr double A = 0.6180339887; // knuth = A  
     double prod = static_cast<double>(k) * A;
     double frac = prod - std::floor(prod);
     return static_cast<int>(m * frac);

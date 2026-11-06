@@ -4,10 +4,8 @@
 #include <iostream>
 #include "Funcoes.hpp"
 #include "Structs.hpp"
-#include "raymath.h"
-#include "Constantes.hpp"
-#include <cfloat>
 #include <vector>
+#include <string>
 
 //PLAYER
 
@@ -20,7 +18,7 @@ Rectangle HitBox(const Jogador& p);
 void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox);
 void AtualizarAnimJogador(AnimJogador& a, Vector2 deslocamento, float dt);
 void DescarregarAnimJogador(AnimJogador& a); 
-TelaEstoque CriarTelaEstoque(float largura, float altura,IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles, IngredienteJogo CarneAssada);
+TelaEstoque CriarTelaEstoque(float largura, float altura, IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles, IngredienteJogo CarneAssada, IngredienteJogo CarneQueimada);
 void DescarregarTelaEstoque(TelaEstoque& t);
 bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhidoEST, int& escolhidoINV);
 void DesenharIngrediente(const TelaEstoque& tela, char codigo, Rectangle area);
@@ -147,6 +145,13 @@ void DesenharDicaMouseInventario(const char* texto, ListaContiguaINV &inventario
 
 bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoMax, int &codigoMin);
 std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, TabelaEnc &hash, int &HIT, int &MISS);
+
+// MERGESORT
+
+static bool vemAntes(const Historico &a, const Historico &b);
+static void merge(std::vector<Historico> &v, std::vector<Historico> &aux, int ini, int meio, int fim);
+static void mergeSortRec(std::vector<Historico> &v, std::vector<Historico> &aux, int ini, int fim);
+void mergeSort(std::vector<Historico> &v);
 
 // DEBUGGING
 

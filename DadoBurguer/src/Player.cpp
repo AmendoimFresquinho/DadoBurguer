@@ -2,10 +2,8 @@
 #include "raymath.h"
 #include "Funcoes.hpp"
 #include "Structs.hpp"
-#include "Constantes.hpp"
 #include <cfloat>
 #include <vector>
-#include <iostream>
 
 const int ANIM_LARGURA_FRAME = 32;
 const int ANIM_ALTURA_FRAME = 32;

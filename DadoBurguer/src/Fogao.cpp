@@ -2,8 +2,6 @@
 #include <cmath>
 #include "Funcoes.hpp"
 #include "Structs.hpp"
-#include "Constantes.hpp"
-#include <cfloat>
 #include <vector>
 #include <iostream>
 
@@ -118,7 +116,7 @@ static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarneCrua, 
     switch (c) {
         case 'n':  DrawTextureEx(texCarneCrua, pos, 0.0f, escala, WHITE); break;
         case 'u':  DrawTextureEx(texCarneAssada, pos, 0.0f, escala, WHITE); break;
-        case 'l':  DrawTextureEx(texCarneCrua, pos, 0.0f, escala, BLACK); break;
+        case 'l':  DrawTextureEx(texCarneQueimada, pos, 0.0f, escala, WHITE); break;
         default:   break;
     }   
 }

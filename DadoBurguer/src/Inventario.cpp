@@ -3,9 +3,7 @@
 #include "Structs.hpp"
 #include "Constantes.hpp"
 #include <vector>
-#include <string>
 #include <iostream>
-#include <stddef.h>
 
 const bool INV_MOSTRAR_NUMEROS = true;   // número pequeno em cada slot (ajuda a testar)
 

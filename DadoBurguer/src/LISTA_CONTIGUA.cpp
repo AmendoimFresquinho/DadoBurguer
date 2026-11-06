@@ -1,7 +1,5 @@
-#include "Funcoes.hpp"
 #include "Constantes.hpp"
 #include "Structs.hpp"
-#include <iostream>
 
 void inicializar(ListaContiguaINV &l) {
     l.tamanho = 0;

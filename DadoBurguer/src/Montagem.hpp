@@ -29,9 +29,7 @@ namespace Montagem {
         float altura;           // Onde desenhar o próximo
         Texture2D textura;      // Textura da pilha
 
-        Pilha() : topo(nullptr), quantDados(0), altura(0.0f){
-            textura = LoadTexture("assets/Montagem/Pao_Baixo.png");
-        };
+        Pilha() : topo(nullptr), quantDados(0), altura(0.0f) {};
 
         void empilha(Ingredientes ing){
             Montagem::Nodo* nodo = new Montagem::Nodo(ing);
@@ -53,7 +51,7 @@ namespace Montagem {
             return retorno;
         };
 
-        int estaVazia(){
+        bool estaVazia(){
             return topo == nullptr;
         };
     };
@@ -64,9 +62,9 @@ namespace Montagem {
     Color pegarTintIng(Ingredientes ing);
     void carregarImagem(Ingredientes ing, Image& img);
     void adicionarTextura(Montagem::Pilha& pilha, Image& img);
-    void refazerImagemHamburguer(Montagem::Pilha& pilha, Image& img1, Image& img2);
+    void refazerImagemHamburguer(Montagem::Pilha& pilha, Image& img);
     int adicionarIngrediente(Montagem::Pilha& pilha, Ingredientes ing, Image& img);
-    void removerIngrediente(Montagem::Pilha& pilha, Image& img1, Image& img2);
+    void removerIngrediente(Montagem::Pilha& pilha, Image& img);
 }
 
 

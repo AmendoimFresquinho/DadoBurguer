@@ -91,7 +91,14 @@ int main() {
 
 
     Montagem::Pilha hamburguer = Montagem::Pilha();
-    Image tmp_img1 {}, tmp_img2 {};
+    hamburguer.textura = LoadTexture("DadoBurguer/assets/Montagem/Pao_Baixo.png");
+    Image tmp_img = {0};
+    /*Montagem::carregarImagem(Ingredientes::CARNE, Mont_Carne);
+    Texture2D txt = LoadTextureFromImage(Mont_Carne);
+    UnloadImage(Mont_Carne);
+    Mont_Carne = LoadImage("DadoBurguer/assets/Montagem/BifeCinza.png");
+    Texture2D txt2 = LoadTextureFromImage(Mont_Carne);
+    UnloadImage(Mont_Carne);*/
 
 
     while (!WindowShouldClose()) {
@@ -100,6 +107,8 @@ int main() {
         Vector2 mousePos = GetMousePosition();
 
         BeginDrawing();
+
+        //DrawTexture(txt, 50, 50, WHITE);
 
         float dt = GetFrameTime();
 
@@ -117,15 +126,14 @@ int main() {
 
                 Vector2 antes = jogador.posicao;
 
-                if(IsKeyPressed(KEY_ONE))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::ALFACE, tmp_img1);
-                if(IsKeyPressed(KEY_TWO))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE, tmp_img1);
-                if(IsKeyPressed(KEY_THREE))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE_ASSADA, tmp_img1);
-                if(IsKeyPressed(KEY_FOUR))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::TOMATE, tmp_img1);
-                if(IsKeyPressed(KEY_FIVE))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::CHEDDAR, tmp_img1);
+                if(IsKeyPressed(KEY_ONE))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::ALFACE, tmp_img);
+                if(IsKeyPressed(KEY_TWO))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE, tmp_img);
+                if(IsKeyPressed(KEY_THREE))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE_ASSADA, tmp_img);
+                if(IsKeyPressed(KEY_FOUR))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::TOMATE, tmp_img);
+                if(IsKeyPressed(KEY_FIVE))   Montagem::adicionarIngrediente(hamburguer, Ingredientes::CHEDDAR, tmp_img);
 
-                if(IsKeyPressed(KEY_ZERO))   Montagem::removerIngrediente(hamburguer, tmp_img1, tmp_img2);
+                if(IsKeyPressed(KEY_ZERO))   Montagem::removerIngrediente(hamburguer, tmp_img);
 
-                DrawTexture(hamburguer.textura, 50, 50, WHITE);
 
                 switch (estado.tela) { // SWITCH CASE DE LOGICA
                 
@@ -295,6 +303,7 @@ int main() {
     mouseLarg = (mouse.width) * mouseEscala;
     mouseDestRect = {mousePos.x - (mouseLarg/2), mousePos.y - (mouse.height/2), mouseLarg, (float) mouse.height};
     DrawTexturePro(mouse, mouseRect, mouseDestRect, (Vector2) {0.0f, 0.0f}, 0.0f, WHITE);
+    DrawTexture(hamburguer.textura, 400, 50, WHITE);
     EndDrawing();
     }
 
@@ -322,6 +331,9 @@ int main() {
     UnloadTexture(bacon);
     UnloadTexture(picles);
     UnloadTexture(mouse);
+
+    //UnloadTexture(txt);
+    //UnloadTexture(txt2);
 
     CloseWindow();
 

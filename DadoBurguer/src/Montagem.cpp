@@ -8,10 +8,10 @@ namespace Montagem{
 
     float altura(Ingredientes ing){ // Retorna a altura da imagem do ingrediente ing
         switch (ing){
-            case Ingredientes::ALFACE: return 1.2f; break;
+            case Ingredientes::ALFACE: return 2.1f; break;
             case Ingredientes::BACON: return 1.2f; break;
-            case Ingredientes::CARNE: return 1.2f; break;
-            case Ingredientes::CARNE_ASSADA: return 1.2f; break;
+            case Ingredientes::CARNE: return 4.1f; break;
+            case Ingredientes::CARNE_ASSADA: return 4.1f; break;
             case Ingredientes::CEBOLA: return 1.2f; break;
             case Ingredientes::CHEDDAR: return 1.2f; break;
             case Ingredientes::KETCHUP: return 0.1f; break;
@@ -19,7 +19,7 @@ namespace Montagem{
             case Ingredientes::OVO: return 2.0f; break;
             case Ingredientes::PICLES: return 0.5f; break;
             case Ingredientes::SUICO: return 0.3f; break;
-            case Ingredientes::TOMATE: return 0.7f; break;
+            case Ingredientes::TOMATE: return 1.2f; break;
 
             case Ingredientes::VAZIO:
             case Ingredientes::PAO_BAIXO:
@@ -46,7 +46,7 @@ namespace Montagem{
             case Ingredientes::PAO_CIMA: return (char*)"DadoBurguer/assets/Montagem/Pao_Cima.png"; break;          //
 
             case Ingredientes::VAZIO:                                                           //
-            default: return (char*)"assets/Montagem/Vazio.png";
+            default: return (char*)"DadoBurguer/assets/Montagem/Vazio.png";
         }
     };
     Color pegarTintIng(Ingredientes ing){ // Retorna a tonalidade para tal ingrediente
@@ -63,6 +63,7 @@ namespace Montagem{
     @brief Carrega a imagem para img e já aplica a tonalidade correta
     */
     void carregarImagem(Ingredientes ing, Image& img){
+        //if (img.data != nullptr && IsImageValid(img)) UnloadImage(img);
         img = LoadImage(pegarStringIng(ing));
         ImageColorTint(&img, pegarTintIng(ing));
     };
@@ -70,36 +71,41 @@ namespace Montagem{
     void adicionarTextura(Montagem::Pilha& pilha, Image& img){
         Image imgPilha = LoadImageFromTexture(pilha.textura);
         ImageDrawImage(&imgPilha, img, 0, pilha.altura, WHITE);
-        UnloadTexture(pilha.textura);
+        if (IsTextureValid(pilha.textura)) UnloadTexture(pilha.textura);
         pilha.textura = LoadTextureFromImage(imgPilha);
         UnloadImage(imgPilha);
     };
 
-    void refazerImagemHamburguer(Montagem::Pilha& pilha, Image& img1, Image& img2){
-        UnloadTexture(pilha.textura);
-        UnloadImage(img1);
-        UnloadImage(img2);
+    void refazerImagemHamburguer(Montagem::Pilha& pilha, Image& img){
+        if (IsTextureValid(pilha.textura)) UnloadTexture(pilha.textura);
+        if (img.data != nullptr && IsImageValid(img)) UnloadImage(img);
 
-        img1 = LoadImage(pegarStringIng(Ingredientes::PAO_BAIXO)); // Carrega o pão de baixo
+        Image imgPilha = LoadImage(pegarStringIng(Ingredientes::PAO_BAIXO)); // Carrega o pão de baixo
         Ingredientes ing;
         Montagem::Pilha reversa {};
 
+
         while (!pilha.estaVazia()){             // Faz o xamburgui reverso
-            reversa.empilha(pilha.desempilha());
+            ing = pilha.desempilha();
+            printf(pegarStringIng(ing));
+            reversa.empilha(ing);
+            printf("Bananissi\n");
         };
 
         while (!reversa.estaVazia()){             // Faz o xamburgui normal
-            ing = reversa.desempilha();
-            carregarImagem(ing, img2);
-            ImageDrawImage(&img1, img2, 0, pilha.altura, WHITE);
-            pilha.empilha(ing);
-            pilha.altura += altura(ing);
+            printf("LOOP -> [");
+            ing = reversa.desempilha(); printf("1");
+            carregarImagem(ing, img); printf(", 2");
+            ImageDrawImage(&imgPilha, img, 0, pilha.altura, WHITE); printf(", 3");
+            pilha.empilha(ing); printf(", 4");
+            pilha.altura -= altura(ing); printf(", 5");
+            UnloadImage(img); printf(", 6");
 
+            printf("]\n");
         }
 
-        UnloadImage(img2);
-        pilha.textura = LoadTextureFromImage(img1);
-        UnloadImage(img1);
+        pilha.textura = LoadTextureFromImage(imgPilha);
+        UnloadImage(imgPilha);
     };
 
     /*
@@ -116,18 +122,19 @@ namespace Montagem{
         }
         pilha.empilha(ing);
 
+        printf("BANANIBISSON\n");
         carregarImagem(ing, img);
 
         adicionarTextura(pilha, img);
 
-        pilha.altura += altura(ing);
+        pilha.altura -= altura(ing);
 
         return Montagem::err::Sucesso;
     };
 
-    void removerIngrediente(Montagem::Pilha& pilha, Image& img1, Image& img2){
+    void removerIngrediente(Montagem::Pilha& pilha, Image& img){
         pilha.desempilha();
 
-        refazerImagemHamburguer(pilha, img1, img2);
+        refazerImagemHamburguer(pilha, img);
     };
 }

@@ -82,7 +82,8 @@ enum Ingredientes {
     TOMATE = 't',
     OVO = 'o',
     BACON = 'b',
-    CARNE_ASSADA = 'f'
+    CARNE_ASSADA = 'u',
+    CARNE_QUEIMADA = 'l'
 };
 
 struct EstadoJogo {

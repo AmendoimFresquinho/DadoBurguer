@@ -38,7 +38,7 @@ namespace Montagem {
             ++quantDados;
         };
 
-        Ingredientes desempilha() {   // Salva o ingrediente removido
+        Ingredientes desempilha() { // Salva o ingrediente removido
             if (topo == nullptr) return Ingredientes::VAZIO;
 
             Montagem::Nodo* aux = topo;
@@ -56,7 +56,6 @@ namespace Montagem {
         };
     };
 
-
     float altura(Ingredientes ing);
     char* pegarStringIng(Ingredientes ing);
     Color pegarTintIng(Ingredientes ing);
@@ -66,6 +65,5 @@ namespace Montagem {
     int adicionarIngrediente(Montagem::Pilha& pilha, Ingredientes ing, Image& img);
     void removerIngrediente(Montagem::Pilha& pilha, Image& img);
 }
-
 
 #endif

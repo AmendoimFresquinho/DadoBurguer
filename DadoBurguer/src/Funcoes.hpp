@@ -36,18 +36,8 @@ void DesenharTelaFogao(const TelaFogao& tela, ListaContiguaINV &inv);
 void DesenharPlaceholder(Rectangle r, Color cor);
 void DrawBlock(const Bloco& b);
 void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos, const Jogador& jogador, const AnimJogador& anim, const Bloco* alvo, const EstadoJogo& estado, const int &turno, const int &stamina);
-void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &bocas, const Texture2D &texPanela, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, const Texture2D &texFogo, int turnoEstraga[4], int &turno);
-static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, float escala);
-
-//PILHAS
-
-void inicializaPilha(PilhaEnc &p);
-int estaVaziaPilha(PilhaEnc &p);
-int empilha(PilhaEnc &p, Produto valor);
-int desempilha(PilhaEnc &p, Produto &valorRemovido);
-int topoPilha(PilhaEnc &p, Produto &valor);
-int tamanhoPilha(PilhaEnc &p);
-void liberaPilha(PilhaEnc &p);
+void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &bocas, const Texture2D &texPanela, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, const Texture2D &texFogo, const Texture2D &texOvoFrito, const Texture2D &texOvoCru, const Texture2D &texBaconFrito, const Texture2D &texBaconCru ,int turnoEstraga[4], int &turno);
+static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, const Texture2D &texOvoFrito, const Texture2D &texBaconFrito,  const Texture2D &texOvoCru, const Texture2D &texBaconCru, float escala);
 
 //FILAS
 

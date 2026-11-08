@@ -28,6 +28,7 @@ namespace Imagens {
             return paddingInf + paddingSup;
         }
     };
+    
     typedef std::vector<ImagemIngrediente> TxtPack_Ingredientes;
         
     int carregarTextura(TxtPack_Ingredientes &pacote, char* pathTXT, Geral::Ingredientes tipo, int paddingInferior, int paddingSuperior){
@@ -38,7 +39,6 @@ namespace Imagens {
         
         return 0;
     };
-
 
     void desenharHamburguer(Geral::Hamburguer hamburguer, int x, int y, TxtPack_Ingredientes &pacote){
         int offset = 0;

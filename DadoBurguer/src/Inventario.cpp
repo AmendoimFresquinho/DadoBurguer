@@ -19,16 +19,16 @@ void adicionaNoInventario(char escolhidoEST, ListaContiguaINV &inventario, Ingre
     if(escolhidoEST == 'z') inserir(inventario, PaoCima, tamanho(inventario));
     if(escolhidoEST == 'x') inserir(inventario, PaoBaixo, tamanho(inventario));
     if(escolhidoEST == 'n') inserir(inventario, Carne, tamanho(inventario));
-    if(escolhidoEST == 's') inserir(inventario, QueijoSuico, tamanho(inventario));
-    if(escolhidoEST == 'q') inserir(inventario, Cheddar, tamanho(inventario));
+    if(escolhidoEST == 'S') inserir(inventario, QueijoSuico, tamanho(inventario));
+    if(escolhidoEST == 'Q') inserir(inventario, Cheddar, tamanho(inventario));
     if(escolhidoEST == 'a') inserir(inventario, Alface, tamanho(inventario));
     if(escolhidoEST == 'k') inserir(inventario, Ketchup, tamanho(inventario));
     if(escolhidoEST == 'm') inserir(inventario, Mostarda, tamanho(inventario));
     if(escolhidoEST == 'p') inserir(inventario, Picles, tamanho(inventario));
-    if(escolhidoEST == 'c') inserir(inventario, Cebola, tamanho(inventario));
-    if(escolhidoEST == 't') inserir(inventario, Tomate, tamanho(inventario));
-    if(escolhidoEST == 'o') inserir(inventario, Ovo, tamanho(inventario));
-    if(escolhidoEST == 'b') inserir(inventario, Bacon, tamanho(inventario));
+    if(escolhidoEST == 'C') inserir(inventario, Cebola, tamanho(inventario));
+    if(escolhidoEST == 'T') inserir(inventario, Tomate, tamanho(inventario));
+    if(escolhidoEST == 'O') inserir(inventario, Ovo, tamanho(inventario));
+    if(escolhidoEST == 'B') inserir(inventario, Bacon, tamanho(inventario));
 
 }
 

@@ -56,7 +56,7 @@ bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhidoEST, int& escolhidoI
     Vector2 mouse = GetMousePosition();
  
     tela.ingredienteHover = -1;
-    for (size_t i = 0; i < tela.celulas.size() - 2; i++) {
+    for (size_t i = 0; i < tela.celulas.size() - 1; i++) {
         if (CheckCollisionPointRec(mouse, tela.celulas[i])) tela.ingredienteHover = (int)i;
     }
  

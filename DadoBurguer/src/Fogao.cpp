@@ -36,7 +36,7 @@ bool AtualizarTelaFogao(TelaFogao& tela, int &escolhidoFogInv, int &escolhidoFog
         if (CheckCollisionPointRec(mouse, tela.slots[i])) tela.slotHover = (int)i;
     }
 
-    escolhidoFogInv = IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && acessar(inventario, tela.slotHover).nome == "Carne" ? tela.slotHover : -1;
+    escolhidoFogInv = IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && (acessar(inventario, tela.slotHover).nome == "Carne" || acessar(inventario, tela.slotHover).nome == "Bacon" || acessar(inventario, tela.slotHover).nome == "Ovo") ? tela.slotHover : -1;
 
     escolhidoFogBoc = IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tela.carnes.tamanho < 5 ? tela.bocaHover : -1;
 
@@ -108,8 +108,7 @@ static bool ehCarne(const IngredienteJogo &ing) {
     return ing.codigo == 'c';
 }
 
-// SEU: como a carne muda de acordo com o caractere
-static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, float escala) {
+static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, const Texture2D &texOvoFrito, const Texture2D &texBaconFrito,  const Texture2D &texOvoCru, const Texture2D &texBaconCru, float escala) {
 
     Vector2 pos = { centro.x - texCarneCrua.width  * escala / 2.0f, centro.y - texCarneCrua.height * escala / 2.0f };
 
@@ -117,11 +116,16 @@ static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarneCrua, 
         case 'n':  DrawTextureEx(texCarneCrua, pos, 0.0f, escala, WHITE); break;
         case 'u':  DrawTextureEx(texCarneAssada, pos, 0.0f, escala, WHITE); break;
         case 'l':  DrawTextureEx(texCarneQueimada, pos, 0.0f, escala, WHITE); break;
+        case 'b':  DrawTextureEx(texBaconFrito, pos, 0.0f, escala, WHITE); break;
+        case 'o':  DrawTextureEx(texOvoFrito, pos, 0.0f, escala, WHITE); break;
+        case 'B':  DrawTextureEx(texBaconCru, pos, 0.0f, escala, WHITE); break;
+        case 'O':  DrawTextureEx(texOvoCru, pos, 0.0f, escala, WHITE); break;
+
         default:   break;
     }   
 }
 
-void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &bocas, const Texture2D &texPanela, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, const Texture2D &texFogo, int turnoEstraga[4], int &turno) {
+void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &bocas, const Texture2D &texPanela, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, const Texture2D &texFogo, const Texture2D &texOvoFrito, const Texture2D &texOvoCru, const Texture2D &texBaconFrito, const Texture2D &texBaconCru ,int turnoEstraga[4], int &turno) {
     const float escalaPanela = 1.4f;  
     const float escalaCarne = 2.0f; 
     const float escalaFogo = 1.0f + 0.03f * sinf(GetTime() * 8.0f);
@@ -132,6 +136,8 @@ void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &boc
         if (ing == nullptr) continue;
 
         if(turnoEstraga[i] + 2 <= turno && ing->codigo == 'n') ing->codigo = 'u';
+        if(turnoEstraga[i] + 1 <= turno && ing->codigo == 'O') ing->codigo = 'o';
+        if(turnoEstraga[i] + 1 <= turno && ing->codigo == 'B') ing->codigo = 'b';
         if(turnoEstraga[i] + 4 <= turno && ing->codigo == 'u') ing->codigo = 'l';
 
         Vector2 centro = { bocas[i].x + bocas[i].width  / 2.0f, bocas[i].y + bocas[i].height / 2.0f };
@@ -142,6 +148,6 @@ void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &boc
         Vector2 posPanela = { centro.x - texPanela.width  * escalaPanela / 2.0f, centro.y - texPanela.height * escalaPanela / 2.0f };
         DrawTextureEx(texPanela, posPanela, 0.0f, escalaPanela, WHITE);
 
-        desenhaCarne(ing->codigo, centro, texCarneCrua, texCarneAssada, texCarneQueimada, escalaCarne);
+        desenhaCarne(ing->codigo, centro, texCarneCrua, texCarneAssada, texCarneQueimada, texOvoFrito, texBaconFrito, texOvoCru, texBaconCru, escalaCarne);
     }
 }

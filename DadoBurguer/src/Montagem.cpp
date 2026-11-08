@@ -12,17 +12,18 @@ namespace Montagem{
             case Ingredientes::BACON: return 1.2f; break;
             case Ingredientes::CARNE: return 4.1f; break;
             case Ingredientes::CARNE_ASSADA: return 4.1f; break;
+            case Ingredientes::CARNE_QUEIMADA: return 4.1f; break;
             case Ingredientes::CEBOLA: return 1.2f; break;
             case Ingredientes::CHEDDAR: return 1.2f; break;
-            case Ingredientes::KETCHUP: return 0.1f; break;
-            case Ingredientes::MOSTARDA: return 0.1f; break;
+            case Ingredientes::KETCHUP: return 0.8f; break;
+            case Ingredientes::MOSTARDA: return 0.8f; break;
             case Ingredientes::OVO: return 2.0f; break;
-            case Ingredientes::PICLES: return 0.5f; break;
-            case Ingredientes::SUICO: return 0.3f; break;
-            case Ingredientes::TOMATE: return 1.2f; break;
+            case Ingredientes::PICLES: return 1.3f; break;
+            case Ingredientes::SUICO: return 1.5f; break;
+            case Ingredientes::TOMATE: return 1.7f; break;
+            case Ingredientes::PAO_BAIXO: return 5.0f; break;
 
             case Ingredientes::VAZIO:
-            case Ingredientes::PAO_BAIXO:
             case Ingredientes::PAO_CIMA:
             default: return 0.0f;
         }
@@ -34,6 +35,7 @@ namespace Montagem{
             case Ingredientes::BACON: return (char*)"DadoBurguer/assets/Montagem/Bacon.png"; break;                //
             case Ingredientes::CARNE: return (char*)"DadoBurguer/assets/Montagem/BifeCinza.png"; break;            // FEITO
             case Ingredientes::CARNE_ASSADA: return (char*)"DadoBurguer/assets/Montagem/BifeCinza.png"; break;     // FEITO
+            case Ingredientes::CARNE_QUEIMADA: return (char*)"DadoBurguer/assets/Montagem/BifeCinza.png"; break;   // FEITO
             case Ingredientes::CEBOLA: return (char*)"DadoBurguer/assets/Montagem/Cebola.png"; break;              //
             case Ingredientes::CHEDDAR: return (char*)"DadoBurguer/assets/Montagem/Cheddar.png"; break;            // FEITO
             case Ingredientes::KETCHUP: return (char*)"DadoBurguer/assets/Montagem/Ketchup.png"; break;            //
@@ -53,6 +55,7 @@ namespace Montagem{
         switch (ing) {
             case Ingredientes::CARNE:           return (Color) {181, 14, 14, 255}; break;
             case Ingredientes::CARNE_ASSADA:    return (Color) {99, 46, 28, 255}; break;
+            case Ingredientes::CARNE_QUEIMADA:    return (Color) {20, 20, 20, 255}; break;
 
             default: return WHITE; break;
         };

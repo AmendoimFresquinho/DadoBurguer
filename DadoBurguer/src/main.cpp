@@ -19,14 +19,14 @@ int main() {
     Texture2D cheddar = LoadTexture("DadoBurguer/assets/INV/cheddar_inventario.png");
     Texture2D suico = LoadTexture("DadoBurguer/assets/INV/suico_inventario.png");
     Texture2D carne_crua = LoadTexture("DadoBurguer/assets/INV/carne_crua_inventario.png");
-    Texture2D alface = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D tomate = LoadTexture("DadoBurguer/assets/INV/plisno.png");    
-    Texture2D ketchup = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D mostarda = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D cebola = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D ovo = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D bacon = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D picles = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+    Texture2D alface = LoadTexture("DadoBurguer/assets/INV/alface.png");
+    Texture2D tomate = LoadTexture("DadoBurguer/assets/INV/tomate_cru.png");    
+    Texture2D ketchup = LoadTexture("DadoBurguer/assets/INV/ketchup.png");
+    Texture2D mostarda = LoadTexture("DadoBurguer/assets/INV/mostarda.png");
+    Texture2D cebola = LoadTexture("DadoBurguer/assets/INV/cebola_crua.png");
+    Texture2D ovo = LoadTexture("DadoBurguer/assets/INV/ovo.png");
+    Texture2D bacon = LoadTexture("DadoBurguer/assets/INV/bacon.png");
+    Texture2D picles = LoadTexture("DadoBurguer/assets/INV/picles.png");
     Texture2D carne_assada = LoadTexture("DadoBurguer/assets/INV/carne_assada_inventario.png");
     Texture2D mouse = LoadTexture("DadoBurguer/assets/mouse.png");
     Texture2D panela = LoadTexture("DadoBurguer/assets/panela.png");
@@ -338,7 +338,7 @@ int main() {
             }
 
             case FIM_JOGO: {
-                ClearBackground(WHITE); 
+                ClearBackground(BLACK); 
 
                 if (telaDigitarNome(nome, pontuacao)) {
                     Historico novo = {nome, pontuacao};

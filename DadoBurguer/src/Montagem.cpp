@@ -78,8 +78,8 @@ namespace Montagem{
 
     void refazerImagemHamburguer(Montagem::Pilha& pilha, Image& img){
         if (IsTextureValid(pilha.textura)) UnloadTexture(pilha.textura);
-        if (img.data != nullptr && IsImageValid(img)) UnloadImage(img);
-
+        //if (img.data != nullptr && IsImageValid(img)) UnloadImage(img); <-- Isso era para prevenir bugs, mas por alguma razão faz o programa crashar. Comentei caso alguém entenda o motivo para não funcionar. #Perdi4DiasPorqueSim #Socorro #OdeioMinhaVida
+        pilha.altura = 0;
         Image imgPilha = LoadImage(pegarStringIng(Ingredientes::PAO_BAIXO)); // Carrega o pão de baixo
         Ingredientes ing;
         Montagem::Pilha reversa {};
@@ -87,21 +87,16 @@ namespace Montagem{
 
         while (!pilha.estaVazia()){             // Faz o xamburgui reverso
             ing = pilha.desempilha();
-            printf(pegarStringIng(ing));
             reversa.empilha(ing);
-            printf("Bananissi\n");
         };
 
         while (!reversa.estaVazia()){             // Faz o xamburgui normal
-            printf("LOOP -> [");
-            ing = reversa.desempilha(); printf("1");
-            carregarImagem(ing, img); printf(", 2");
-            ImageDrawImage(&imgPilha, img, 0, pilha.altura, WHITE); printf(", 3");
+            ing = reversa.desempilha();
+            carregarImagem(ing, img);
+            ImageDrawImage(&imgPilha, img, 0, pilha.altura, WHITE);
             pilha.empilha(ing); printf(", 4");
-            pilha.altura -= altura(ing); printf(", 5");
-            UnloadImage(img); printf(", 6");
-
-            printf("]\n");
+            pilha.altura -= altura(ing);
+            UnloadImage(img);
         }
 
         pilha.textura = LoadTextureFromImage(imgPilha);

@@ -102,6 +102,15 @@ int main() {
     int TurnoAssado[4] = {};
     int QualTurno = 0;
 
+    std :: vector<Historico> historico;
+    historico.clear();
+    carregaHistorico("DadoBurguer/Arquivos/historico.txt", historico);
+    mergeSort(historico);
+    std :: string nome;
+    nome.clear();
+    int pontuacao = Turno;
+    imprimeHistorico(historico, 100);
+
     carregaPedidos("DadoBurguer/Arquivos/pedidos.txt", Raiz, CodigoMax, CodigoMin);
     std :: cout << "\n" << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
     std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
@@ -127,10 +136,14 @@ int main() {
                 SetExitKey(KEY_NULL); // Nao deixa que ele saia com esc
                 //HideCursor();
 
+                if(IsKeyPressed(KEY_J)) EstadoPrograma = FIM_JOGO;
+
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = PAUSADO;
                 if(Stamina <= 0)
                     passaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS);
+                
+                pontuacao = Turno;
 
                 Vector2 antes = jogador.posicao;
 
@@ -323,6 +336,22 @@ int main() {
                 }
                 break;
             }
+
+            case FIM_JOGO: {
+                ClearBackground(WHITE); 
+
+                if (telaDigitarNome(nome, pontuacao)) {
+                    Historico novo = {nome, pontuacao};
+                    salvaPontuacao("DadoBurguer/Arquivos/historico.txt", novo);   // append no arquivo
+                    historico.push_back(novo);
+                    mergeSort(historico);
+                    if(IsKeyPressed(KEY_ENTER)) { 
+                        EstadoPrograma = MENU;
+                        nome.clear();
+                    }
+                }
+                break;
+            }
             
             case HISTORICO: {
                 ClearBackground(GREEN);
@@ -330,6 +359,7 @@ int main() {
                     EstadoPrograma = MENU;
                 DrawText("MANUTENCAO", 200, 200, 100, BLACK);
                 DrawText("CLIQUE QUALQUER COISA PRA SAIR", 200, 400, 50, BLACK);
+                break;
             }
 
             case DIFICULDADE: {
@@ -338,6 +368,7 @@ int main() {
                     EstadoPrograma = MENU;
                 DrawText("MANUTENCAO", 200, 200, 100, BLACK);
                 DrawText("CLIQUE QUALQUER COISA PRA SAIR", 200, 400, 50, BLACK);
+                break;
             }
 
             case COMO_JOGAR: {
@@ -346,8 +377,9 @@ int main() {
                     EstadoPrograma = MENU;
                 DrawText("MANUTENCAO", 200, 200, 100, BLACK);
                 DrawText("CLIQUE QUALQUER COISA PRA SAIR", 200, 400, 50, BLACK);
+                break;
             }
-        }
+        } // Fim switch telas
 
     mouseEscala = ((float)(((int)(GetTime() * 100) % 120)+1) / 60);          // Gera de 1/60 até 2
     mouseEscala = (mouseEscala > 1.0f)? 2.0f - mouseEscala : mouseEscala;

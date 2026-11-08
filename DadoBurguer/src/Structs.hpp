@@ -49,7 +49,6 @@ struct TabelaEnc {
     NoHash **tabela = nullptr;  // vetor de m listas
 };
 
-
 enum Acoes {
     SEM_ACAO,
     ABRIR_FOGAO,
@@ -64,11 +63,11 @@ enum Tela {
     TELA_JOGO,
     TELA_FOGAO,
     TELA_ESTOQUE,
-    TELA_INVENTARIO
+    TELA_INVENTARIO,
 };
 
 struct EstadoJogo {
-    bool fogaoLigado;      
+    bool fogaoLigado; // Inutil (nao sei se vai dar bo se tirar)
     Tela tela;
 };
 
@@ -132,10 +131,11 @@ enum ESTADO_PROGRAMA {
     JOGANDO,
     MENU,
     PAUSADO,
-    CONFIGS,
+    RANKING,
     HISTORICO,
     COMO_JOGAR,
-    DIFICULDADE
+    DIFICULDADE,
+    FIM_JOGO
 };
 
 struct Historico {

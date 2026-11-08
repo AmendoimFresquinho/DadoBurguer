@@ -6,19 +6,19 @@ static bool vemAntes(const Historico &a, const Historico &b){
 }
 
 static void merge(std::vector<Historico> &v, std::vector<Historico> &aux, int ini, int meio, int fim){
-    int i = ini;         // percorre a metade esquerda
-    int j = meio + 1;    // percorre a metade direita
-    int k = ini;         // posição no vetor auxiliar
+    int i = ini;         
+    int j = meio + 1;    
+    int k = ini;         
 
     while (i <= meio && j <= fim) {
        
-        if (vemAntes(v[j], v[i])) // ordem alfabetica
+        if (vemAntes(v[j], v[i])) 
             aux[k++] = v[j++];
         else
             aux[k++] = v[i++];
     }
     while (i <= meio) aux[k++] = v[i++];
-    while (j <= fim)  aux[k++] = v[j++];
+    while (j <= fim) aux[k++] = v[j++];
 
     for (k = ini; k <= fim; k++)
         v[k] = aux[k];

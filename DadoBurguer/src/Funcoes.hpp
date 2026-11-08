@@ -153,6 +153,14 @@ static void merge(std::vector<Historico> &v, std::vector<Historico> &aux, int in
 static void mergeSortRec(std::vector<Historico> &v, std::vector<Historico> &aux, int ini, int fim);
 void mergeSort(std::vector<Historico> &v);
 
+// FIM JOGO
+
+bool telaDigitarNome(std::string &nome, int pontuacao);
+bool salvaPontuacao(const std::string &nomeArquivo, const Historico &h);
+int carregaHistorico(const std::string &nomeArquivo, std::vector<Historico> &v);
+void imprimeHistorico(const std::vector<Historico> &v, int quantos = 10);
+static bool arquivoTerminaEmQuebra(const std::string &nomeArquivo);
+
 // DEBUGGING
 
 void fpImprimir(const FilaPrioridade &fp);

@@ -210,7 +210,7 @@ int main() {
                         //std :: cout << "\n TAMANHO CARNES: "<< telaFogao.carnes.tamanho<< "\n";
                         //std :: cout << "\n TAMANHO INVENTARIO: "<< Inventario.tamanho << "\n";
 
-                        if(escolhidoFogInv != -1 && telaFogao.carnes.tamanho < 4 && (acessar(Inventario, escolhidoFogInv).codigo == 'n' || acessar(Inventario, escolhidoFogInv).codigo == 'O' || acessar(Inventario, escolhidoFogInv).codigo == 'B')){
+                        if(escolhidoFogInv != -1 && telaFogao.carnes.tamanho < 4 && (acessar(Inventario, escolhidoFogInv).codigo == 'n' || acessar(Inventario, escolhidoFogInv).codigo == 'O' || acessar(Inventario, escolhidoFogInv).codigo == 'B' || acessar(Inventario, escolhidoFogInv).codigo == 'Q' || acessar(Inventario, escolhidoFogInv).codigo == 'S')){
                         
                             TurnoAssado[QualTurno] = Turno;
                             QualTurno++;
@@ -235,10 +235,22 @@ int main() {
                                 imprime(telaFogao.carnes);
                                 removeDoInventario(escolhidoFogInv, Inventario);
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
+                            }  
+                            else if(acessar(Inventario, escolhidoFogInv).codigo == 'S'){
+                                inserir(telaFogao.carnes, Queijo_Suico, telaFogao.carnes.tamanho);
+                                imprime(telaFogao.carnes);
+                                removeDoInventario(escolhidoFogInv, Inventario);
+                                reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
+                            }
+                            else if(acessar(Inventario, escolhidoFogInv).codigo == 'Q'){
+                                inserir(telaFogao.carnes, Cheddar, telaFogao.carnes.tamanho);
+                                imprime(telaFogao.carnes);
+                                removeDoInventario(escolhidoFogInv, Inventario);
+                                reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                             }
                         }
                         
-                        if(escolhidoFogBoc != -1 && enderecoDe(telaFogao.carnes, escolhidoFogBoc) != nullptr && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'n' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'O' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'B'){
+                        if(escolhidoFogBoc != -1 && enderecoDe(telaFogao.carnes, escolhidoFogBoc) != nullptr && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'n' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'O' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'B' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'S' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'Q'){
                             
                             TurnoAssado[escolhidoFogBoc] = 0;
                             for (int i = escolhidoFogBoc; i < QualTurno - 1; i++)
@@ -249,26 +261,38 @@ int main() {
                             std :: cout << "\n posicao do vetor (BOC): "<< QualTurno << "\n";
 
                             if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'u'){
-                                IngredienteJogo Carne_atualizada2 = {'u', true, carne_assada, "Carne Assada", Turno + 1};
-                                inserir(Inventario, Carne_atualizada2, Inventario.tamanho); 
+                                IngredienteJogo Carne_atualizada = {'u', true, carne_assada, "Carne Assada", Turno + 1};
+                                inserir(Inventario, Carne_atualizada, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }
                             else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'l'){
-                                IngredienteJogo Carne_atualizada3 = {'l', true, carne_queimada, "Carne Queimada", Turno + 1};
-                                inserir(Inventario, Carne_atualizada3, Inventario.tamanho); 
+                                IngredienteJogo Carne_atualizada2 = {'l', true, carne_queimada, "Carne Queimada", Turno + 1};
+                                inserir(Inventario, Carne_atualizada2, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }
                             else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'b'){
-                                IngredienteJogo Carne_atualizada4 = {'b', true, baconFrito, "Bacon Frito", Turno + 1};
-                                inserir(Inventario, Carne_atualizada4, Inventario.tamanho); 
+                                IngredienteJogo Bacon_Atualizado = {'b', true, baconFrito, "Bacon Frito", Turno + 1};
+                                inserir(Inventario, Bacon_Atualizado, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }
                             else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'o'){
-                                IngredienteJogo Carne_atualizada5 = {'o', true, ovoFrito, "Ovo Frito", Turno + 1};
-                                inserir(Inventario, Carne_atualizada5, Inventario.tamanho); 
+                                IngredienteJogo Ovo_Atualizado = {'o', true, ovoFrito, "Ovo Frito", Turno + 1};
+                                inserir(Inventario, Ovo_Atualizado, Inventario.tamanho); 
+                                reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
+                                remover(telaFogao.carnes, escolhidoFogBoc);
+                            }
+                            else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'q'){
+                                IngredienteJogo Cheddar_Atualizado = {'q', true, cheddarFrito, "Cheddar Feito", Turno + 1};
+                                inserir(Inventario, Cheddar_Atualizado, Inventario.tamanho); 
+                                reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
+                                remover(telaFogao.carnes, escolhidoFogBoc);
+                            }  
+                            else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 's'){
+                                IngredienteJogo Suico_Atualizado = {'s', true, suicoFrito, "Suico Feito", Turno + 1};
+                                inserir(Inventario, Suico_Atualizado, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }
@@ -310,7 +334,7 @@ int main() {
                         //ShowCursor();
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaFogao(telaFogao, Inventario);
-                        desenhaPanelas(telaFogao.carnes, telaFogao.bocas, panela, carne_crua, carne_assada, carne_queimada, fogo, ovoFrito, ovo, baconFrito, bacon, TurnoAssado, Turno);
+                        desenhaPanelas(telaFogao.carnes, telaFogao.bocas, panela, carne_crua, carne_assada, carne_queimada, fogo, ovoFrito, ovo, baconFrito, bacon, TurnoAssado, cheddar, cheddarFrito, suico, suicoFrito, Turno);
                         break;
                     }
                     case TELA_ESTOQUE: 

@@ -11,7 +11,7 @@ const int ESTOQUE_LINHAS = 3;
 const float ESTOQUE_ICONE = 96.0f;   
 const float ESTOQUE_ESPACO = 10.0f;   
 
-TelaEstoque CriarTelaEstoque(float largura, float altura, IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles, IngredienteJogo CarneAssada, IngredienteJogo CarneQueimada) {
+TelaEstoque CriarTelaEstoque(float largura, float altura, IngredienteJogo Ingredientes_Para_Passar[19]) {
     TelaEstoque t;
     t.painel = { 80, (altura - 500) / 2, largura - 160, 500 };
     t.xDivisoria = t.painel.x + t.painel.width * 0.52f;
@@ -22,9 +22,12 @@ TelaEstoque CriarTelaEstoque(float largura, float altura, IngredienteJogo PaoCim
     t.zonaEsq = { t.painel.x + pad, t.painel.y + pad, (t.xDivisoria - t.painel.x) - 2 * pad, t.painel.height - 2 * pad };
     t.zonaDir = { t.xDivisoria + pad, t.painel.y + pad, (t.painel.x + t.painel.width - t.xDivisoria) - 2 * pad, t.painel.height - 2 * pad };
 
-    IngredienteJogo Ingredientes[QUANTIDADE_INGREDIENTES + 1] = {PaoCima, PaoBaixo, Carne, QueijoSuico, Cheddar, Alface, Ketchup, Mostarda, Picles, Cebola, Tomate, Ovo, Bacon, CarneAssada, CarneQueimada};
- 
-    for (int i = 0; i < QUANTIDADE_INGREDIENTES + 1; i++) {
+    IngredienteJogo Ingredientes[QUANTIDADE_INGREDIENTES] = {};
+
+    for (int i = 0; i < QUANTIDADE_INGREDIENTES; i++) 
+        Ingredientes[i] = Ingredientes_Para_Passar[i];
+
+    for (int i = 0; i < QUANTIDADE_INGREDIENTES; i++) {
         t.ingredientes.push_back({ Ingredientes[i].codigo, Ingredientes[i].ehPerecivel, Ingredientes[i].textura, Ingredientes[i].nome, Ingredientes[i].turnoEstraga });
     }
  
@@ -108,7 +111,7 @@ void DesenharTelaEstoque(const TelaEstoque& tela, ListaContiguaINV &inventario) 
     DrawText("INGREDIENTES", (int)tela.zonaEsq.x, (int)tela.zonaEsq.y + 2, 22, DARKGRAY);
     DrawText("INVENTARIO", (int)tela.zonaDir.x, (int)tela.zonaDir.y + 2, 22, DARKGRAY);
  
-    for (size_t i = 0; i < tela.celulas.size() - 1; i++) {
+    for (size_t i = 0; i < 13; i++) {
         const Rectangle& c = tela.celulas[i];
         const IngredienteJogo& ing = tela.ingredientes[i];
         bool hover = ((int)i == tela.ingredienteHover);

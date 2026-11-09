@@ -18,7 +18,7 @@ Rectangle HitBox(const Jogador& p);
 void DesenharAnimJogador(const AnimJogador& a, Rectangle hitbox);
 void AtualizarAnimJogador(AnimJogador& a, Vector2 deslocamento, float dt);
 void DescarregarAnimJogador(AnimJogador& a); 
-TelaEstoque CriarTelaEstoque(float largura, float altura, IngredienteJogo PaoCima, IngredienteJogo PaoBaixo, IngredienteJogo Carne, IngredienteJogo QueijoSuico, IngredienteJogo Ovo, IngredienteJogo Bacon, IngredienteJogo Mostarda, IngredienteJogo Ketchup, IngredienteJogo Alface, IngredienteJogo Tomate, IngredienteJogo Cebola, IngredienteJogo Cheddar, IngredienteJogo Picles, IngredienteJogo CarneAssada, IngredienteJogo CarneQueimada);
+TelaEstoque CriarTelaEstoque(float largura, float altura, IngredienteJogo Ingredientes_Para_Passar[19]);
 void DescarregarTelaEstoque(TelaEstoque& t);
 bool AtualizarTelaEstoque(TelaEstoque& tela, char& escolhidoEST, int& escolhidoINV);
 void DesenharIngrediente(const TelaEstoque& tela, char codigo, Rectangle area);

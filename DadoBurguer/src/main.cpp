@@ -15,16 +15,16 @@ int main() {
 
     Texture2D paoCima = LoadTexture("DadoBurguer/assets/INV/cima_pao_inventario.png");
     Texture2D paoBaixo = LoadTexture("DadoBurguer/assets/INV/baixo_pao_inventario.png");
-    Texture2D cheddar = LoadTexture("DadoBurguer/assets/INV/cheddar_inventario.png");
-    Texture2D suico = LoadTexture("DadoBurguer/assets/INV/suico_inventario.png");
+    Texture2D cheddar = LoadTexture("DadoBurguer/assets/INV/cheddar_cru.png");
+    Texture2D suico = LoadTexture("DadoBurguer/assets/INV/suico_cru.png");
     Texture2D carne_crua = LoadTexture("DadoBurguer/assets/INV/carne_crua_inventario.png");
     Texture2D alface = LoadTexture("DadoBurguer/assets/INV/alface.png");
     Texture2D tomate = LoadTexture("DadoBurguer/assets/INV/tomate_cru.png");    
     Texture2D ketchup = LoadTexture("DadoBurguer/assets/INV/ketchup.png");
     Texture2D mostarda = LoadTexture("DadoBurguer/assets/INV/mostarda.png");
     Texture2D cebola = LoadTexture("DadoBurguer/assets/INV/cebola_crua.png");
-    Texture2D ovo = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D bacon = LoadTexture("DadoBurguer/assets/INV/bacon.png");
+    Texture2D ovo = LoadTexture("DadoBurguer/assets/INV/ovo_cru.png");
+    Texture2D bacon = LoadTexture("DadoBurguer/assets/INV/bacon_cru.png");
     Texture2D picles = LoadTexture("DadoBurguer/assets/INV/picles.png");
     Texture2D carne_assada = LoadTexture("DadoBurguer/assets/INV/carne_assada_inventario.png");
     Texture2D mouse = LoadTexture("DadoBurguer/assets/mouse.png");
@@ -32,9 +32,9 @@ int main() {
     Texture2D fogo = LoadTexture("DadoBurguer/assets/fogo.png");
     Texture2D carne_queimada = LoadTexture("DadoBurguer/assets/INV/carne_queimada_inventario.png");
     Texture2D ovoFrito = LoadTexture("DadoBurguer/assets/INV/ovo.png");
-    Texture2D baconFrito = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D suicoFrito = LoadTexture("DadoBurguer/assets/INV/plisno.png");
-    Texture2D cheddarFrito = LoadTexture("DadoBurguer/assets/INV/plisno.png");
+    Texture2D baconFrito = LoadTexture("DadoBurguer/assets/INV/bacon_cozido.png");
+    Texture2D suicoFrito = LoadTexture("DadoBurguer/assets/INV/suico_frito.png");
+    Texture2D cheddarFrito = LoadTexture("DadoBurguer/assets/INV/cheddar_frito.png");
   
     Rectangle mouseRect = {0.0f, 0.0f, (float) mouse.width, (float) mouse.height};
     float mouseLarg, mouseEscala;
@@ -60,6 +60,8 @@ int main() {
     IngredienteJogo Suico_Frito = {'s', true, suicoFrito, "Suico Feito", VALIDADE_CARNE_ASSADA};
     IngredienteJogo Cheddar_Frito = {'q', true, cheddarFrito, "Cheddar Feito", VALIDADE_CARNE_ASSADA};
 
+    IngredienteJogo Ingredientes_Para_Passar[QUANTIDADE_INGREDIENTES] = {Pao_cima, Pao_baixo, Carne, Queijo_Suico, Cheddar, Alface, Ketchup, Mostarda, Picles, Cebola, Tomate, Ovo, Bacon, Carne_Assada, Carne_Queimada, Ovo_Frito, Bacon_Frito, Suico_Frito, Cheddar_Frito};
+
     Texture2D menu = LoadTexture("DadoBurguer/assets/Menu.png");
     Texture2D pausa = LoadTexture("DadoBurguer/assets/pausa.png");
     Texture2D fundo = LoadTexture("DadoBurguer/assets/fundo.png");
@@ -71,7 +73,7 @@ int main() {
     ConstruirMapa(paredes, blocos);
     AnimJogador animJogador = CriarAnimJogador("DadoBurguer/assets/jogador.png");
     TelaFogao telaFogao = CriarTelaFogao(LARGURA, ALTURA);
-    TelaEstoque telaEstoque = CriarTelaEstoque(LARGURA, ALTURA, Pao_cima, Pao_baixo, Carne, Queijo_Suico, Ovo, Bacon, Mostarda, Ketchup, Alface, Tomate, Cebola, Cheddar, Picles, Carne_Assada, Carne_Queimada);
+    TelaEstoque telaEstoque = CriarTelaEstoque(LARGURA, ALTURA, Ingredientes_Para_Passar);
     TelaInventario telaInventario = CriarTelaInventario(LARGURA, ALTURA);
 
     EstadoJogo estado = { false, TELA_JOGO };
@@ -124,7 +126,7 @@ int main() {
     std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
     std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
     std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
-    std ::cout << "\n ACERTOS: " << HIT << "\n ERROS: " << MISS << "\n";
+    std :: cout << "\n ACERTOS: " << HIT << "\n ERROS: " << MISS << "\n";
     encImprimir(HashPedidos);
 
     Montagem::Pilha hamburguer = Montagem::Pilha();
@@ -183,9 +185,9 @@ int main() {
                 if(IsKeyPressed(KEY_L)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE_QUEIMADA, tmp_img);
                 if(IsKeyPressed(KEY_ZERO)) Montagem::removerIngrediente(hamburguer, tmp_img);
                 if(IsKeyPressed(KEY_ONE)) renderTeste = !renderTeste;
-//VAZIO = 0,
-//PAO_CIMA = 'z',
-//BACON = 'b',
+                //VAZIO = 0,
+                //PAO_CIMA = 'z',
+                //BACON = 'b',
                 switch (estado.tela) { // SWITCH CASE DE LOGICA
                 
                     case TELA_JOGO:
@@ -236,7 +238,7 @@ int main() {
                             }
                         }
                         
-                        if(escolhidoFogBoc != -1 && enderecoDe(telaFogao.carnes, escolhidoFogBoc) != nullptr){
+                        if(escolhidoFogBoc != -1 && enderecoDe(telaFogao.carnes, escolhidoFogBoc) != nullptr && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'n' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'O' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'B'){
                             
                             TurnoAssado[escolhidoFogBoc] = 0;
                             for (int i = escolhidoFogBoc; i < QualTurno - 1; i++)

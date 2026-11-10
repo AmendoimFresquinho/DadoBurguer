@@ -64,7 +64,7 @@ int main() {
     IngredienteJogo Cebola_Feita = { 'c', false, cebolaFeita, "Cebola", 0};
     IngredienteJogo Tomate_Feito = { 't', false, tomateFeito, "Tomate", 0};    
 
-    IngredienteJogo Ingredientes_Para_Passar[QUANTIDADE_INGREDIENTES] = {Pao_cima, Pao_baixo, Carne, Queijo_Suico, Cheddar, Alface, Ketchup, Mostarda, Picles, Cebola, Tomate, Ovo, Bacon, Carne_Assada, Carne_Queimada, Ovo_Frito, Bacon_Frito, Suico_Frito, Cheddar_Frito};
+    IngredienteJogo Ingredientes_Para_Passar[QUANTIDADE_INGREDIENTES] = {Pao_cima, Pao_baixo, Carne, Queijo_Suico, Cheddar, Alface, Ketchup, Mostarda, Picles, Cebola, Tomate, Ovo, Bacon, Carne_Assada, Carne_Queimada, Ovo_Frito, Bacon_Frito, Suico_Frito, Cheddar_Frito, Tomate_Feito, Cebola_Feita};
 
     Texture2D menu = LoadTexture("DadoBurguer/assets/Menu.png");
     Texture2D pausa = LoadTexture("DadoBurguer/assets/pausa.png");
@@ -363,7 +363,7 @@ int main() {
 
                     case TELA_CORTE:
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
-                        desenhaTelaMesaCorte(telaCorte, Inventario, texFaca, cebolaFeita, tomateFeito);
+                        desenhaTelaMesaCorte(telaCorte, Inventario, texFaca, cebolaFeita, tomateFeito, Stamina);
                         break;
                     
                 }   
@@ -381,7 +381,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte);
                         EstadoPrograma = JOGANDO;
                     }
                 } 
@@ -428,7 +428,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte);
                         EstadoPrograma = JOGANDO;
                     }
                 }

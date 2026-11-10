@@ -47,7 +47,7 @@ bool AtualizarTelaCorte(TelaMesaCorte& tela) {
     return IsKeyPressed(KEY_E);
 }
 
-void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const Texture2D &texFaca, const Texture2D &texCebolaFeita, const Texture2D &texTomateFeito) {
+void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const Texture2D &texFaca, const Texture2D &texCebolaFeita, const Texture2D &texTomateFeito, int &stamina) {
     // moldura e painéis
     DrawRectangleRec(t.moldura, WHITE);
     DrawRectangleLinesEx(t.moldura, 4, BLACK);
@@ -60,6 +60,7 @@ void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const 
     float yLinha = t.tabua.y + t.tabua.height * 0.04f + 10;
     Vector2 centroUtil = { t.tabua.x + t.tabua.width / 2.0f, (yLinha + t.tabua.y + t.tabua.height) / 2.0f };
     float escala = 6.0f;
+    Rectangle Centro = { t.tabua.x + (t.tabua.width - 192) / 2.0f, t.tabua.y + (t.tabua.height - 192) / 2.0f, 192, 192 };
 
     // inventário 3x3
     for (int i = 0; i < 9; i++) {
@@ -82,6 +83,12 @@ void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const 
         std::cout << hover;
     }
 
+    if(t.temNaTabua && CheckCollisionPointRec(mouse, Centro) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+        inserir(inventario, t.itemTabua, inventario.tamanho);
+        t.itemTabua = {};
+        t.temNaTabua = false;
+    }
+
     for(int i = 0; i < inventario.tamanho; i++)
         DesenharIconeNoSlot(acessar(inventario, i).textura, t.slotsInv[i]);
 
@@ -93,8 +100,6 @@ void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const 
     // faca 
     Vector2 pos2 = t.facaPegada ? Vector2{ GetMousePosition().x - t.offsetPegada.x, GetMousePosition().y - t.offsetPegada.y } : t.facaRepouso;
     
-    Rectangle Centro = { t.tabua.x + (t.tabua.width - 192) / 2.0f, t.tabua.y + (t.tabua.height - 192) / 2.0f, 192, 192 };
-
     if(CheckCollisionPointRec(mouse, t.faca) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !t.facaPegada){
         t.facaPegada = true;
         pegaFaca(t);  
@@ -109,12 +114,14 @@ void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const 
         Rectangle aux = { p.x + LAMINA_X * t.escalaFaca, p.y + LAMINA_Y * t.escalaFaca, LAMINA_W * t.escalaFaca, LAMINA_H * t.escalaFaca }; 
         
         if(CheckCollisionRecs(aux, Centro) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && (t.itemTabua.codigo == 'T' || t.itemTabua.codigo == 'C')){
+            
+            stamina--;
 
             if(t.itemTabua.codigo == 'T'){
                 t.itemTabua = {'t', false, texTomateFeito, "Tomate", 0};
             }
             if(t.itemTabua.codigo == 'C'){
-                t.itemTabua = { 'c', false, texCebolaFeita, "Cebola", 0};
+                t.itemTabua = {'c', false, texCebolaFeita, "Cebola", 0};
             }
         }
     }

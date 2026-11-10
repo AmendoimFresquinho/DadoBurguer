@@ -47,7 +47,7 @@ bool AtualizarTelaCorte(TelaMesaCorte& tela) {
     return IsKeyPressed(KEY_E);
 }
 
-void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const Texture2D &texFaca, const Texture2D &texCebolaFeita, const Texture2D &texTomateFeito, int &stamina) {
+void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const Texture2D &texFaca, const Texture2D &texCebolaFeita, const Texture2D &texTomateFeito, int &stamina, FilaPrioridade &HEAP) {
     // moldura e painéis
     DrawRectangleRec(t.moldura, WHITE);
     DrawRectangleLinesEx(t.moldura, 4, BLACK);
@@ -87,6 +87,7 @@ void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const 
         inserir(inventario, t.itemTabua, inventario.tamanho);
         t.itemTabua = {};
         t.temNaTabua = false;
+        reconstroiHeapDesatualizado(inventario, HEAP);
     }
 
     for(int i = 0; i < inventario.tamanho; i++)
@@ -118,10 +119,10 @@ void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const 
             stamina--;
 
             if(t.itemTabua.codigo == 'T'){
-                t.itemTabua = {'t', false, texTomateFeito, "Tomate", 0};
+                t.itemTabua = {'t', false, texTomateFeito, "Tomate Feito", 0};
             }
             if(t.itemTabua.codigo == 'C'){
-                t.itemTabua = {'c', false, texCebolaFeita, "Cebola", 0};
+                t.itemTabua = {'c', false, texCebolaFeita, "Cebola Feita", 0};
             }
         }
     }

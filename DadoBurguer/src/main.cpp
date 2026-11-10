@@ -363,7 +363,7 @@ int main() {
 
                     case TELA_CORTE:
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
-                        desenhaTelaMesaCorte(telaCorte, Inventario, texFaca, cebolaFeita, tomateFeito, Stamina);
+                        desenhaTelaMesaCorte(telaCorte, Inventario, texFaca, cebolaFeita, tomateFeito, Stamina, HEAP_PERECIVEIS);
                         break;
                     
                 }   

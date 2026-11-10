@@ -118,7 +118,7 @@ void DesenharDicaMouse(const char* texto, ListaContiguaINV &inventario, int esco
 // MESA DE CORTE
 
 void iniciaTelaMesaCorte(TelaMesaCorte &t, const Texture2D &texFaca);
-void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const Texture2D &texFaca, const Texture2D &texCebolaFeita, const Texture2D &texTomateFeito, int &stamina);
+void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const Texture2D &texFaca, const Texture2D &texCebolaFeita, const Texture2D &texTomateFeito, int &stamina, FilaPrioridade &HEAP);
 bool AtualizarTelaCorte(TelaMesaCorte& tela);
 void pegaFaca(TelaMesaCorte &t);
 

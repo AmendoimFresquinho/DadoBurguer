@@ -35,7 +35,9 @@ int main() {
     Texture2D baconFrito = LoadTexture("DadoBurguer/assets/INV/bacon_cozido.png");
     Texture2D suicoFrito = LoadTexture("DadoBurguer/assets/INV/suico_frito.png");
     Texture2D cheddarFrito = LoadTexture("DadoBurguer/assets/INV/cheddar_frito.png");
-  
+    Texture2D cebolaFeita = LoadTexture("DadoBurguer/assets/INV/cebola.png");
+    Texture2D tomateFeito = LoadTexture("DadoBurguer/assets/INV/tomate.png");    
+
     Rectangle mouseRect = {0.0f, 0.0f, (float) mouse.width, (float) mouse.height};
     float mouseLarg, mouseEscala;
     Rectangle mouseDestRect;
@@ -49,8 +51,8 @@ int main() {
     IngredienteJogo Ketchup = { 'k', false, ketchup, "Ketchup", 0};
     IngredienteJogo Mostarda = { 'm', false, mostarda, "Mostarda", 0};
     IngredienteJogo Picles = { 'p', false, picles, "Picles", 0};
-    IngredienteJogo Cebola = { 'C', false, cebola, "Cebola", 0};
-    IngredienteJogo Tomate = { 'T', false, tomate, "Tomate", 0};    
+    IngredienteJogo Cebola = { 'C', false, cebola, "Cebola Crua", 0};
+    IngredienteJogo Tomate = { 'T', false, tomate, "Tomate Cru", 0};    
     IngredienteJogo Ovo = { 'O', true, ovo, "Ovo", VALIDADE_QUEIJO};
     IngredienteJogo Bacon = { 'B', true, bacon, "Bacon", VALIDADE_QUEIJO};
     IngredienteJogo Carne_Assada = {'u', true, carne_assada, "Carne Assada", VALIDADE_CARNE_ASSADA};
@@ -59,12 +61,15 @@ int main() {
     IngredienteJogo Bacon_Frito = {'b', true, baconFrito, "Bacon Frito", VALIDADE_CARNE_ASSADA};
     IngredienteJogo Suico_Frito = {'s', true, suicoFrito, "Suico Feito", VALIDADE_CARNE_ASSADA};
     IngredienteJogo Cheddar_Frito = {'q', true, cheddarFrito, "Cheddar Feito", VALIDADE_CARNE_ASSADA};
+    IngredienteJogo Cebola_Feita = { 'c', false, cebolaFeita, "Cebola", 0};
+    IngredienteJogo Tomate_Feito = { 't', false, tomateFeito, "Tomate", 0};    
 
     IngredienteJogo Ingredientes_Para_Passar[QUANTIDADE_INGREDIENTES] = {Pao_cima, Pao_baixo, Carne, Queijo_Suico, Cheddar, Alface, Ketchup, Mostarda, Picles, Cebola, Tomate, Ovo, Bacon, Carne_Assada, Carne_Queimada, Ovo_Frito, Bacon_Frito, Suico_Frito, Cheddar_Frito};
 
     Texture2D menu = LoadTexture("DadoBurguer/assets/Menu.png");
     Texture2D pausa = LoadTexture("DadoBurguer/assets/pausa.png");
     Texture2D fundo = LoadTexture("DadoBurguer/assets/fundo.png");
+    Texture2D texFaca = LoadTexture("DadoBurguer/assets/faca.png");
 
     ESTADO_PROGRAMA EstadoPrograma = MENU; 
     std::vector<Rectangle> paredes;
@@ -75,7 +80,8 @@ int main() {
     TelaFogao telaFogao = CriarTelaFogao(LARGURA, ALTURA);
     TelaEstoque telaEstoque = CriarTelaEstoque(LARGURA, ALTURA, Ingredientes_Para_Passar);
     TelaInventario telaInventario = CriarTelaInventario(LARGURA, ALTURA);
-
+    TelaMesaCorte telaCorte;
+    iniciaTelaMesaCorte(telaCorte, texFaca);             
     EstadoJogo estado = { false, TELA_JOGO };
     std::vector<Rectangle> solidos = paredes;
     
@@ -202,6 +208,7 @@ int main() {
                         break;
 
                     case TELA_FOGAO: {
+
                         int escolhidoFogBoc = -1;
                         int escolhidoFogInv = -1;
                         if (AtualizarTelaFogao(telaFogao, escolhidoFogInv, escolhidoFogBoc, Inventario)) 
@@ -317,10 +324,15 @@ int main() {
                             fpImprimir(HEAP_PERECIVEIS);// temp
                         }
                         break;
+
                     case TELA_INVENTARIO:
                         int clicado;
                         if (AtualizarTelaInventario(telaInventario, clicado)) estado.tela = TELA_JOGO;        
                         break;  
+
+                    case TELA_CORTE:
+                        if (AtualizarTelaCorte(telaCorte)) estado.tela = TELA_JOGO; 
+                        break;
                 }   
 
                 switch (estado.tela) { // SWITCH CASE DE GRAFICOS
@@ -347,6 +359,11 @@ int main() {
                         //ShowCursor();
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaInventario(telaInventario, Inventario);
+                        break;
+
+                    case TELA_CORTE:
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
+                        desenhaTelaMesaCorte(telaCorte, Inventario, texFaca, cebolaFeita, tomateFeito);
                         break;
                     
                 }   

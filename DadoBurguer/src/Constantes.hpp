@@ -27,3 +27,5 @@
 #define VALIDADE_CARNE_CRUA 5
 #define VALIDADE_CARNE_ASSADA 2
 #define VALIDADE_QUEIJO 3
+constexpr float CABO_X = 50, CABO_Y = 332, CABO_W = 30, CABO_H = 170;
+constexpr float LAMINA_X = 32, LAMINA_Y = 12, LAMINA_W = 57, LAMINA_H = 306;

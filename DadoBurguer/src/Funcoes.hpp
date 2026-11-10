@@ -115,6 +115,13 @@ void adicionaNoInventario(char escolhidoEST, ListaContiguaINV &inventario, Ingre
 void removeDoInventario(int escolhidoINV, ListaContiguaINV &inventario);
 void DesenharDicaMouse(const char* texto, ListaContiguaINV &inventario, int escolhido);
 
+// MESA DE CORTE
+
+void iniciaTelaMesaCorte(TelaMesaCorte &t, const Texture2D &texFaca);
+void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const Texture2D &texFaca, const Texture2D &texCebolaFeita, const Texture2D &texTomateFeito);
+bool AtualizarTelaCorte(TelaMesaCorte& tela);
+void pegaFaca(TelaMesaCorte &t);
+
 // JOGABILIDADE
 
 void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);

@@ -64,7 +64,8 @@ enum Tela {
     TELA_FOGAO,
     TELA_ESTOQUE,
     TELA_INVENTARIO,
-    TELA_MONTAGEM
+    TELA_MONTAGEM,
+    TELA_CORTE
 };
 
 enum Ingredientes {
@@ -184,4 +185,26 @@ struct TelaInventario {
     Rectangle painel;
     std::vector<Rectangle> slots;   
     int slotHover;                 
+};
+
+struct TelaMesaCorte {
+    Rectangle moldura;
+    Rectangle tabua;
+    Rectangle painelFaca;
+    Rectangle gradeInv;
+    std::vector<Rectangle> slotsInv;   // 9 slots, 3x3
+
+    IngredienteJogo itemTabua;   
+    bool temNaTabua = false;   
+
+    Rectangle faca;                    
+    Vector2 facaRepouso;               
+    float escalaFaca = 1.0f;
+    bool facaPegada = false;
+    Vector2 offsetPegada = {0, 0};  
+
+    int slotHover = -1;
+    int tabuaHover = -1;
+    int escolhidoINV = -1;
+    int escolhidoTabua = -1;
 };

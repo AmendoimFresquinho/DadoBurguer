@@ -7,6 +7,8 @@ namespace Montagem {
 
     const float ESCALA_ALTURA {1.0f};
     const int MAX_INGREDIENTES {10};
+    const int ALTURA_IMAGEM_FUNDO {256};
+    const int LARGURA_IMAGEM_FUNDO {64};
 
     enum err{
         Sucesso = 0,
@@ -27,6 +29,7 @@ namespace Montagem {
         int quantDados;         // Quantidade de ingredientes na pilha
         float altura;           // Onde desenhar o próximo
         Texture2D textura;      // Textura da pilha
+        Image image;            // Imagem da pilha (Igual a textura, mas serve para otimização)
 
         Pilha() : topo(nullptr), quantDados(0), altura(0.0f) {};
 

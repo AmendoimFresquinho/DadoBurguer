@@ -1,5 +1,6 @@
 #include "Funcoes.hpp"
 #include <iostream>
+#include "Structs.hpp"
 #include "Montagem.hpp"
 #include "raylib.h"
 
@@ -20,10 +21,10 @@ namespace Montagem{
             case Ingredientes::PICLES: return 1.3f; break;
             case Ingredientes::SUICO: return 1.5f; break;
             case Ingredientes::TOMATE: return 1.7f; break;
-            case Ingredientes::PAO_BAIXO: return 5.0f; break;
+            case Ingredientes::PAO_BAIXO: return 6.0f; break;
+            case Ingredientes::PAO_CIMA: return 12.0f; break;
 
             case Ingredientes::VAZIO:
-            case Ingredientes::PAO_CIMA:
             default: return 0.0f;
         }
     };
@@ -43,7 +44,7 @@ namespace Montagem{
             case Ingredientes::PICLES: return (char*)"DadoBurguer/assets/Montagem/Picles.png"; break;              //
             case Ingredientes::SUICO: return (char*)"DadoBurguer/assets/Montagem/Suico.png"; break;                //
             case Ingredientes::TOMATE: return (char*)"DadoBurguer/assets/Montagem/Tomate.png"; break;              // FEITO
-            case Ingredientes::PAO_BAIXO: return (char*)"DadoBurguer/assets/Montagem/Pao_Baixo.png"; break;        // FEITO
+            case Ingredientes::PAO_BAIXO: return (char*)"DadoBurguer/assets/Montagem/Pao_BaixoEmp.png"; break;        // FEITO
             case Ingredientes::PAO_CIMA: return (char*)"DadoBurguer/assets/Montagem/Pao_Cima.png"; break;          //
 
             case Ingredientes::VAZIO:                                                           //
@@ -71,18 +72,21 @@ namespace Montagem{
     };
 
     void adicionarTextura(Montagem::Pilha& pilha, Image& img){
-        Image imgPilha = LoadImageFromTexture(pilha.textura);
-        ImageDrawImage(&imgPilha, img, 0, pilha.altura, WHITE);
-        if (IsTextureValid(pilha.textura)) UnloadTexture(pilha.textura);
-        pilha.textura = LoadTextureFromImage(imgPilha);
-        UnloadImage(imgPilha);
+        //Image imgPilha = LoadImageFromTexture(pilha.textura);
+        //ImageDrawImage(&imgPilha, img, 0, pilha.altura, WHITE);
+        ImageDrawImage(&pilha.image, img, 0, pilha.altura+(Montagem::ALTURA_IMAGEM_FUNDO/2), WHITE);
+        //if (IsTextureValid(pilha.textura)) UnloadTexture(pilha.textura);
+        //pilha.textura = LoadTextureFromImage(imgPilha);
+        //UnloadImage(imgPilha);
+        UpdateTexture(pilha.textura, pilha.image.data);
     };
 
     void refazerImagemHamburguer(Montagem::Pilha& pilha, Image& img){
-        if (IsTextureValid(pilha.textura)) UnloadTexture(pilha.textura);
         //if (img.data != nullptr && IsImageValid(img)) UnloadImage(img); <-- Isso era para prevenir bugs, mas por alguma razão faz o programa crashar. Comentei caso alguém entenda o motivo para não funcionar. #Perdi4DiasPorqueSim #Socorro #OdeioMinhaVida
         pilha.altura = 0;
-        Image imgPilha = LoadImage(pegarStringIng(Ingredientes::PAO_BAIXO)); // Carrega o pão de baixo
+        //Image imgPilha = LoadImage(pegarStringIng(Ingredientes::VAZIO)); // Carrega o vazio
+        if (IsImageValid(pilha.image)) UnloadImage(pilha.image);
+        pilha.image = GenImageColor(Montagem::LARGURA_IMAGEM_FUNDO, Montagem::ALTURA_IMAGEM_FUNDO, BLANK);
         Ingredientes ing;
         Montagem::Pilha reversa {};
 
@@ -95,14 +99,17 @@ namespace Montagem{
         while (!reversa.estaVazia()){             // Faz o xamburgui normal
             ing = reversa.desempilha();
             carregarImagem(ing, img);
-            ImageDrawImage(&imgPilha, img, 0, pilha.altura, WHITE);
-            pilha.empilha(ing); printf(", 4");
+            //ImageDrawImage(&imgPilha, img, 0, pilha.altura, WHITE);
+            ImageDrawImage(&pilha.image, img, 0, pilha.altura+(Montagem::ALTURA_IMAGEM_FUNDO/2), WHITE);
+            pilha.empilha(ing);
             pilha.altura -= altura(ing);
             UnloadImage(img);
         }
 
-        pilha.textura = LoadTextureFromImage(imgPilha);
-        UnloadImage(imgPilha);
+        //pilha.textura = LoadTextureFromImage(imgPilha);
+        if (IsTextureValid(pilha.textura)) UpdateTexture(pilha.textura, pilha.image.data);
+        else pilha.textura = LoadTextureFromImage(pilha.image);
+        //UnloadImage(imgPilha);
     };
 
     /*
@@ -114,12 +121,12 @@ namespace Montagem{
     int adicionarIngrediente(Montagem::Pilha& pilha, Ingredientes ing, Image& img){
         if (pilha.quantDados >= MAX_INGREDIENTES) return Montagem::err::MaxIngredientesJaAtingido;
         if (!IsTextureValid(pilha.textura)) {
-            pilha.textura = LoadTexture("DadoBurguer/assets/Montagem/Pao_Baixo.png");
+            if (!IsImageValid(pilha.image)) pilha.image = GenImageColor(Montagem::LARGURA_IMAGEM_FUNDO, Montagem::ALTURA_IMAGEM_FUNDO, BLANK);
+            pilha.textura = LoadTextureFromImage(pilha.image);
             return Montagem::err::TexturaInvalidaResolvida;
         }
         pilha.empilha(ing);
 
-        printf("BANANIBISSON\n");
         carregarImagem(ing, img);
 
         adicionarTextura(pilha, img);

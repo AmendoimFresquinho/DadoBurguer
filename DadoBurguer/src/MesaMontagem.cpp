@@ -5,6 +5,7 @@
 #include <vector>
 #include "Constantes.hpp"
 #include "Ingredientes.hpp"
+#include "Montagem.hpp"
 
 void iniciaTelaMontagem(TelaMontagem &t) {
     float L = (float)GetScreenWidth();
@@ -78,8 +79,9 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
 
     Vector2 mouse = GetMousePosition();
     DrawTextureEx(t.hamburguer.textura, baseHamburguer(t.painelHamb), 0.0f, 4.0f, WHITE);
+
     if(tInv.temHamburgui)
-        DrawTextureEx(tInv.hamburguer.textura,{ t.painelHamb.x, t.painelHamb.y }, 0.0f, 1.0f, WHITE);
+        DrawTextureEx(tInv.hamburguer.textura,{ t.slotHam.x, t.slotHam.y }, 0.0f, 1.0f, WHITE);
 
     Rectangle CentroHamburguer = { 249, 294, 218, 166 };
 
@@ -137,6 +139,7 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
         tInv.temHamburgui = true;
         for(int i = 0; i < t.hamburguer.quantDados; i++)
             t.IngsNoHamburger[i] = {};
+        explodeHamburguer(t.hamburguer);
     }
      
     for(int i = 0; i < inventario.tamanho; i++)

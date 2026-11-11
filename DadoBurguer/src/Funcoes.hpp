@@ -128,7 +128,7 @@ void pegaFaca(TelaMesaCorte &t);
 void iniciaTelaMontagem(TelaMontagem &t);
 void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &tmp_img, FilaPrioridade &HEAP, const int &Turno, TelaInventario &tInv);
 bool AtualizarTelaMontagem(TelaMontagem& tela);
-float escalaHamburguer(const Rectangle &painel);
+Vector2 baseHamburguer(const Rectangle &painel);
 void imprimirPilha(const Montagem::Pilha& pilha);
 
 // JOGABILIDADE
@@ -173,4 +173,3 @@ void fpImprimir(const FilaPrioridade &fp);
 void imprime(ListaContiguaINV inv);
 void encImprimir(const TabelaEnc &t);
 
-void clonarPilha(Montagem::Pilha &destino, Montagem::Pilha &origem);

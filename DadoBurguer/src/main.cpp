@@ -358,7 +358,7 @@ int main() {
 
                     case TELA_MONTAGEM:
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
-                        desenhaTelaMontagem(telaMontagem, Inventario, tmp_img, HEAP_PERECIVEIS);    
+                        desenhaTelaMontagem(telaMontagem, Inventario, tmp_img, HEAP_PERECIVEIS, Turno);    
                         break;
                 }   
                 break; //BREAK DO CASE GRANDE, NAO TIRAR (PARA MY PLISNO ASS)

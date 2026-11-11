@@ -21,6 +21,8 @@ void iniciaTelaMontagem(TelaMontagem &t) {
     float ch = t.painelInv.height / 3.0f;
     for (int i = 0; i < 9; i++)
         t.slotsInv.push_back({ t.painelInv.x + (i % 3) * cw, t.painelInv.y + (i / 3) * ch, cw, ch });
+    for(int i = 0; i < 10; i++)
+        t.IngsNoHamburger[i] = {};
 }
 
 bool AtualizarTelaMontagem(TelaMontagem& tela) {
@@ -36,26 +38,28 @@ bool AtualizarTelaMontagem(TelaMontagem& tela) {
     return IsKeyPressed(KEY_E);
 }
 
-void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &tmp_img, FilaPrioridade &HEAP) {
+void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &tmp_img, FilaPrioridade &HEAP, const int &Turno) {
     DrawRectangleRec(t.moldura, WHITE);
     DrawRectangleLinesEx(t.moldura, 4, BLACK);
     DrawRectangleLinesEx(t.painelHamb, 4, BLACK);
     DrawRectangleLinesEx(t.painelInv, 4, BLACK);
 
+    Vector2 mouse = GetMousePosition();
     DrawTextureEx(t.hamburguer.textura, baseHamburguer(t.painelHamb), 0.0f, escalaHamburguer(t.painelHamb), WHITE);
+    Rectangle CentroHamburguer = { 249, 294, 218, 166 };
 
     // inventário 3x3
     for (int i = 0; i < 9; i++) {
         if (i == t.slotHover)
             DrawRectangleRec(t.slotsInv[i], LIGHTGRAY);
         DrawRectangleLinesEx(t.slotsInv[i], 2, BLACK);
-
-
     }
 
     IngredienteJogo *ing = enderecoDe(inventario, t.slotHover);
+  
+    if (ing != nullptr && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !(ing->codigo >= 65 && ing->codigo <= 90) && t.hamburguer.altura <= 10) {
 
-    if (ing != nullptr && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !(ing->codigo >= 65 && ing->codigo <= 90)) {
+        t.IngsNoHamburger[t.hamburguer.quantDados] = *ing;
 
         if(ing->codigo == 'a') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::ALFACE, tmp_img);
         if(ing->codigo == 'n') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CARNE, tmp_img);
@@ -75,8 +79,14 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
         imprimirPilha(t.hamburguer);    
     }
 
-    if(IsKeyPressed(KEY_ZERO)) Montagem::removerIngrediente(t.hamburguer, tmp_img); // temporario ate deixar de ser preguicoso
-
+    if(CheckCollisionPointRec(mouse, CentroHamburguer) && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && t.hamburguer.quantDados > 0){
+        Montagem::removerIngrediente(t.hamburguer, tmp_img);
+        if(t.IngsNoHamburger[t.hamburguer.quantDados].ehPerecivel)
+            t.IngsNoHamburger[t.hamburguer.quantDados].turnoEstraga = Turno + 2;
+        inserir(inventario,t.IngsNoHamburger[t.hamburguer.quantDados], inventario.tamanho);
+        reconstroiHeapDesatualizado(inventario, HEAP);
+    } 
+     
     for(int i = 0; i < inventario.tamanho; i++)
         DesenharIconeNoSlot(acessar(inventario, i).textura, t.slotsInv[i]);
 

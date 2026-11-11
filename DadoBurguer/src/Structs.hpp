@@ -202,7 +202,8 @@ struct TelaMontagem {
     std::vector<Rectangle> slotsInv;   // 9 slots, 3x3
 
     // conteúdo
-    Montagem :: Pilha hamburguer;             
+    Montagem :: Pilha hamburguer;
+    IngredienteJogo IngsNoHamburger[10];           
 
     // interação
     int slotHover = -1;

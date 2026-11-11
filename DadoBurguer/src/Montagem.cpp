@@ -141,4 +141,21 @@ namespace Montagem{
 
         refazerImagemHamburguer(pilha, img);
     };
+
+    void clonarPilha(Montagem::Pilha &destino, Montagem::Pilha &origem){
+        Montagem::Pilha aux {};
+        Ingredientes ing;
+
+        while(!origem.estaVazia()){ aux.empilha(origem.desempilha());};
+
+        while(!aux.estaVazia()){
+            ing = aux.desempilha();
+            origem.empilha(ing);
+            destino.empilha(ing);
+        }
+
+        destino.image = ImageCopy(origem.image);
+        destino.textura = LoadTextureFromImage(destino.image);
+        destino.altura = origem.altura;
+    }
 }

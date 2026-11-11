@@ -2,6 +2,7 @@
 #include "Funcoes.hpp"
 #include "Structs.hpp"
 #include "Constantes.hpp"
+#include "Montagem.hpp"
 #include <iostream>
 
 void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS){
@@ -84,8 +85,8 @@ void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, List
     telaCorte.temNaTabua = false;
     telaCorte.itemTabua = {};
     telaInv.temHamburgui = false;
-    telaInv.hamburguer = {};
-    telaMonta.hamburguer = {};
+    telaInv.hamburguer = {}; 
+    Montagem :: explodeHamburguer(telaMonta.hamburguer);
     for(int i = 0; i < 10; i++)
         telaMonta.IngsNoHamburger[i] = {};
     }

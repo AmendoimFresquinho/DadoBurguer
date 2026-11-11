@@ -1,7 +1,6 @@
 #include "raylib.h"
 #include "Funcoes.hpp"
 #include "Structs.hpp"
-#include "raymath.h"
 #include <vector>
 #include "Constantes.hpp"
 #include "Ingredientes.hpp"
@@ -147,7 +146,6 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
 
 }
 
-// onde a base do hambúrguer deve ficar: centro do painel, perto do fundo
 Vector2 baseHamburguer(const Rectangle &painel) {
     return { (painel.x + painel.width / 3.5f) - 5, (painel.y + painel.height * 0.35f) - Montagem::ALTURA_IMAGEM_FUNDO - 200};
 }

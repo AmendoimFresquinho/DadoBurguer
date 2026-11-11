@@ -137,7 +137,6 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
         tInv.temHamburgui = true;
         for(int i = 0; i < t.hamburguer.quantDados; i++)
             t.IngsNoHamburger[i] = {};
-        
     }
      
     for(int i = 0; i < inventario.tamanho; i++)

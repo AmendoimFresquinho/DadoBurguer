@@ -103,6 +103,9 @@ void DesenharTelaInventario(const TelaInventario& tela, ListaContiguaINV &invent
         DrawRectangleLinesEx(tela.RecHamburguer, 3.0f, ORANGE);
     }
 
+    if(tela.temHamburgui)
+        DrawTextureEx(tela.hamburguer.textura, { tela.RecHamburguer.x, tela.RecHamburguer.y }, 0.0f, 1.0f, WHITE);
+
     int tamanhoFonte = 20;
 
     DrawText("HAMBURGUER", static_cast<int>(tela.RecHamburguer.x), static_cast<int>(tela.RecHamburguer.y - tamanhoFonte - 8), tamanhoFonte, WHITE);

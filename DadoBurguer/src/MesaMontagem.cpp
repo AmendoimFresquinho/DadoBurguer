@@ -66,6 +66,12 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
     DrawRectangleLinesEx(t.painelHamb, 4, BLACK);
     DrawRectangleLinesEx(t.painelInv, 4, BLACK);
 
+    int tamanhoFonte = 20;
+    int distancia = 8;
+
+    DrawText( "INVENTARIO", static_cast<int>(t.painelInv.x), static_cast<int>(t.painelInv.y - 40 - distancia), 40, BLACK );
+    DrawText( "HAMBURGUER", static_cast<int>(t.slotHam.x), static_cast<int>(t.slotHam.y - tamanhoFonte - distancia), tamanhoFonte, BLACK );
+
     if(t.hamHover == 1) DrawRectangleRec(t.slotHam, Color{ 255, 200, 0, 40 });
 
     DrawRectangleLinesEx(t.slotHam, 4, BLACK);
@@ -81,7 +87,6 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
 
         if (i == t.slotHover)
             DrawRectangleRec(t.slotsInv[i], { 255, 200, 0, 40 });
-        
     }        
 
     IngredienteJogo *ing = enderecoDe(inventario, t.slotHover);
@@ -121,7 +126,6 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
      
     for(int i = 0; i < inventario.tamanho; i++)
         DesenharIconeNoSlot(acessar(inventario, i).textura, t.slotsInv[i]);
-
 }
 
 // onde a base do hambúrguer deve ficar: centro do painel, perto do fundo

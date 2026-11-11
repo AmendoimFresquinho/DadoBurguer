@@ -169,7 +169,10 @@ struct FilaPrioridade {
 struct TelaInventario {
     Rectangle painel;
     std::vector<Rectangle> slots;   
-    int slotHover;                 
+    int slotHover; 
+    int hamHover;
+    Rectangle RecHamburguer;
+    Montagem :: Pilha hamburguer;               
 };
 
 struct TelaMesaCorte {

@@ -47,6 +47,11 @@ TelaInventario CriarTelaInventario(float largura, float altura) {
  
     Rectangle grade = { t.painel.x + pad, t.painel.y + pad, lado, lado };
     t.slots = GerarGrade(grade, 3, 3, 14.0f);
+
+    float ladoHamburguer = GetScreenWidth() * 0.125f;
+    float distancia = GetScreenWidth() * 0.04f;
+
+    t.RecHamburguer = { t.painel.x + t.painel.width + distancia, t.painel.y + (t.painel.height - ladoHamburguer) / 2.0f, ladoHamburguer, ladoHamburguer };
  
     t.slotHover = -1;
     return t;
@@ -59,7 +64,9 @@ bool AtualizarTelaInventario(TelaInventario& tela, int& clicado) {
     for (size_t i = 0; i < tela.slots.size(); i++) {
         if (CheckCollisionPointRec(mouse, tela.slots[i])) tela.slotHover = (int)i;
     }
- 
+    tela.hamHover = -1;
+    if (CheckCollisionPointRec(mouse, tela.RecHamburguer)) tela.hamHover = 1; else tela.hamHover = -1;
+
     clicado = IsMouseButtonPressed(MOUSE_BUTTON_LEFT) ? tela.slotHover : -1;
  
     return IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I);
@@ -84,7 +91,19 @@ void DesenharTelaInventario(const TelaInventario& tela, ListaContiguaINV &invent
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Color{ 0, 0, 0, 160 });
     DrawRectangleRec(tela.painel, RAYWHITE);
     DrawRectangleLinesEx(tela.painel, 3, BLACK);
- 
+
+    DrawRectangleRec(tela.RecHamburguer, RAYWHITE);
+    DrawRectangleLinesEx(tela.RecHamburguer, 3.0f, GRAY);
+
+    if(tela.hamHover == 1){
+        DrawRectangleRec(tela.RecHamburguer, Color{ 255, 200, 0, 40 });
+        DrawRectangleLinesEx(tela.RecHamburguer, 3.0f, ORANGE);
+    }
+
+        int tamanhoFonte = 20;
+
+    DrawText("HAMBURGUER", static_cast<int>(tela.RecHamburguer.x), static_cast<int>(tela.RecHamburguer.y - tamanhoFonte - 8), tamanhoFonte, WHITE);
+
     for (size_t i = 0; i < tela.slots.size(); i++) {
         const Rectangle& s = tela.slots[i];
         bool hover = ((int)i == tela.slotHover);

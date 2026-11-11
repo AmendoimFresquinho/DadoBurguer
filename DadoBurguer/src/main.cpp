@@ -141,6 +141,7 @@ int main() {
     bool renderTeste = false;
     Texture2D telaRenderTeste = LoadTexture("DadoBurguer/assets/teclasRenderTeste.png");
     TelaMontagem telaMontagem;
+    telaMontagem.hamburguer = hamburguer;
     iniciaTelaMontagem(telaMontagem);                  
     /*Montagem::carregarImagem(Ingredientes::CARNE, Mont_Carne);
     Texture2D txt = LoadTextureFromImage(Mont_Carne);
@@ -178,7 +179,7 @@ int main() {
 
                 Vector2 antes = jogador.posicao;
 
-                if(IsKeyPressed(KEY_A)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::ALFACE, tmp_img);
+                /*if(IsKeyPressed(KEY_A)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::ALFACE, tmp_img);
                 if(IsKeyPressed(KEY_N)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE, tmp_img);
                 if(IsKeyPressed(KEY_U)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE_ASSADA, tmp_img);
                 if(IsKeyPressed(KEY_T)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::TOMATE, tmp_img);
@@ -191,7 +192,7 @@ int main() {
                 if(IsKeyPressed(KEY_C)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CEBOLA, tmp_img);
                 if(IsKeyPressed(KEY_O)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::OVO, tmp_img);
                 if(IsKeyPressed(KEY_L)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE_QUEIMADA, tmp_img);
-                if(IsKeyPressed(KEY_ZERO)) Montagem::removerIngrediente(hamburguer, tmp_img);
+                if(IsKeyPressed(KEY_ZERO)) Montagem::removerIngrediente(hamburguer, tmp_img);*/
                 if(IsKeyPressed(KEY_ONE)) renderTeste = !renderTeste;
                 //VAZIO = 0,
                 //PAO_CIMA = 'z',
@@ -374,7 +375,7 @@ int main() {
 
                     case TELA_MONTAGEM:
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
-                        desenhaTelaMontagem(telaMontagem, Inventario);    
+                        desenhaTelaMontagem(telaMontagem, Inventario, tmp_img, HEAP_PERECIVEIS);    
                         break;
                 }   
                 break; //BREAK DO CASE GRANDE, NAO TIRAR (PARA MY PLISNO ASS)

@@ -6,7 +6,7 @@
 namespace Montagem {
 
     const float ESCALA_ALTURA {1.0f};
-    const int MAX_INGREDIENTES {20};
+    const int MAX_INGREDIENTES {10};
 
     enum err{
         Sucesso = 0,

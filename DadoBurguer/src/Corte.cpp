@@ -79,6 +79,7 @@ void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const 
         t.temNaTabua = true;
         imprime(inventario);
         removeDoInventario(hover, inventario);
+        reconstroiHeapDesatualizado(inventario, HEAP);
         imprime(inventario);
         std::cout << hover;
     }

@@ -4,6 +4,7 @@
 #include "raymath.h"
 #include <vector>
 #include "Constantes.hpp"
+#include "Ingredientes.hpp"
 
 void iniciaTelaMontagem(TelaMontagem &t) {
     float L = (float)GetScreenWidth();
@@ -35,15 +36,13 @@ bool AtualizarTelaMontagem(TelaMontagem& tela) {
     return IsKeyPressed(KEY_E);
 }
 
-void desenhaTelaMontagem(const TelaMontagem &t, ListaContiguaINV &inventario) {
+void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &tmp_img, FilaPrioridade &HEAP) {
     DrawRectangleRec(t.moldura, WHITE);
     DrawRectangleLinesEx(t.moldura, 4, BLACK);
-    DrawRectangleLinesEx(t.painelHamb, 3, BLACK);
-    DrawRectangleLinesEx(t.painelInv, 3, BLACK);
+    DrawRectangleLinesEx(t.painelHamb, 4, BLACK);
+    DrawRectangleLinesEx(t.painelInv, 4, BLACK);
 
-    // hambúrguer no centro do painel da esquerda
-    Vector2 centroHamb = { t.painelHamb.x + t.painelHamb.width  / 2.0f, t.painelHamb.y + t.painelHamb.height / 2.0f };
-    // SEU: desenhe t.hamburguer centrado em centroHamb (a sua dupla já faz o desenho)
+    DrawTextureEx(t.hamburguer.textura, baseHamburguer(t.painelHamb), 0.0f, escalaHamburguer(t.painelHamb), WHITE);
 
     // inventário 3x3
     for (int i = 0; i < 9; i++) {
@@ -51,10 +50,58 @@ void desenhaTelaMontagem(const TelaMontagem &t, ListaContiguaINV &inventario) {
             DrawRectangleRec(t.slotsInv[i], LIGHTGRAY);
         DrawRectangleLinesEx(t.slotsInv[i], 2, BLACK);
 
-        IngredienteJogo *ing = enderecoDe(inventario, i);
-        if (ing != nullptr) {
-            // SEU: desenhe o ingrediente em t.slotsInv[i] (mesma função das outras telas)
-        }
+
     }
+
+    IngredienteJogo *ing = enderecoDe(inventario, t.slotHover);
+
+    if (ing != nullptr && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !(ing->codigo >= 65 && ing->codigo <= 90)) {
+
+        if(ing->codigo == 'a') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::ALFACE, tmp_img);
+        if(ing->codigo == 'n') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CARNE, tmp_img);
+        if(ing->codigo == 'u') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CARNE_ASSADA, tmp_img);
+        if(ing->codigo == 't') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::TOMATE, tmp_img);
+        if(ing->codigo == 'q') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CHEDDAR, tmp_img);
+        if(ing->codigo == 'x') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::PAO_BAIXO, tmp_img);
+        if(ing->codigo == 's') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::SUICO, tmp_img);
+        if(ing->codigo == 'k') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::KETCHUP, tmp_img);
+        if(ing->codigo == 'm') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::MOSTARDA, tmp_img);
+        if(ing->codigo == 'p') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::PICLES, tmp_img);
+        if(ing->codigo == 'c') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CEBOLA, tmp_img);
+        if(ing->codigo == 'o') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::OVO, tmp_img);
+        if(ing->codigo == 'l') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CARNE_QUEIMADA, tmp_img);
+        removeDoInventario(t.slotHover, inventario);
+        reconstroiHeapDesatualizado(inventario, HEAP);
+        imprimirPilha(t.hamburguer);    
+    }
+
+    if(IsKeyPressed(KEY_ZERO)) Montagem::removerIngrediente(t.hamburguer, tmp_img); // temporario ate deixar de ser preguicoso
+
+    for(int i = 0; i < inventario.tamanho; i++)
+        DesenharIconeNoSlot(acessar(inventario, i).textura, t.slotsInv[i]);
+
 }
-    
+
+float escalaHamburguer(const Rectangle &painel) {
+    constexpr float LARGURA_HAMB_TEX  = 54;   
+    constexpr float ALTURA_CAMADA_TEX = 13; 
+    float porLargura = painel.width  * 0.60f / LARGURA_HAMB_TEX;
+    float porAltura  = painel.height * 0.80f / (ALTURA_CAMADA_TEX * 7);
+    return fmaxf(1.0f, floorf(fminf(porLargura, porAltura)));   
+}
+
+// onde a base do hambúrguer deve ficar: centro do painel, perto do fundo
+Vector2 baseHamburguer(const Rectangle &painel) {
+    return { painel.x + painel.width / 3.5f, painel.y + painel.height * 0.35f };
+}
+
+void imprimirPilha(const Montagem::Pilha& pilha) {
+    Montagem::Nodo* atual = pilha.topo;
+
+    while (atual != nullptr) {
+        std::cout << static_cast<char>(atual->ingrediente) << " ";
+        atual = atual->prox;
+    }
+
+    std::cout << std::endl;
+}

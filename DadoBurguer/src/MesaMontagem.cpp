@@ -60,7 +60,7 @@ bool AtualizarTelaMontagem(TelaMontagem& tela) {
     return IsKeyPressed(KEY_E);
 }
 
-void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &tmp_img, FilaPrioridade &HEAP, const int &Turno) {
+void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &tmp_img, FilaPrioridade &HEAP, const int &Turno, TelaInventario &tInv) {
     DrawRectangleRec(t.moldura, WHITE);
     DrawRectangleLinesEx(t.moldura, 4, BLACK);
     DrawRectangleLinesEx(t.painelHamb, 4, BLACK);
@@ -78,6 +78,9 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
 
     Vector2 mouse = GetMousePosition();
     DrawTextureEx(t.hamburguer.textura, baseHamburguer(t.painelHamb), 0.0f, 4.0f, WHITE);
+    if(tInv.temHamburgui)
+        DrawTextureEx(tInv.hamburguer.textura,{ t.painelHamb.x, t.painelHamb.y }, 0.0f, 1.0f, WHITE);
+
     Rectangle CentroHamburguer = { 249, 294, 218, 166 };
 
     // inventário 3x3
@@ -123,9 +126,23 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
         inserir(inventario,t.IngsNoHamburger[t.hamburguer.quantDados], inventario.tamanho);
         reconstroiHeapDesatualizado(inventario, HEAP);
     }
+
+    if(CheckCollisionPointRec(mouse, CentroHamburguer) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !tInv.temHamburgui){
+        Montagem::Pilha hamburguerNovo = {};
+        imprimirPilha(hamburguerNovo);
+        imprimirPilha(t.hamburguer);    
+        clonarPilha(hamburguerNovo, t.hamburguer);
+        imprimirPilha(hamburguerNovo);    
+        tInv.hamburguer = hamburguerNovo;
+        tInv.temHamburgui = true;
+        for(int i = 0; i < t.hamburguer.quantDados; i++)
+            t.IngsNoHamburger[i] = {};
+        
+    }
      
     for(int i = 0; i < inventario.tamanho; i++)
         DesenharIconeNoSlot(acessar(inventario, i).textura, t.slotsInv[i]);
+
 }
 
 // onde a base do hambúrguer deve ficar: centro do painel, perto do fundo

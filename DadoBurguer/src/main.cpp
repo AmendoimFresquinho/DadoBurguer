@@ -358,7 +358,7 @@ int main() {
 
                     case TELA_MONTAGEM:
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
-                        desenhaTelaMontagem(telaMontagem, Inventario, tmp_img, HEAP_PERECIVEIS, Turno);    
+                        desenhaTelaMontagem(telaMontagem, Inventario, tmp_img, HEAP_PERECIVEIS, Turno, telaInventario);    
                         break;
                 }   
                 break; //BREAK DO CASE GRANDE, NAO TIRAR (PARA MY PLISNO ASS)
@@ -375,7 +375,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem);
                         EstadoPrograma = JOGANDO;
                     }
                 } 
@@ -422,7 +422,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem);
                         EstadoPrograma = JOGANDO;
                     }
                 }

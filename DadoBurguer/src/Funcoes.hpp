@@ -126,10 +126,9 @@ void pegaFaca(TelaMesaCorte &t);
 // MESA DE MONTAGEM
 
 void iniciaTelaMontagem(TelaMontagem &t);
-void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &tmp_img, FilaPrioridade &HEAP, const int &Turno);
+void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &tmp_img, FilaPrioridade &HEAP, const int &Turno, TelaInventario &tInv);
 bool AtualizarTelaMontagem(TelaMontagem& tela);
 float escalaHamburguer(const Rectangle &painel);
-Vector2 baseHamburguer(const Rectangle &painel);
 void imprimirPilha(const Montagem::Pilha& pilha);
 
 // JOGABILIDADE
@@ -137,7 +136,7 @@ void imprimirPilha(const Montagem::Pilha& pilha);
 void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);
 void desenhaTurno(const int &turno, const int &stamina);
 void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &menu, Texture2D &pausa, Texture2D &fundo, Texture2D &paoCima, Texture2D &paoBaixo,Texture2D &cheddar,Texture2D &suico, Texture2D &carne_crua, Texture2D &alface, Texture2D &tomate, Texture2D &ketchup, Texture2D &mostarda, Texture2D &cebola, Texture2D &ovo, Texture2D &bacon, Texture2D &picles);
-void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte);
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte, TelaInventario &telaInv, TelaMontagem &telaMonta);
 int gastaStamina(int &stamina, const int quantoGasta);
 int testaStamina (const int &stamina, const int quantoGasta);
 void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);
@@ -173,3 +172,5 @@ static bool arquivoTerminaEmQuebra(const std::string &nomeArquivo);
 void fpImprimir(const FilaPrioridade &fp);
 void imprime(ListaContiguaINV inv);
 void encImprimir(const TabelaEnc &t);
+
+void clonarPilha(Montagem::Pilha &destino, Montagem::Pilha &origem);

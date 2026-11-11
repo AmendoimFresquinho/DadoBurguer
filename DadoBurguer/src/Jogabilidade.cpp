@@ -69,7 +69,7 @@ void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &me
     CloseWindow();
 }
 
-void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte) {
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte, TelaInventario &telaInv, TelaMontagem &telaMonta){
     jogador = { 250.0f, 64.0f, { 340, 360 }, { 0, 0 }, 32.0f, 64.0f };
     estado = { false, TELA_JOGO };
     anim.frame = 0;
@@ -83,7 +83,12 @@ void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, List
     telafogao.carnes.tamanho = 0;
     telaCorte.temNaTabua = false;
     telaCorte.itemTabua = {};
-}
+    telaInv.temHamburgui = false;
+    telaInv.hamburguer = {};
+    telaMonta.hamburguer = {};
+    for(int i = 0; i < 10; i++)
+        telaMonta.IngsNoHamburger[i] = {};
+    }
 
 void colocaNoHeapEstragado(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam, int &turno){
 

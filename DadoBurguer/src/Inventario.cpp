@@ -52,7 +52,10 @@ TelaInventario CriarTelaInventario(float largura, float altura) {
     float distancia = GetScreenWidth() * 0.04f;
 
     t.RecHamburguer = { t.painel.x + t.painel.width + distancia, t.painel.y + (t.painel.height - ladoHamburguer) / 2.0f, ladoHamburguer, ladoHamburguer };
- 
+    
+    t.temHamburgui = false;
+    t.hamburguer = {};
+
     t.slotHover = -1;
     return t;
 }
@@ -100,7 +103,7 @@ void DesenharTelaInventario(const TelaInventario& tela, ListaContiguaINV &invent
         DrawRectangleLinesEx(tela.RecHamburguer, 3.0f, ORANGE);
     }
 
-        int tamanhoFonte = 20;
+    int tamanhoFonte = 20;
 
     DrawText("HAMBURGUER", static_cast<int>(tela.RecHamburguer.x), static_cast<int>(tela.RecHamburguer.y - tamanhoFonte - 8), tamanhoFonte, WHITE);
 

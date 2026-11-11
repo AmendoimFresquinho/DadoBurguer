@@ -66,5 +66,4 @@ namespace Montagem {
     void refazerImagemHamburguer(Montagem::Pilha& pilha, Image& img);
     int adicionarIngrediente(Montagem::Pilha& pilha, Ingredientes ing, Image& img);
     void removerIngrediente(Montagem::Pilha& pilha, Image& img);
-    void clonarPilha(Montagem::Pilha &destino, Montagem::Pilha &origem);
 }

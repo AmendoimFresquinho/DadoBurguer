@@ -172,7 +172,8 @@ struct TelaInventario {
     int slotHover; 
     int hamHover;
     Rectangle RecHamburguer;
-    Montagem :: Pilha hamburguer;               
+    Montagem :: Pilha hamburguer;  
+    bool temHamburgui;             
 };
 
 struct TelaMesaCorte {

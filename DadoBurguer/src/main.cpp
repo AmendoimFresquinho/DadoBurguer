@@ -136,13 +136,14 @@ int main() {
     encImprimir(HashPedidos);
 
     Montagem::Pilha hamburguer = Montagem::Pilha();
-    hamburguer.textura = LoadTexture("DadoBurguer/assets/Montagem/Pao_Baixo.png");
+    hamburguer.image = GenImageColor(64, 256, BLANK);
+    hamburguer.textura = LoadTextureFromImage(hamburguer.image);
     Image tmp_img = {0};
     bool renderTeste = false;
     Texture2D telaRenderTeste = LoadTexture("DadoBurguer/assets/teclasRenderTeste.png");
     TelaMontagem telaMontagem;
     telaMontagem.hamburguer = hamburguer;
-    iniciaTelaMontagem(telaMontagem);                  
+    iniciaTelaMontagem(telaMontagem);                 
     /*Montagem::carregarImagem(Ingredientes::CARNE, Mont_Carne);
     Texture2D txt = LoadTextureFromImage(Mont_Carne);
     UnloadImage(Mont_Carne);
@@ -179,24 +180,6 @@ int main() {
 
                 Vector2 antes = jogador.posicao;
 
-                /*if(IsKeyPressed(KEY_A)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::ALFACE, tmp_img);
-                if(IsKeyPressed(KEY_N)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE, tmp_img);
-                if(IsKeyPressed(KEY_U)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE_ASSADA, tmp_img);
-                if(IsKeyPressed(KEY_T)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::TOMATE, tmp_img);
-                if(IsKeyPressed(KEY_Q)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CHEDDAR, tmp_img);
-                if(IsKeyPressed(KEY_X)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::PAO_BAIXO, tmp_img);
-                if(IsKeyPressed(KEY_S)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::SUICO, tmp_img);
-                if(IsKeyPressed(KEY_K)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::KETCHUP, tmp_img);
-                if(IsKeyPressed(KEY_M)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::MOSTARDA, tmp_img);
-                if(IsKeyPressed(KEY_P)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::PICLES, tmp_img);
-                if(IsKeyPressed(KEY_C)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CEBOLA, tmp_img);
-                if(IsKeyPressed(KEY_O)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::OVO, tmp_img);
-                if(IsKeyPressed(KEY_L)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE_QUEIMADA, tmp_img);
-                if(IsKeyPressed(KEY_ZERO)) Montagem::removerIngrediente(hamburguer, tmp_img);*/
-                if(IsKeyPressed(KEY_ONE)) renderTeste = !renderTeste;
-                //VAZIO = 0,
-                //PAO_CIMA = 'z',
-                //BACON = 'b',
                 switch (estado.tela) { // SWITCH CASE DE LOGICA
                 
                     case TELA_JOGO:
@@ -500,9 +483,27 @@ int main() {
     mouseLarg = (mouse.width) * mouseEscala;
     mouseDestRect = {mousePos.x - (mouseLarg/2), mousePos.y - (mouse.height/2), mouseLarg, (float) mouse.height};
     DrawTexturePro(mouse, mouseRect, mouseDestRect, (Vector2) {0.0f, 0.0f}, 0.0f, WHITE);
+
+    if(IsKeyPressed(KEY_ONE)) renderTeste = !renderTeste;
     if (renderTeste){
+                if(IsKeyPressed(KEY_A)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::ALFACE, tmp_img);
+                if(IsKeyPressed(KEY_N)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE, tmp_img);
+                if(IsKeyPressed(KEY_U)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE_ASSADA, tmp_img);
+                if(IsKeyPressed(KEY_T)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::TOMATE, tmp_img);
+                if(IsKeyPressed(KEY_Q)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CHEDDAR, tmp_img);
+                if(IsKeyPressed(KEY_X)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::PAO_BAIXO, tmp_img);
+                if(IsKeyPressed(KEY_S)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::SUICO, tmp_img);
+                if(IsKeyPressed(KEY_K)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::KETCHUP, tmp_img);
+                if(IsKeyPressed(KEY_M)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::MOSTARDA, tmp_img);
+                if(IsKeyPressed(KEY_P)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::PICLES, tmp_img);
+                if(IsKeyPressed(KEY_C)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CEBOLA, tmp_img);
+                if(IsKeyPressed(KEY_O)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::OVO, tmp_img);
+                if(IsKeyPressed(KEY_L)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::CARNE_QUEIMADA, tmp_img);
+                if(IsKeyPressed(KEY_Z)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::PAO_CIMA, tmp_img);
+                if(IsKeyPressed(KEY_B)) Montagem::adicionarIngrediente(hamburguer, Ingredientes::BACON, tmp_img);
+                if(IsKeyPressed(KEY_ZERO)) Montagem::removerIngrediente(hamburguer, tmp_img);
         DrawTexture(telaRenderTeste, 0, 0, WHITE);
-        DrawTexture(hamburguer.textura, 250, 50, WHITE);
+        DrawTexture(hamburguer.textura, 250, 300, WHITE);
     }
     //DrawTexture(hamburguer.textura, 400, 50, WHITE);
     EndDrawing();
@@ -536,6 +537,8 @@ int main() {
     //UnloadTexture(txt);
     //UnloadTexture(txt2);
     UnloadTexture(telaRenderTeste);
+    UnloadTexture(hamburguer.textura);
+    UnloadImage(hamburguer.image);
 
     CloseWindow();
 

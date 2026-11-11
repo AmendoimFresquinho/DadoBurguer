@@ -9,7 +9,9 @@
 #include <vector>
 
 namespace Imagens {
+
     struct ImagemIngrediente {
+
         Geral::Ingredientes tipo;
         Texture2D textura;
         int paddingInf;

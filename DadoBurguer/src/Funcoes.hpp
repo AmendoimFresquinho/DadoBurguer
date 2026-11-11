@@ -6,6 +6,7 @@
 #include "Structs.hpp"
 #include <vector>
 #include <string>
+#include "Montagem.hpp"
 
 //PLAYER
 
@@ -121,6 +122,12 @@ void iniciaTelaMesaCorte(TelaMesaCorte &t, const Texture2D &texFaca);
 void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const Texture2D &texFaca, const Texture2D &texCebolaFeita, const Texture2D &texTomateFeito, int &stamina, FilaPrioridade &HEAP);
 bool AtualizarTelaCorte(TelaMesaCorte& tela);
 void pegaFaca(TelaMesaCorte &t);
+
+// MESA DE MONTAGEM
+
+void iniciaTelaMontagem(TelaMontagem &t);
+void desenhaTelaMontagem(const TelaMontagem &t, ListaContiguaINV &inventario);
+bool AtualizarTelaMontagem(TelaMontagem& tela);
 
 // JOGABILIDADE
 

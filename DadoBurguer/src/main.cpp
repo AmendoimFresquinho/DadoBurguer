@@ -140,6 +140,8 @@ int main() {
     Image tmp_img = {0};
     bool renderTeste = false;
     Texture2D telaRenderTeste = LoadTexture("DadoBurguer/assets/teclasRenderTeste.png");
+    TelaMontagem telaMontagem;
+    iniciaTelaMontagem(telaMontagem);                  
     /*Montagem::carregarImagem(Ingredientes::CARNE, Mont_Carne);
     Texture2D txt = LoadTextureFromImage(Mont_Carne);
     UnloadImage(Mont_Carne);
@@ -333,6 +335,10 @@ int main() {
                     case TELA_CORTE:
                         if (AtualizarTelaCorte(telaCorte)) estado.tela = TELA_JOGO; 
                         break;
+
+                    case TELA_MONTAGEM:
+                        if (AtualizarTelaMontagem(telaMontagem)) estado.tela = TELA_JOGO; 
+                        break;
                 }   
 
                 switch (estado.tela) { // SWITCH CASE DE GRAFICOS
@@ -365,7 +371,11 @@ int main() {
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
                         desenhaTelaMesaCorte(telaCorte, Inventario, texFaca, cebolaFeita, tomateFeito, Stamina, HEAP_PERECIVEIS);
                         break;
-                    
+
+                    case TELA_MONTAGEM:
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
+                        desenhaTelaMontagem(telaMontagem, Inventario);    
+                        break;
                 }   
                 break; //BREAK DO CASE GRANDE, NAO TIRAR (PARA MY PLISNO ASS)
             }

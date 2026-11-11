@@ -4,6 +4,9 @@
 #include "raylib.h"
 #include <string>
 #include <vector>
+#include "Ingredientes.hpp"
+#include "Montagem.hpp"
+
 
 struct Produto{
     int cod;
@@ -56,7 +59,8 @@ enum Acoes {
     ACAO_ABRIR_ESTOQUE,
     ACAO_CORTAR,
     ACAO_ATENDER,
-    ACAO_ABRIR_INVENTARIO
+    ACAO_ABRIR_INVENTARIO,
+    ACAO_MONTAR
 };
 
 enum Tela {
@@ -66,25 +70,6 @@ enum Tela {
     TELA_INVENTARIO,
     TELA_MONTAGEM,
     TELA_CORTE
-};
-
-enum Ingredientes {
-    VAZIO = 0,
-    PAO_CIMA = 'z',
-    PAO_BAIXO = 'x',
-    CARNE = 'n',
-    SUICO = 's',
-    CHEDDAR = 'q',
-    ALFACE = 'a',
-    KETCHUP = 'k',
-    MOSTARDA = 'm',
-    PICLES = 'p',
-    CEBOLA = 'c',
-    TOMATE = 't',
-    OVO = 'o',
-    BACON = 'b',
-    CARNE_ASSADA = 'u',
-    CARNE_QUEIMADA = 'l'
 };
 
 struct EstadoJogo {
@@ -207,4 +192,19 @@ struct TelaMesaCorte {
     int tabuaHover = -1;
     int escolhidoINV = -1;
     int escolhidoTabua = -1;
+};
+
+struct TelaMontagem {
+    // layout (calculado em iniciaTelaMontagem)
+    Rectangle moldura;
+    Rectangle painelHamb;
+    Rectangle painelInv;
+    std::vector<Rectangle> slotsInv;   // 9 slots, 3x3
+
+    // conteúdo
+    Montagem :: Pilha hamburguer;             
+
+    // interação
+    int slotHover = -1;
+    int escolhidoINV = -1;
 };

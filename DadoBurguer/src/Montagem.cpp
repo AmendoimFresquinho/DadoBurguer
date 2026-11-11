@@ -1,6 +1,5 @@
 #include "Funcoes.hpp"
 #include <iostream>
-#include "Structs.hpp"
 #include "Montagem.hpp"
 #include "raylib.h"
 

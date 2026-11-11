@@ -1,7 +1,6 @@
-#ifndef MONTAGEM
-#define MONTAGEM
+#pragma once
 
-#include "Structs.hpp"
+#include "Ingredientes.hpp"
 #include "raylib.h"
 
 namespace Montagem {
@@ -65,5 +64,3 @@ namespace Montagem {
     int adicionarIngrediente(Montagem::Pilha& pilha, Ingredientes ing, Image& img);
     void removerIngrediente(Montagem::Pilha& pilha, Image& img);
 }
-
-#endif

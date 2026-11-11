@@ -199,6 +199,7 @@ struct TelaMontagem {
     Rectangle moldura;
     Rectangle painelHamb;
     Rectangle painelInv;
+    Rectangle slotHam;
     std::vector<Rectangle> slotsInv;   // 9 slots, 3x3
 
     // conteúdo
@@ -206,6 +207,7 @@ struct TelaMontagem {
     IngredienteJogo IngsNoHamburger[10];           
 
     // interação
+    int hamHover = -1;
     int slotHover = -1;
     int escolhidoINV = -1;
 };

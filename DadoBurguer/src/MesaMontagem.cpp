@@ -10,11 +10,31 @@ void iniciaTelaMontagem(TelaMontagem &t) {
     float L = (float)GetScreenWidth();
     float A = (float)GetScreenHeight();
 
-    t.moldura = { L * 0.05f, A * 0.08f, L * 0.90f, A * 0.84f };
+   t.moldura = { L * 0.05f, A * 0.08f, L * 0.90f, A * 0.84f };
     const Rectangle &m = t.moldura;
 
+    // Área disponível na direita.
+    Rectangle area = {
+        m.x + m.width * 0.506f,
+        m.y + m.height * 0.051f,
+        m.width * 0.485f,
+        m.height * 0.918f
+    };
+
+    float espaco = m.width * 0.015f;
+
+    // Inventário ocupa 3 partes; hambúrguer ocupa 1 parte.
+    float ladoSlot = (area.width - espaco) / 4.0f;
+    float ladoInv = ladoSlot * 3.0f;
+
+    // Inventário quadrado e centralizado verticalmente.
+    t.painelInv = { area.x, area.y + (area.height - ladoInv) / 2.0f, ladoInv, ladoInv };
+
+    // Slot do hambúrguer à direita, na altura da linha central.
+    t.slotHam = {
+    t.painelInv.x + t.painelInv.width + espaco - m.width * 0.005f, area.y + (area.height - ladoSlot) / 2.0f, ladoSlot, ladoSlot };
+
     t.painelHamb = { m.x + m.width * 0.0075f, m.y + m.height * 0.051f, m.width * 0.485f, m.height * 0.918f };
-    t.painelInv  = { m.x + m.width * 0.506f,  m.y + m.height * 0.051f, m.width * 0.485f, m.height * 0.918f };
 
     t.slotsInv.clear();
     float cw = t.painelInv.width  / 3.0f;
@@ -32,9 +52,11 @@ bool AtualizarTelaMontagem(TelaMontagem& tela) {
     for (size_t i = 0; i < tela.slotsInv.size(); i++) {
         if (CheckCollisionPointRec(mouse, tela.slotsInv[i])) tela.slotHover = (int)i;
     }
- 
+
+    if (CheckCollisionPointRec(mouse, tela.slotHam)) tela.hamHover = 1; else tela.hamHover = -1;
+
     tela.escolhidoINV = IsMouseButtonPressed(MOUSE_BUTTON_LEFT) ? tela.slotHover : -1;
- 
+
     return IsKeyPressed(KEY_E);
 }
 
@@ -44,16 +66,23 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
     DrawRectangleLinesEx(t.painelHamb, 4, BLACK);
     DrawRectangleLinesEx(t.painelInv, 4, BLACK);
 
+    if(t.hamHover == 1) DrawRectangleRec(t.slotHam, Color{ 255, 200, 0, 40 });
+
+    DrawRectangleLinesEx(t.slotHam, 4, BLACK);
+
     Vector2 mouse = GetMousePosition();
     DrawTextureEx(t.hamburguer.textura, baseHamburguer(t.painelHamb), 0.0f, escalaHamburguer(t.painelHamb), WHITE);
     Rectangle CentroHamburguer = { 249, 294, 218, 166 };
 
     // inventário 3x3
     for (int i = 0; i < 9; i++) {
-        if (i == t.slotHover)
-            DrawRectangleRec(t.slotsInv[i], LIGHTGRAY);
+
         DrawRectangleLinesEx(t.slotsInv[i], 2, BLACK);
-    }
+
+        if (i == t.slotHover)
+            DrawRectangleRec(t.slotsInv[i], { 255, 200, 0, 40 });
+        
+    }        
 
     IngredienteJogo *ing = enderecoDe(inventario, t.slotHover);
   
@@ -85,7 +114,7 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
             t.IngsNoHamburger[t.hamburguer.quantDados].turnoEstraga = Turno + 2;
         inserir(inventario,t.IngsNoHamburger[t.hamburguer.quantDados], inventario.tamanho);
         reconstroiHeapDesatualizado(inventario, HEAP);
-    } 
+    }
      
     for(int i = 0; i < inventario.tamanho; i++)
         DesenharIconeNoSlot(acessar(inventario, i).textura, t.slotsInv[i]);

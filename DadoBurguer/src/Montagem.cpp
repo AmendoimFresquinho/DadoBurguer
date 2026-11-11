@@ -164,6 +164,10 @@ namespace Montagem{
         if (IsTextureValid(explodindo.textura)) UnloadTexture(explodindo.textura);
         if (IsImageValid(explodindo.image)) UnloadImage(explodindo.image);
 
+
+        explodindo.image = GenImageColor(Montagem::LARGURA_IMAGEM_FUNDO, Montagem::ALTURA_IMAGEM_FUNDO, BLANK);
+        explodindo.textura = LoadTextureFromImage(explodindo.image);
+        explodindo.altura = 0.0f;
         //
 
     }

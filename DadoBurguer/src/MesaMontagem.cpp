@@ -71,7 +71,7 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
     DrawRectangleLinesEx(t.slotHam, 4, BLACK);
 
     Vector2 mouse = GetMousePosition();
-    DrawTextureEx(t.hamburguer.textura, baseHamburguer(t.painelHamb), 0.0f, escalaHamburguer(t.painelHamb), WHITE);
+    DrawTextureEx(t.hamburguer.textura, baseHamburguer(t.painelHamb), 0.0f, 4.0f, WHITE);
     Rectangle CentroHamburguer = { 249, 294, 218, 166 };
 
     // inventário 3x3
@@ -86,7 +86,7 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
 
     IngredienteJogo *ing = enderecoDe(inventario, t.slotHover);
   
-    if (ing != nullptr && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !(ing->codigo >= 65 && ing->codigo <= 90) && t.hamburguer.altura <= 10) {
+    if (ing != nullptr && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !(ing->codigo >= 65 && ing->codigo <= 90) && t.hamburguer.quantDados < 10) {
 
         t.IngsNoHamburger[t.hamburguer.quantDados] = *ing;
 
@@ -103,6 +103,9 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
         if(ing->codigo == 'c') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CEBOLA, tmp_img);
         if(ing->codigo == 'o') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::OVO, tmp_img);
         if(ing->codigo == 'l') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CARNE_QUEIMADA, tmp_img);
+        if(ing->codigo == 'b') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::BACON, tmp_img);
+        if(ing->codigo == 'z') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::PAO_CIMA, tmp_img);
+
         removeDoInventario(t.slotHover, inventario);
         reconstroiHeapDesatualizado(inventario, HEAP);
         imprimirPilha(t.hamburguer);    
@@ -121,17 +124,9 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
 
 }
 
-float escalaHamburguer(const Rectangle &painel) {
-    constexpr float LARGURA_HAMB_TEX  = 54;   
-    constexpr float ALTURA_CAMADA_TEX = 13; 
-    float porLargura = painel.width  * 0.60f / LARGURA_HAMB_TEX;
-    float porAltura  = painel.height * 0.80f / (ALTURA_CAMADA_TEX * 7);
-    return fmaxf(1.0f, floorf(fminf(porLargura, porAltura)));   
-}
-
 // onde a base do hambúrguer deve ficar: centro do painel, perto do fundo
 Vector2 baseHamburguer(const Rectangle &painel) {
-    return { painel.x + painel.width / 3.5f, painel.y + painel.height * 0.35f };
+    return { (painel.x + painel.width / 3.5f) - 5, (painel.y + painel.height * 0.35f) - Montagem::ALTURA_IMAGEM_FUNDO - 200};
 }
 
 void imprimirPilha(const Montagem::Pilha& pilha) {

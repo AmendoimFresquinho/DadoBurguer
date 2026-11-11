@@ -126,7 +126,7 @@ void pegaFaca(TelaMesaCorte &t);
 // MESA DE MONTAGEM
 
 void iniciaTelaMontagem(TelaMontagem &t);
-void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &tmp_img, FilaPrioridade &HEAP);
+void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &tmp_img, FilaPrioridade &HEAP, const int &Turno);
 bool AtualizarTelaMontagem(TelaMontagem& tela);
 float escalaHamburguer(const Rectangle &painel);
 Vector2 baseHamburguer(const Rectangle &painel);

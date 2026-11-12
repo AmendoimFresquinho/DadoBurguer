@@ -31,8 +31,7 @@ void iniciaTelaMontagem(TelaMontagem &t) {
     t.painelInv = { area.x, area.y + (area.height - ladoInv) / 2.0f, ladoInv, ladoInv };
 
     // Slot do hambúrguer à direita, na altura da linha central.
-    t.slotHam = {
-    t.painelInv.x + t.painelInv.width + espaco - m.width * 0.005f, area.y + (area.height - ladoSlot) / 2.0f, ladoSlot, ladoSlot };
+    t.slotHam = { t.painelInv.x + t.painelInv.width + espaco - m.width * 0.005f, area.y + (area.height - ladoSlot) / 2.0f, ladoSlot, ladoSlot + 20 };
 
     t.painelHamb = { m.x + m.width * 0.0075f, m.y + m.height * 0.051f, m.width * 0.485f, m.height * 0.918f };
 
@@ -60,7 +59,7 @@ bool AtualizarTelaMontagem(TelaMontagem& tela) {
     return IsKeyPressed(KEY_E);
 }
 
-void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &tmp_img, FilaPrioridade &HEAP, const int &Turno, TelaInventario &tInv) {
+void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &tmp_img, FilaPrioridade &HEAP, const int &Turno, TelaInventario &tInv, IngredienteJogo IngredientesV[15]) {
     DrawRectangleRec(t.moldura, WHITE);
     DrawRectangleLinesEx(t.moldura, 4, BLACK);
     DrawRectangleLinesEx(t.painelHamb, 4, BLACK);
@@ -80,7 +79,7 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
     DrawTextureEx(t.hamburguer.textura, baseHamburguer(t.painelHamb), 0.0f, 4.0f, WHITE);
 
     if(tInv.temHamburgui)
-        DrawTextureEx(tInv.hamburguer.textura,{ t.slotHam.x, t.slotHam.y }, 0.0f, 1.0f, WHITE);
+        DrawTextureEx(tInv.hamburguer.textura,{ t.slotHam.x + 12, t.slotHam.y - 142}, 0.0f, 1.70f, WHITE);
 
     Rectangle CentroHamburguer = { 249, 294, 218, 166 };
 
@@ -100,8 +99,8 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
         t.IngsNoHamburger[t.hamburguer.quantDados] = *ing;
 
         if(ing->codigo == 'a') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::ALFACE, tmp_img);
-        if(ing->codigo == 'n') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CARNE, tmp_img);
-        if(ing->codigo == 'u') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CARNE_ASSADA, tmp_img);
+        if(ing->codigo == 'u') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CARNE, tmp_img);
+        if(ing->codigo == 'n') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CARNE_ASSADA, tmp_img);
         if(ing->codigo == 't') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::TOMATE, tmp_img);
         if(ing->codigo == 'q') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::CHEDDAR, tmp_img);
         if(ing->codigo == 'x') Montagem::adicionarIngrediente(t.hamburguer, Ingredientes::PAO_BAIXO, tmp_img);
@@ -140,6 +139,12 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
             t.IngsNoHamburger[i] = {};
         explodeHamburguer(t.hamburguer);
     }
+
+    if(tInv.temHamburgui && t.hamHover == 1 && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+        clonarPilhaComVetor(t.hamburguer, tInv.hamburguer, t, IngredientesV);
+        Montagem :: explodeHamburguer(tInv.hamburguer);
+        tInv.temHamburgui = false;
+    }
      
     for(int i = 0; i < inventario.tamanho; i++)
         DesenharIconeNoSlot(acessar(inventario, i).textura, t.slotsInv[i]);
@@ -160,3 +165,39 @@ void imprimirPilha(const Montagem::Pilha& pilha) {
 
     std::cout << std::endl;
 }
+
+void clonarPilhaComVetor(Montagem::Pilha &destino, Montagem::Pilha &origem, TelaMontagem &t, IngredienteJogo IngredientesV[15]){
+        Montagem::Pilha aux {};
+        Ingredientes ing;
+        int i = 0;
+
+        while(!origem.estaVazia()){ aux.empilha(origem.desempilha());};
+
+        while(!aux.estaVazia()){
+            ing = aux.desempilha();
+            origem.empilha(ing);
+            destino.empilha(ing);
+
+            if(ing == 'z') t.IngsNoHamburger[i] = IngredientesV[1];
+            if(ing == 'x') t.IngsNoHamburger[i] = IngredientesV[0];
+            if(ing == 'n') t.IngsNoHamburger[i] = IngredientesV[3];
+            if(ing == 's') t.IngsNoHamburger[i] = IngredientesV[9];
+            if(ing == 'q') t.IngsNoHamburger[i] = IngredientesV[8];
+            if(ing == 'a') t.IngsNoHamburger[i] = IngredientesV[14];
+            if(ing == 'k') t.IngsNoHamburger[i] = IngredientesV[13];
+            if(ing == 'm') t.IngsNoHamburger[i] = IngredientesV[12];
+            if(ing == 'p') t.IngsNoHamburger[i] = IngredientesV[5];
+            if(ing == 'c') t.IngsNoHamburger[i] = IngredientesV[7];
+            if(ing == 't') t.IngsNoHamburger[i] = IngredientesV[6];
+            if(ing == 'o') t.IngsNoHamburger[i] = IngredientesV[11];
+            if(ing == 'b') t.IngsNoHamburger[i] = IngredientesV[10];
+            if(ing == 'u') t.IngsNoHamburger[i] = IngredientesV[2];
+            if(ing == 'l') t.IngsNoHamburger[i] = IngredientesV[4];
+
+            i++;
+        }
+
+        destino.image = ImageCopy(origem.image);
+        destino.textura = LoadTextureFromImage(destino.image);
+        destino.altura = origem.altura;
+    }

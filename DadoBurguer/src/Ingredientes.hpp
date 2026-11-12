@@ -4,7 +4,7 @@ enum Ingredientes {
     VAZIO = 0,
     PAO_CIMA = 'z',
     PAO_BAIXO = 'x',
-    CARNE = 'n',
+    CARNE = 'u',
     SUICO = 's',
     CHEDDAR = 'q',
     ALFACE = 'a',
@@ -15,6 +15,6 @@ enum Ingredientes {
     TOMATE = 't',
     OVO = 'o',
     BACON = 'b',
-    CARNE_ASSADA = 'u',
+    CARNE_ASSADA = 'n',
     CARNE_QUEIMADA = 'l'
 };

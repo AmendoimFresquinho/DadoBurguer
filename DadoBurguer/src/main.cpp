@@ -44,7 +44,7 @@ int main() {
 
     IngredienteJogo Pao_cima = { 'z', false, paoCima, "Pao de Cima", 0 };
     IngredienteJogo Pao_baixo ={ 'x', false, paoBaixo, "Pao de Baixo", 0 };
-    IngredienteJogo Carne = { 'n', true, carne_crua, "Carne", VALIDADE_CARNE_CRUA };
+    IngredienteJogo Carne = { 'u', true, carne_crua, "Carne", VALIDADE_CARNE_CRUA };
     IngredienteJogo Queijo_Suico = { 'S', false, suico, "Suico", 0 };
     IngredienteJogo Cheddar = { 'Q', false, cheddar, "Cheddar", 0 };
     IngredienteJogo Alface = { 'a', false, alface, "Alface", 0};
@@ -55,7 +55,7 @@ int main() {
     IngredienteJogo Tomate = { 'T', false, tomate, "Tomate Cru", 0};    
     IngredienteJogo Ovo = { 'O', true, ovo, "Ovo", VALIDADE_QUEIJO};
     IngredienteJogo Bacon = { 'B', true, bacon, "Bacon", VALIDADE_QUEIJO};
-    IngredienteJogo Carne_Assada = {'u', true, carne_assada, "Carne Assada", VALIDADE_CARNE_ASSADA};
+    IngredienteJogo Carne_Assada = {'n', true, carne_assada, "Carne Assada", VALIDADE_CARNE_ASSADA};
     IngredienteJogo Carne_Queimada = {'l', true, carne_queimada, "Carne Queimada", VALIDADE_CARNE_ASSADA};
     IngredienteJogo Ovo_Frito = {'o', true, ovoFrito, "Ovo Frito", VALIDADE_CARNE_ASSADA};
     IngredienteJogo Bacon_Frito = {'b', true, baconFrito, "Bacon Frito", VALIDADE_CARNE_ASSADA};
@@ -65,6 +65,7 @@ int main() {
     IngredienteJogo Tomate_Feito = { 't', false, tomateFeito, "Tomate", 0};    
 
     IngredienteJogo Ingredientes_Para_Passar[QUANTIDADE_INGREDIENTES] = {Pao_cima, Pao_baixo, Carne, Queijo_Suico, Cheddar, Alface, Ketchup, Mostarda, Picles, Cebola, Tomate, Ovo, Bacon, Carne_Assada, Carne_Queimada, Ovo_Frito, Bacon_Frito, Suico_Frito, Cheddar_Frito, Tomate_Feito, Cebola_Feita};
+    IngredienteJogo IngredientesHamburguer[15] = {Pao_baixo, Pao_cima, Carne, Carne_Assada, Carne_Queimada, Picles, Tomate_Feito, Cebola_Feita, Cheddar_Frito, Suico_Frito, Bacon_Frito, Ovo_Frito, Mostarda, Ketchup, Alface};
 
     Texture2D menu = LoadTexture("DadoBurguer/assets/Menu.png");
     Texture2D pausa = LoadTexture("DadoBurguer/assets/pausa.png");
@@ -203,7 +204,7 @@ int main() {
                         //std :: cout << "\n TAMANHO CARNES: "<< telaFogao.carnes.tamanho<< "\n";
                         //std :: cout << "\n TAMANHO INVENTARIO: "<< Inventario.tamanho << "\n";
 
-                        if(escolhidoFogInv != -1 && telaFogao.carnes.tamanho < 4 && (acessar(Inventario, escolhidoFogInv).codigo == 'n' || acessar(Inventario, escolhidoFogInv).codigo == 'O' || acessar(Inventario, escolhidoFogInv).codigo == 'B' || acessar(Inventario, escolhidoFogInv).codigo == 'Q' || acessar(Inventario, escolhidoFogInv).codigo == 'S')){
+                        if(escolhidoFogInv != -1 && telaFogao.carnes.tamanho < 4 && (acessar(Inventario, escolhidoFogInv).codigo == 'u' || acessar(Inventario, escolhidoFogInv).codigo == 'O' || acessar(Inventario, escolhidoFogInv).codigo == 'B' || acessar(Inventario, escolhidoFogInv).codigo == 'Q' || acessar(Inventario, escolhidoFogInv).codigo == 'S')){
                         
                             TurnoAssado[QualTurno] = Turno;
                             QualTurno++;
@@ -211,7 +212,7 @@ int main() {
                             std :: cout << "\n Turno que deve assar (INV): " << TurnoAssado[QualTurno - 1] << "\n";
                             std :: cout << "\n posicao do vetor (INV): "<< QualTurno << "\n";
 
-                            if(acessar(Inventario, escolhidoFogInv).codigo == 'n'){
+                            if(acessar(Inventario, escolhidoFogInv).codigo == 'u'){
                                 inserir(telaFogao.carnes, Carne, telaFogao.carnes.tamanho);
                                 imprime(telaFogao.carnes);
                                 removeDoInventario(escolhidoFogInv, Inventario);
@@ -243,7 +244,7 @@ int main() {
                             }
                         }
                         
-                        if(escolhidoFogBoc != -1 && enderecoDe(telaFogao.carnes, escolhidoFogBoc) != nullptr && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'n' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'O' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'B' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'S' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'Q'){
+                        if(escolhidoFogBoc != -1 && enderecoDe(telaFogao.carnes, escolhidoFogBoc) != nullptr && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'u' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'O' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'B' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'S' && acessar(telaFogao.carnes, escolhidoFogBoc).codigo != 'Q'){
                             
                             TurnoAssado[escolhidoFogBoc] = 0;
                             for (int i = escolhidoFogBoc; i < QualTurno - 1; i++)
@@ -253,8 +254,8 @@ int main() {
                             std :: cout << "\n Turno que deve assar (BOC): " << TurnoAssado[QualTurno - 1] << "\n";
                             std :: cout << "\n posicao do vetor (BOC): "<< QualTurno << "\n";
 
-                            if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'u'){
-                                IngredienteJogo Carne_atualizada = {'u', true, carne_assada, "Carne Assada", Turno + 1};
+                            if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'n'){
+                                IngredienteJogo Carne_atualizada = {'n', true, carne_assada, "Carne Assada", Turno + 1};
                                 inserir(Inventario, Carne_atualizada, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
@@ -358,7 +359,7 @@ int main() {
 
                     case TELA_MONTAGEM:
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
-                        desenhaTelaMontagem(telaMontagem, Inventario, tmp_img, HEAP_PERECIVEIS, Turno, telaInventario);    
+                        desenhaTelaMontagem(telaMontagem, Inventario, tmp_img, HEAP_PERECIVEIS, Turno, telaInventario, IngredientesHamburguer);    
                         break;
                 }   
                 break; //BREAK DO CASE GRANDE, NAO TIRAR (PARA MY PLISNO ASS)
@@ -392,7 +393,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnSair)) {
                     DrawRectangleRounded(btnSair, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                        FechaJogo(animJogador, telaEstoque, menu, pausa, fundo, paoCima, paoBaixo, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles);
+                        FechaJogo(animJogador, telaEstoque, menu, pausa, fundo, paoCima, paoBaixo, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, telaRenderTeste, telaMontagem.hamburguer.textura, telaMontagem.hamburguer.image);
                 } 
                 if(CheckCollisionPointRec(GetMousePosition(), btnComoJogar)) {
                     DrawRectangleRounded(btnComoJogar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
@@ -533,12 +534,11 @@ int main() {
     UnloadTexture(bacon);
     UnloadTexture(picles);
     UnloadTexture(mouse);
-
     //UnloadTexture(txt);
     //UnloadTexture(txt2);
     UnloadTexture(telaRenderTeste);
-    UnloadTexture(hamburguer.textura);
-    UnloadImage(hamburguer.image);
+    UnloadTexture(telaMontagem.hamburguer.textura);
+    UnloadImage(telaMontagem.hamburguer.image);
 
     CloseWindow();
 

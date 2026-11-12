@@ -8,7 +8,7 @@ namespace Geral {
         VAZIO = 0,
         PAO_INFERIOR = 'x',
         PAO_SUPERIOR = 'z',
-        CARNE = 'n',
+        CARNE = 'u',
         QUEIJO_SUICO = 's',
         QUEIJO_CHEDDAR = 'q',
         ALFACE = 'a',

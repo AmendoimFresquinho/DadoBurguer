@@ -158,6 +158,7 @@ namespace Montagem{
         destino.textura = LoadTextureFromImage(destino.image);
         destino.altura = origem.altura;
     }
+
     void explodeHamburguer(Montagem::Pilha &explodindo){
         while(!explodindo.estaVazia()) explodindo.desempilha();
 

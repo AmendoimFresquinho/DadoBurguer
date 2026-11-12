@@ -18,7 +18,7 @@ void adicionaNoInventario(char escolhidoEST, ListaContiguaINV &inventario, Ingre
 
     if(escolhidoEST == 'z') inserir(inventario, PaoCima, tamanho(inventario));
     if(escolhidoEST == 'x') inserir(inventario, PaoBaixo, tamanho(inventario));
-    if(escolhidoEST == 'n') inserir(inventario, Carne, tamanho(inventario));
+    if(escolhidoEST == 'u') inserir(inventario, Carne, tamanho(inventario));
     if(escolhidoEST == 'S') inserir(inventario, QueijoSuico, tamanho(inventario));
     if(escolhidoEST == 'Q') inserir(inventario, Cheddar, tamanho(inventario));
     if(escolhidoEST == 'a') inserir(inventario, Alface, tamanho(inventario));
@@ -104,7 +104,7 @@ void DesenharTelaInventario(const TelaInventario& tela, ListaContiguaINV &invent
     }
 
     if(tela.temHamburgui)
-        DrawTextureEx(tela.hamburguer.textura, { tela.RecHamburguer.x, tela.RecHamburguer.y }, 0.0f, 1.0f, WHITE);
+        DrawTextureEx(tela.hamburguer.textura, { tela.RecHamburguer.x + 25, tela.RecHamburguer.y - 138 }, 0.0f, 1.7f, WHITE);
 
     int tamanhoFonte = 20;
 

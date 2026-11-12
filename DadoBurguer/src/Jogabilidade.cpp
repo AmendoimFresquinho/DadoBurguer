@@ -45,7 +45,7 @@ int testaStamina (const int &stamina, const int quantoGasta){
     return stamina - quantoGasta;
 }
 
-void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &menu, Texture2D &pausa, Texture2D &fundo, Texture2D &paoCima, Texture2D &paoBaixo,Texture2D &cheddar,Texture2D &suico, Texture2D &carne_crua, Texture2D &alface, Texture2D &tomate, Texture2D &ketchup, Texture2D &mostarda, Texture2D &cebola, Texture2D &ovo, Texture2D &bacon, Texture2D &picles){
+void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &menu, Texture2D &pausa, Texture2D &fundo, Texture2D &paoCima, Texture2D &paoBaixo,Texture2D &cheddar,Texture2D &suico, Texture2D &carne_crua, Texture2D &alface, Texture2D &tomate, Texture2D &ketchup, Texture2D &mostarda, Texture2D &cebola, Texture2D &ovo, Texture2D &bacon, Texture2D &picles, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER){
 
     DescarregarAnimJogador(animJogador);
     DescarregarTelaEstoque(telaEstoque);
@@ -66,6 +66,10 @@ void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &me
     UnloadTexture(ovo);
     UnloadTexture(bacon);
     UnloadTexture(picles);
+    UnloadTexture(RENDER);
+    UnloadTexture(hambuergao);
+    UnloadImage(IMAGEMHAMBURGUER);
+
 
     CloseWindow();
 }

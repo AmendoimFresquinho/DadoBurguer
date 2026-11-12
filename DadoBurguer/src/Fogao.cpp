@@ -113,8 +113,8 @@ static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarneCrua, 
     Vector2 pos = { centro.x - texCarneCrua.width  * escala / 2.0f, centro.y - texCarneCrua.height * escala / 2.0f };
 
     switch (c) {
-        case 'n':  DrawTextureEx(texCarneCrua, pos, 0.0f, escala, WHITE); break;
-        case 'u':  DrawTextureEx(texCarneAssada, pos, 0.0f, escala, WHITE); break;
+        case 'u':  DrawTextureEx(texCarneCrua, pos, 0.0f, escala, WHITE); break;
+        case 'n':  DrawTextureEx(texCarneAssada, pos, 0.0f, escala, WHITE); break;
         case 'l':  DrawTextureEx(texCarneQueimada, pos, 0.0f, escala, WHITE); break;
         case 'b':  DrawTextureEx(texBaconFrito, pos, 0.0f, escala, WHITE); break;
         case 'o':  DrawTextureEx(texOvoFrito, pos, 0.0f, escala, WHITE); break;
@@ -139,10 +139,10 @@ void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &boc
         IngredienteJogo *ing = enderecoDe(fogao, i);
         if (ing == nullptr) continue;
 
-        if(turnoEstraga[i] + 2 <= turno && ing->codigo == 'n') ing->codigo = 'u';
+        if(turnoEstraga[i] + 2 <= turno && ing->codigo == 'u') ing->codigo = 'n';
         if(turnoEstraga[i] + 1 <= turno && ing->codigo == 'O') ing->codigo = 'o';
         if(turnoEstraga[i] + 1 <= turno && ing->codigo == 'B') ing->codigo = 'b';
-        if(turnoEstraga[i] + 4 <= turno && ing->codigo == 'u') ing->codigo = 'l';
+        if(turnoEstraga[i] + 4 <= turno && ing->codigo == 'n') ing->codigo = 'l';
         if(turnoEstraga[i] <= turno && ing->codigo == 'Q') ing->codigo = 'q';
         if(turnoEstraga[i] <= turno && ing->codigo == 'S') ing->codigo = 's';
 

@@ -19,11 +19,6 @@ struct Nodo {
     Produto dado;
 };
 
-struct FilaEnc {
-    Nodo *frente;
-    Nodo *fim;
-};
-
 struct ListaEnc {
     Nodo *ini;
 };
@@ -225,5 +220,16 @@ enum Dificuldade {
 struct Cliente {
     int Paciencia;
     Texture2D sprite;
-    std :: string pedido;   
+    std :: string pedido;  
+    bool ehEspecial;
+};
+
+struct NodoFila {
+    NodoFila *prox;
+    Cliente dado;
+};
+
+struct FilaEnc {
+    NodoFila* frente = nullptr;
+    NodoFila* fim = nullptr;
 };

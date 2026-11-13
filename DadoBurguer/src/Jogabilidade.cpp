@@ -45,11 +45,11 @@ int testaStamina (const int &stamina, const int quantoGasta){
     return stamina - quantoGasta;
 }
 
-void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER, Texture2D texturas[40]){
+void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER, Texture2D texturas[50]){
 
     DescarregarAnimJogador(animJogador);
     DescarregarTelaEstoque(telaEstoque);
-    for(int i = 0; i < 33; i++){
+    for(int i = 0; i < 43; i++){
         UnloadTexture(texturas[i]);
     }
     UnloadTexture(RENDER);
@@ -79,6 +79,7 @@ void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, List
     for(int i = 0; i < 10; i++)
         telaMonta.IngsNoHamburger[i] = {};
     }
+    
 
 void colocaNoHeapEstragado(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam, int &turno){
 

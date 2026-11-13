@@ -77,7 +77,23 @@ int main() {
     Texture2D DifDificil= LoadTexture("DadoBurguer/assets/dificil.png");
     Texture2D DifImpossivel = LoadTexture("DadoBurguer/assets/impossivel.png");
 
-    Texture2D Texturas[40] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel};
+    Texture2D Cliente1 = LoadTexture("DadoBurguer/assets/Clientes/Cliente1.png");
+    Texture2D Cliente2 = LoadTexture("DadoBurguer/assets/Clientes/Cliente2.png");
+    Texture2D Cliente3 = LoadTexture("DadoBurguer/assets/Clientes/Cliente3.png");
+    Texture2D Cliente4 = LoadTexture("DadoBurguer/assets/Clientes/Cliente4.png");
+    Texture2D Cliente5 = LoadTexture("DadoBurguer/assets/Clientes/Cliente5.png");
+    Texture2D Cliente6 = LoadTexture("DadoBurguer/assets/Clientes/Cliente6.png");
+    Texture2D Cliente7 = LoadTexture("DadoBurguer/assets/Clientes/Cliente7.png");
+    Texture2D Cliente8 = LoadTexture("DadoBurguer/assets/Clientes/Cliente8.png");
+    Texture2D Cliente9 = LoadTexture("DadoBurguer/assets/Clientes/Cliente9.png");
+    Texture2D Cliente10 = LoadTexture("DadoBurguer/assets/Clientes/Cliente10.png");
+
+    Texture2D Especial1 = LoadTexture("DadoBurguer/assets/Clientes/BigT.png");
+    Texture2D Especial2 = LoadTexture("DadoBurguer/assets/Clientes/Ronald.png");
+
+    Texture2D Texturas[50] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10};
+    Texture2D Sprites[10] = {Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10};
+    Texture2D SpritesEspeciais[2] = {Especial1, Especial2};
 
     ESTADO_PROGRAMA EstadoPrograma = MENU; 
     std::vector<Rectangle> paredes;
@@ -161,6 +177,10 @@ int main() {
     
     Dificuldade Dificuldade = MEDIO;
 
+    FilaEnc Clientela;
+    inicializaFila(Clientela);
+    int TAM_FILA = 0;
+
     while (!WindowShouldClose()) {
         HideCursor();
         Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH); // Sempre procura um bloco possivelmente interagivel
@@ -221,7 +241,7 @@ int main() {
                             std :: cout << "\n Turno que deve assar (INV): " << TurnoAssado[QualTurno - 1] << "\n";
                             std :: cout << "\n posicao do vetor (INV): "<< QualTurno << "\n";
 
-                            if(acessar(Inventario, escolhidoFogInv).codigo == 'u'){
+                            if(acessar(Inventario, escolhidoFogInv).codigo == 'u' && Inventario.tamanho){
                                 inserir(telaFogao.carnes, Carne, telaFogao.carnes.tamanho);
                                 imprime(telaFogao.carnes);
                                 removeDoInventario(escolhidoFogInv, Inventario);
@@ -263,37 +283,37 @@ int main() {
                             std :: cout << "\n Turno que deve assar (BOC): " << TurnoAssado[QualTurno - 1] << "\n";
                             std :: cout << "\n posicao do vetor (BOC): "<< QualTurno << "\n";
 
-                            if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'n'){
+                            if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'n'&& Inventario.tamanho < 9){
                                 IngredienteJogo Carne_atualizada = {'n', true, carne_assada, "Carne Assada", Turno + 1};
                                 inserir(Inventario, Carne_atualizada, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }
-                            else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'l'){
+                            else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'l'&& Inventario.tamanho < 9){
                                 IngredienteJogo Carne_atualizada2 = {'l', true, carne_queimada, "Carne Queimada", Turno + 1};
                                 inserir(Inventario, Carne_atualizada2, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }
-                            else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'b'){
+                            else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'b'&& Inventario.tamanho < 9){
                                 IngredienteJogo Bacon_Atualizado = {'b', true, baconFrito, "Bacon Frito", Turno + 1};
                                 inserir(Inventario, Bacon_Atualizado, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }
-                            else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'o'){
+                            else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'o'&& Inventario.tamanho < 9){
                                 IngredienteJogo Ovo_Atualizado = {'o', true, ovoFrito, "Ovo Frito", Turno + 1};
                                 inserir(Inventario, Ovo_Atualizado, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }
-                            else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'q'){
+                            else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'q'&& Inventario.tamanho < 9){
                                 IngredienteJogo Cheddar_Atualizado = {'q', true, cheddarFrito, "Cheddar Feito", Turno + 1};
                                 inserir(Inventario, Cheddar_Atualizado, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }  
-                            else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 's'){
+                            else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 's'&& Inventario.tamanho < 9){
                                 IngredienteJogo Suico_Atualizado = {'s', true, suicoFrito, "Suico Feito", Turno + 1};
                                 inserir(Inventario, Suico_Atualizado, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
@@ -327,7 +347,7 @@ int main() {
                         break;  
 
                     case TELA_CORTE:
-                        if (AtualizarTelaCorte(telaCorte)) estado.tela = TELA_JOGO; 
+                        if (AtualizarTelaCorte(telaCorte)) { telaCorte.facaPegada = false; estado.tela = TELA_JOGO;}
                         break;
 
                     case TELA_MONTAGEM:
@@ -340,6 +360,7 @@ int main() {
                     case TELA_JOGO:
                         DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado, Turno, Stamina);   // EM_JOGO
                         BotaoPassaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade);
+                        desenhaFila(Clientela);
                     break;              
 
                     case TELA_FOGAO: {
@@ -386,6 +407,7 @@ int main() {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                         ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade);
+                        criaFilaClientes(Dificuldade, Sprites, Raiz, HashPedidos, HIT, MISS, SpritesEspeciais, Clientela, TAM_FILA, CodigoMax, CodigoMin);
                         EstadoPrograma = JOGANDO;
                     }
                 } 

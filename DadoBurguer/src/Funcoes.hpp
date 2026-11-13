@@ -44,8 +44,8 @@ static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarneCrua, 
 
 void inicializaFila(FilaEnc &f);
 int estaVaziaFila(FilaEnc &f);
-int enfileira(FilaEnc &f, Produto valor);
-int desenfileira(FilaEnc &f, Produto &valorRemovido);
+int enfileira(FilaEnc &f, Cliente &cliente);
+int desenfileira(FilaEnc &f, Cliente &ClienteAtendido);
 int tamanhoFila(FilaEnc &f);
 void liberaFila(FilaEnc &f);
 
@@ -135,7 +135,7 @@ void imprimirPilha(const Montagem::Pilha& pilha);
 
 void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade);
 void desenhaTurno(const int &turno, const int &stamina);
-void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER, Texture2D texturas[40]);
+void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER, Texture2D texturas[50]);
 void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte, TelaInventario &telaInv, TelaMontagem &telaMonta, Dificuldade &dificuldade);
 int gastaStamina(int &stamina, const int quantoGasta);
 int testaStamina (const int &stamina, const int quantoGasta);
@@ -168,6 +168,13 @@ bool salvaPontuacao(const std::string &nomeArquivo, const Historico &h);
 int carregaHistorico(const std::string &nomeArquivo, std::vector<Historico> &v);
 void imprimeHistorico(const std::vector<Historico> &v, int quantos = 10);
 static bool arquivoTerminaEmQuebra(const std::string &nomeArquivo);
+
+// CLIENTES
+
+Cliente criaClientePadrao(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *&raiz, TabelaEnc &hash, int &HIT, int &MISS, int &codigoMax, int &codigoMin);
+Cliente CriaclienteEspecial(Texture2D sprites[2]);
+void criaFilaClientes(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *&raiz, TabelaEnc &hash, int &HIT, int &MISS, Texture2D Especiais[2], FilaEnc &Clientes, int &TAM_FILA, int &codigoMax, int &codigoMin);
+void desenhaFila(FilaEnc &f);
 
 // DEBUGGING
 

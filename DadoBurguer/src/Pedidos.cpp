@@ -58,7 +58,7 @@ std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, Tab
 
     } while(nodo == nullptr);
 
-    return nodo->receita; // Senao da warning (nao gosto grrrrr)
+    return nodo->receita; 
 }
 
 void encImprimir(const TabelaEnc &t) { // TEMP

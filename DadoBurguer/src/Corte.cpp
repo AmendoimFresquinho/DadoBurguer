@@ -84,7 +84,7 @@ void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const 
         imprime(inventario);
     }
 
-    if(t.temNaTabua && CheckCollisionPointRec(mouse, Centro) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+    if(t.temNaTabua && CheckCollisionPointRec(mouse, Centro) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && inventario.tamanho < 9){
         inserir(inventario, t.itemTabua, inventario.tamanho);
         t.itemTabua = {};
         t.temNaTabua = false;

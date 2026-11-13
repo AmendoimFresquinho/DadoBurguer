@@ -11,29 +11,29 @@ int estaVaziaFila(FilaEnc &f) {
     return f.frente == nullptr;
 }
 
-int enfileira(FilaEnc &f, Produto valor) {
-    Nodo *novo = new Nodo;
-   
-    novo->dado = valor;
+int enfileira(FilaEnc &f, Cliente &cliente) {
+    NodoFila* novo = new NodoFila;
+
+    novo->dado = cliente;
     novo->prox = nullptr;
 
     if (f.fim != nullptr)
-        f.fim->prox = novo; // o antigo final passa a apontar para o novo nodo
+        f.fim->prox = novo;
     else
-        f.fim = novo;      // fila estava vazia: novo nodo também é a frente
+        f.frente = novo; // Primeiro nó da fila.
 
     f.fim = novo;
     return 1;
 }
 
-int desenfileira(FilaEnc &f, Produto &valorRemovido) {
-    Nodo *removido;
+int desenfileira(FilaEnc &f, Cliente &ClienteAtendido) {
+    NodoFila *removido;
 
-    if (estaVaziaFila(f)) // underflow
+    if (estaVaziaFila(f)) 
         return 0;
 
     removido = f.frente;
-    valorRemovido = removido->dado;
+    ClienteAtendido = removido->dado;
     f.frente = removido->prox;
 
     if (f.frente == nullptr) // a fila ficou vazia
@@ -44,7 +44,7 @@ int desenfileira(FilaEnc &f, Produto &valorRemovido) {
 }
 
 int tamanhoFila(FilaEnc &f) {
-    Nodo *aux = f.frente;
+    NodoFila *aux = f.frente;
     int contador = 0;
 
     while (aux != nullptr) {
@@ -56,6 +56,6 @@ int tamanhoFila(FilaEnc &f) {
 }
 
 void liberaFila(FilaEnc &f) {
-    Produto lixo;
+    Cliente lixo;
     while (desenfileira(f, lixo)) {}
 }

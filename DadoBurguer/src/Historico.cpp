@@ -1,11 +1,12 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "Vec.hpp"
 #include "Structs.hpp"
 #include "raylib.h"
 #include "Funcoes.hpp"
 
-int carregaHistorico(const std::string &nomeArquivo, std::vector<Historico> &v) {
+int carregaHistorico(const std::string &nomeArquivo, Vec<Historico> &v) {
 
     std::ifstream arq(nomeArquivo);
 
@@ -16,9 +17,9 @@ int carregaHistorico(const std::string &nomeArquivo, std::vector<Historico> &v) 
 
     while (std::getline(arq, h.nome) && (arq >> h.pontuacao)) { // Getline pq senao ele para nos espacos, ai tem que ter
         arq.ignore();            
-        v.push_back(h);
+        v.push(h);
     }
-    return (int)v.size();
+    return (int)v.tam;
 }
 
 bool salvaPontuacao(const std::string &nomeArquivo, const Historico &h) {
@@ -73,11 +74,11 @@ bool telaDigitarNome(std::string &nome, int pontuacao) {
         return IsKeyPressed(KEY_ENTER) && !nome.empty();
     }
 
-void imprimeHistorico(const std::vector<Historico> &v, int quantos) { // TEMP
-    std::cout << "Historico (" << v.size() << " registros)\n";
+void imprimeHistorico(const Vec<Historico> &v, int quantos) { // TEMP
+    std::cout << "Historico (" << v.tam << " registros)\n";
 
-    for (int i = 0; i < (int)v.size() && i < quantos; i++) {
-        std::cout << i + 1 << ". [" << v[i].nome << "] " << v[i].pontuacao << "\n";
+    for (int i = 0; i < (int)v.tam && i < quantos; i++) {
+        std::cout << i + 1 << ". [" << v.arr[i].nome << "] " << v.arr[i].pontuacao << "\n";
     }
 }
 

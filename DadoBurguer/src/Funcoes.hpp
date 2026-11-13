@@ -5,6 +5,7 @@
 #include "Funcoes.hpp"
 #include "Structs.hpp"
 #include <vector>
+#include "Vec.hpp"
 #include <string>
 #include "Montagem.hpp"
 
@@ -157,16 +158,16 @@ std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, Tab
 // MERGESORT
 
 static bool vemAntes(const Historico &a, const Historico &b);
-static void merge(std::vector<Historico> &v, std::vector<Historico> &aux, int ini, int meio, int fim);
-static void mergeSortRec(std::vector<Historico> &v, std::vector<Historico> &aux, int ini, int fim);
-void mergeSort(std::vector<Historico> &v);
+static void merge(Vec<Historico> &v, Vec<Historico> &aux, int ini, int meio, int fim);
+static void mergeSortRec(Vec<Historico> &v, Vec<Historico> &aux, int ini, int fim);
+void mergeSort(Vec<Historico> &v);
 
 // FIM JOGO
 
 bool telaDigitarNome(std::string &nome, int pontuacao);
 bool salvaPontuacao(const std::string &nomeArquivo, const Historico &h);
-int carregaHistorico(const std::string &nomeArquivo, std::vector<Historico> &v);
-void imprimeHistorico(const std::vector<Historico> &v, int quantos = 10);
+int carregaHistorico(const std::string &nomeArquivo, Vec<Historico> &v);
+void imprimeHistorico(const Vec<Historico> &v, int quantos = 10);
 static bool arquivoTerminaEmQuebra(const std::string &nomeArquivo);
 
 // DEBUGGING

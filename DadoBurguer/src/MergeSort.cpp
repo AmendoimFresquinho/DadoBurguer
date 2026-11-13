@@ -1,30 +1,31 @@
-#include <vector>
+//#include <vector>
+#include "Vec.hpp"
 #include "Structs.hpp"
 
 static bool vemAntes(const Historico &a, const Historico &b){
     return a.pontuacao > b.pontuacao;
 }
 
-static void merge(std::vector<Historico> &v, std::vector<Historico> &aux, int ini, int meio, int fim){
+static void merge(Vec<Historico> &v, Vec<Historico> &aux, int ini, int meio, int fim){
     int i = ini;         
     int j = meio + 1;    
     int k = ini;         
 
     while (i <= meio && j <= fim) {
        
-        if (vemAntes(v[j], v[i])) 
-            aux[k++] = v[j++];
+        if (vemAntes(v.arr[j], v.arr[i])) 
+            aux.arr[k++] = v.arr[j++];
         else
-            aux[k++] = v[i++];
+            aux.arr[k++] = v.arr[i++];
     }
-    while (i <= meio) aux[k++] = v[i++];
-    while (j <= fim) aux[k++] = v[j++];
+    while (i <= meio) aux.arr[k++] = v.arr[i++];
+    while (j <= fim) aux.arr[k++] = v.arr[j++];
 
     for (k = ini; k <= fim; k++)
-        v[k] = aux[k];
+        v.arr[k] = aux.arr[k];
 }
 
-static void mergeSortRec(std::vector<Historico> &v, std::vector<Historico> &aux, int ini, int fim){
+static void mergeSortRec(Vec<Historico> &v, Vec<Historico> &aux, int ini, int fim){
     if (ini >= fim) return;
     int meio = (ini + fim) / 2;
     mergeSortRec(v, aux, ini, meio);
@@ -32,8 +33,8 @@ static void mergeSortRec(std::vector<Historico> &v, std::vector<Historico> &aux,
     merge(v, aux, ini, meio, fim);
 }
 
-void mergeSort(std::vector<Historico> &v){
-    if (v.size() < 2) return;
-    std::vector<Historico> aux(v.size());
-    mergeSortRec(v, aux, 0, (int)v.size() - 1);
+void mergeSort(Vec<Historico> &v){
+    if (v.tam < 2) return;
+    Vec<Historico> aux(v.tam);
+    mergeSortRec(v, aux, 0, (int)v.tam - 1);
 }

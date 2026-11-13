@@ -7,6 +7,7 @@
 #include <string>
 #include <iostream>
 #include "Montagem.hpp"
+#include "Vec.hpp"
 
 int main() {
     
@@ -125,8 +126,8 @@ int main() {
     int TurnoAssado[4] = {};
     int QualTurno = 0;
 
-    std :: vector<Historico> historico;
-    historico.clear();
+    Vec<Historico> historico;
+    historico.wipe();
     carregaHistorico("DadoBurguer/Arquivos/historico.txt", historico);
     mergeSort(historico);
     std :: string nome;
@@ -450,7 +451,7 @@ int main() {
                 if (telaDigitarNome(nome, pontuacao)) {
                     Historico novo = {nome, pontuacao};
                     salvaPontuacao("DadoBurguer/Arquivos/historico.txt", novo);   // append no arquivo
-                    historico.push_back(novo);
+                    historico.push(novo);
                     mergeSort(historico);
                     if(IsKeyPressed(KEY_ENTER)) { 
                         EstadoPrograma = MENU;

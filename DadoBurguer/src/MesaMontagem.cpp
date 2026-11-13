@@ -25,7 +25,7 @@ void iniciaTelaMontagem(TelaMontagem &t) {
     t.slotHam = { t.painelInv.x + t.painelInv.width + espaco - m.width * 0.005f, area.y + (area.height - ladoSlot) / 2.0f, ladoSlot, ladoSlot + 20 };
 
     t.painelHamb = { m.x + m.width * 0.0075f, m.y + m.height * 0.051f, m.width * 0.485f, m.height * 0.918f };
-
+    t.temNaTabua = false;
     t.slotsInv.clear();
     float cw = t.painelInv.width  / 3.0f;
     float ch = t.painelInv.height / 3.0f;
@@ -107,7 +107,7 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
 
         removeDoInventario(t.slotHover, inventario);
         reconstroiHeapDesatualizado(inventario, HEAP);
-        imprimirPilha(t.hamburguer);    
+        t.temNaTabua = true;
     }
 
     if(CheckCollisionPointRec(mouse, CentroHamburguer) && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && t.hamburguer.quantDados > 0 && inventario.tamanho < 9){
@@ -116,12 +116,12 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
             t.IngsNoHamburger[t.hamburguer.quantDados].turnoEstraga = Turno + 1;
         inserir(inventario,t.IngsNoHamburger[t.hamburguer.quantDados], inventario.tamanho);
         reconstroiHeapDesatualizado(inventario, HEAP);
+        if(t.hamburguer.quantDados == 0)
+            t.temNaTabua = false;
     }
 
     if(CheckCollisionPointRec(mouse, CentroHamburguer) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !tInv.temHamburgui){
-        Montagem::Pilha hamburguerNovo = {};
-        imprimirPilha(hamburguerNovo);
-        imprimirPilha(t.hamburguer);    
+        Montagem::Pilha hamburguerNovo = {};  
         clonarPilha(hamburguerNovo, t.hamburguer);
         imprimirPilha(hamburguerNovo);    
         tInv.hamburguer = hamburguerNovo;
@@ -129,12 +129,14 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
         for(int i = 0; i < t.hamburguer.quantDados; i++)
             t.IngsNoHamburger[i] = {};
         explodeHamburguer(t.hamburguer);
+        t.temNaTabua = false;
     }
 
-    if(tInv.temHamburgui && t.hamHover == 1 && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+    if(tInv.temHamburgui && t.hamHover == 1 && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && t.temNaTabua == false){
         clonarPilhaComVetor(t.hamburguer, tInv.hamburguer, t, IngredientesV);
         Montagem :: explodeHamburguer(tInv.hamburguer);
         tInv.temHamburgui = false;
+        t.temNaTabua = true;
     }
      
     for(int i = 0; i < inventario.tamanho; i++)

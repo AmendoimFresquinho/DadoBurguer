@@ -202,7 +202,8 @@ struct TelaMontagem {
 
     // conteúdo
     Montagem :: Pilha hamburguer;
-    IngredienteJogo IngsNoHamburger[10];           
+    IngredienteJogo IngsNoHamburger[10];  
+    bool temNaTabua = false;         
 
     // interação
     int hamHover = -1;

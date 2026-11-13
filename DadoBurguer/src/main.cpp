@@ -285,37 +285,37 @@ int main() {
                             std :: cout << "\n posicao do vetor (BOC): "<< QualTurno << "\n";
 
                             if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'n'&& Inventario.tamanho < 9){
-                                IngredienteJogo Carne_atualizada = {'n', true, carne_assada, "Carne Assada", Turno + 1};
+                                IngredienteJogo Carne_atualizada = {'n', true, carne_assada, "Carne Assada", Turno + 2};
                                 inserir(Inventario, Carne_atualizada, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }
                             else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'l'&& Inventario.tamanho < 9){
-                                IngredienteJogo Carne_atualizada2 = {'l', true, carne_queimada, "Carne Queimada", Turno + 1};
+                                IngredienteJogo Carne_atualizada2 = {'l', true, carne_queimada, "Carne Queimada", Turno + 2};
                                 inserir(Inventario, Carne_atualizada2, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }
                             else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'b'&& Inventario.tamanho < 9){
-                                IngredienteJogo Bacon_Atualizado = {'b', true, baconFrito, "Bacon Frito", Turno + 1};
+                                IngredienteJogo Bacon_Atualizado = {'b', true, baconFrito, "Bacon Frito", Turno + 2};
                                 inserir(Inventario, Bacon_Atualizado, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }
                             else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'o'&& Inventario.tamanho < 9){
-                                IngredienteJogo Ovo_Atualizado = {'o', true, ovoFrito, "Ovo Frito", Turno + 1};
+                                IngredienteJogo Ovo_Atualizado = {'o', true, ovoFrito, "Ovo Frito", Turno + 2};
                                 inserir(Inventario, Ovo_Atualizado, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }
                             else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 'q'&& Inventario.tamanho < 9){
-                                IngredienteJogo Cheddar_Atualizado = {'q', true, cheddarFrito, "Cheddar Feito", Turno + 1};
+                                IngredienteJogo Cheddar_Atualizado = {'q', true, cheddarFrito, "Cheddar Feito", Turno + 2};
                                 inserir(Inventario, Cheddar_Atualizado, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
                             }  
                             else if(acessar(telaFogao.carnes, escolhidoFogBoc).codigo == 's'&& Inventario.tamanho < 9){
-                                IngredienteJogo Suico_Atualizado = {'s', true, suicoFrito, "Suico Feito", Turno + 1};
+                                IngredienteJogo Suico_Atualizado = {'s', true, suicoFrito, "Suico Feito", Turno + 2};
                                 inserir(Inventario, Suico_Atualizado, Inventario.tamanho); 
                                 reconstroiHeapDesatualizado(Inventario, HEAP_PERECIVEIS);
                                 remover(telaFogao.carnes, escolhidoFogBoc);
@@ -407,7 +407,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade, Clientela);
                         criaFilaClientes(Dificuldade, Sprites, Raiz, HashPedidos, HIT, MISS, SpritesEspeciais, Clientela, TAM_FILA, CodigoMax, CodigoMin);
                         EstadoPrograma = JOGANDO;
                     }
@@ -455,7 +455,8 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade, Clientela);
+                        criaFilaClientes(Dificuldade, Sprites, Raiz, HashPedidos, HIT, MISS, SpritesEspeciais, Clientela, TAM_FILA, CodigoMax, CodigoMin);
                         EstadoPrograma = JOGANDO;
                     }
                 }

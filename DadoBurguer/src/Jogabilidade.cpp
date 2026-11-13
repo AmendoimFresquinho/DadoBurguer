@@ -5,14 +5,14 @@
 #include "Montagem.hpp"
 #include <iostream>
 
-void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS){
+void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade){
     turno++;
-    stamina = STAMINA; 
+    stamina = configuraDificuldadeStamina(dificuldade, stamina); 
       if(HEAP_PERECIVEIS.tamanho > 0)
         verificaSeEstragou(HEAP_PERECIVEIS, Inventario, turno);
 }
 
-void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS){
+void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade){
 
     Rectangle passaTurnoRec = {LARGURA - 157, ALTURA - 26.5, 150, 20 };
     DrawRectangleRounded(passaTurnoRec, 2.67, 67/6.7, LIGHTGRAY);
@@ -21,7 +21,7 @@ void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, Fil
     if(CheckCollisionPointRec(GetMousePosition(), passaTurnoRec)){
         DrawRectangleRounded(passaTurnoRec, 2.67, 67/6.7, Fade(WHITE, 0.4f));
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-            passaTurno(turno, stamina, Inventario, HEAP_PERECIVEIS);
+            passaTurno(turno, stamina, Inventario, HEAP_PERECIVEIS, dificuldade);
     }
 }
 
@@ -45,43 +45,28 @@ int testaStamina (const int &stamina, const int quantoGasta){
     return stamina - quantoGasta;
 }
 
-void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &menu, Texture2D &pausa, Texture2D &fundo, Texture2D &paoCima, Texture2D &paoBaixo,Texture2D &cheddar,Texture2D &suico, Texture2D &carne_crua, Texture2D &alface, Texture2D &tomate, Texture2D &ketchup, Texture2D &mostarda, Texture2D &cebola, Texture2D &ovo, Texture2D &bacon, Texture2D &picles, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER){
+void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER, Texture2D texturas[40]){
 
     DescarregarAnimJogador(animJogador);
     DescarregarTelaEstoque(telaEstoque);
-    UnloadTexture(menu);
-    UnloadTexture(pausa);
-    UnloadTexture(fundo);
-    UnloadTexture(pausa);
-    UnloadTexture(paoCima);
-    UnloadTexture(paoBaixo);
-    UnloadTexture(cheddar);
-    UnloadTexture(suico);
-    UnloadTexture(carne_crua);
-    UnloadTexture(alface);
-    UnloadTexture(tomate);
-    UnloadTexture(ketchup);
-    UnloadTexture(mostarda);
-    UnloadTexture(cebola);
-    UnloadTexture(ovo);
-    UnloadTexture(bacon);
-    UnloadTexture(picles);
+    for(int i = 0; i < 33; i++){
+        UnloadTexture(texturas[i]);
+    }
     UnloadTexture(RENDER);
     UnloadTexture(hambuergao);
     UnloadImage(IMAGEMHAMBURGUER);
 
-
     CloseWindow();
 }
 
-void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte, TelaInventario &telaInv, TelaMontagem &telaMonta){
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte, TelaInventario &telaInv, TelaMontagem &telaMonta, Dificuldade &dificuldade){
     jogador = { 250.0f, 64.0f, { 340, 360 }, { 0, 0 }, 32.0f, 64.0f };
     estado = { false, TELA_JOGO };
     anim.frame = 0;
     anim.tempo = 0.0f;
     anim.direcao = DIR_BAIXO;
     inv.tamanho = 0;
-    stamina = STAMINA;
+    stamina = configuraDificuldadeStamina(dificuldade, stamina);
     turno = 0;
     heap.tamanho = 0;
     encDestruir(hash);
@@ -152,3 +137,4 @@ void fpImprimir(const FilaPrioridade &fp) { //FUNCAO TEMPORARIA PARA DEBUGAR
         std::cout << "\n";
     }
 }
+

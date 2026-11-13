@@ -13,24 +13,15 @@ void iniciaTelaMontagem(TelaMontagem &t) {
    t.moldura = { L * 0.05f, A * 0.08f, L * 0.90f, A * 0.84f };
     const Rectangle &m = t.moldura;
 
-    // Área disponível na direita.
-    Rectangle area = {
-        m.x + m.width * 0.506f,
-        m.y + m.height * 0.051f,
-        m.width * 0.485f,
-        m.height * 0.918f
-    };
+    Rectangle area = { m.x + m.width * 0.506f, m.y + m.height * 0.051f, m.width * 0.485f, m.height * 0.918f };
 
     float espaco = m.width * 0.015f;
 
-    // Inventário ocupa 3 partes; hambúrguer ocupa 1 parte.
     float ladoSlot = (area.width - espaco) / 4.0f;
     float ladoInv = ladoSlot * 3.0f;
 
-    // Inventário quadrado e centralizado verticalmente.
     t.painelInv = { area.x, area.y + (area.height - ladoInv) / 2.0f, ladoInv, ladoInv };
 
-    // Slot do hambúrguer à direita, na altura da linha central.
     t.slotHam = { t.painelInv.x + t.painelInv.width + espaco - m.width * 0.005f, area.y + (area.height - ladoSlot) / 2.0f, ladoSlot, ladoSlot + 20 };
 
     t.painelHamb = { m.x + m.width * 0.0075f, m.y + m.height * 0.051f, m.width * 0.485f, m.height * 0.918f };
@@ -119,10 +110,10 @@ void desenhaTelaMontagem(TelaMontagem &t, ListaContiguaINV &inventario, Image &t
         imprimirPilha(t.hamburguer);    
     }
 
-    if(CheckCollisionPointRec(mouse, CentroHamburguer) && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && t.hamburguer.quantDados > 0){
+    if(CheckCollisionPointRec(mouse, CentroHamburguer) && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && t.hamburguer.quantDados > 0 && inventario.tamanho < 9){
         Montagem::removerIngrediente(t.hamburguer, tmp_img);
         if(t.IngsNoHamburger[t.hamburguer.quantDados].ehPerecivel)
-            t.IngsNoHamburger[t.hamburguer.quantDados].turnoEstraga = Turno + 2;
+            t.IngsNoHamburger[t.hamburguer.quantDados].turnoEstraga = Turno + 1;
         inserir(inventario,t.IngsNoHamburger[t.hamburguer.quantDados], inventario.tamanho);
         reconstroiHeapDesatualizado(inventario, HEAP);
     }

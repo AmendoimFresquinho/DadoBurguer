@@ -83,7 +83,6 @@ Bloco* ProcuraInteragir(const Jogador& player, std::vector<Bloco>& blocks, float
 void FazInteracao(const Bloco& bloco, EstadoJogo& estado) {
     switch (bloco.acao) {
         case ABRIR_FOGAO: estado.tela = TELA_FOGAO; break;
-        case ACAO_ABRIR_GELADEIRA: break;
         case ACAO_ABRIR_ESTOQUE: estado.tela = TELA_ESTOQUE; break;
         case ACAO_CORTAR: estado.tela = TELA_CORTE; break;
         case ACAO_ATENDER: break;

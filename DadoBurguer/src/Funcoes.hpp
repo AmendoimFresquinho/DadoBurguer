@@ -133,19 +133,21 @@ void imprimirPilha(const Montagem::Pilha& pilha);
 
 // JOGABILIDADE
 
-void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);
+void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade);
 void desenhaTurno(const int &turno, const int &stamina);
-void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &menu, Texture2D &pausa, Texture2D &fundo, Texture2D &paoCima, Texture2D &paoBaixo,Texture2D &cheddar,Texture2D &suico, Texture2D &carne_crua, Texture2D &alface, Texture2D &tomate, Texture2D &ketchup, Texture2D &mostarda, Texture2D &cebola, Texture2D &ovo, Texture2D &bacon, Texture2D &picles, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER);
-void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte, TelaInventario &telaInv, TelaMontagem &telaMonta);
+void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER, Texture2D texturas[40]);
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte, TelaInventario &telaInv, TelaMontagem &telaMonta, Dificuldade &dificuldade);
 int gastaStamina(int &stamina, const int quantoGasta);
 int testaStamina (const int &stamina, const int quantoGasta);
-void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS);
+void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade);
 void colocaNoHeapEstragado(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam, int &turno);
 IngredienteJogo* enderecoDe(ListaContiguaINV &lista, int i);
 void reconstroiHeapDesatualizado(ListaContiguaINV &inventario, FilaPrioridade &heap);
 void colocaNoHeapEstragadoSemTurno(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam);
 void verificaSeEstragou(FilaPrioridade &comidasEstragam, ListaContiguaINV &inventario, const int &turnoAtual);
 void DesenharDicaMouseInventario(const char* texto, ListaContiguaINV &inventario, int escolhido);
+int configuraDificuldadeStamina(Dificuldade &Dificuldade, int &Stamina);
+void telaDificuldade(Dificuldade &Dificuldade, Texture2D &tela, Texture2D &facil, Texture2D &medio, Texture2D &dificil, Texture2D &impossivel);
 
 // PEDIDOS
 
@@ -172,6 +174,8 @@ static bool arquivoTerminaEmQuebra(const std::string &nomeArquivo);
 void fpImprimir(const FilaPrioridade &fp);
 void imprime(ListaContiguaINV inv);
 void encImprimir(const TabelaEnc &t);
+
+// EMERGENCIA
 
 void clonarPilhaComVetor(Montagem::Pilha &destino, Montagem::Pilha &origem, TelaMontagem &t, IngredienteJogo IngredientesV[15]);
 

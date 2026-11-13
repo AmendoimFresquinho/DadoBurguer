@@ -53,7 +53,7 @@ void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const 
     DrawRectangleLinesEx(t.moldura, 4, BLACK);
     DrawRectangleLinesEx(t.tabua, 3, BLACK);
     DrawRectangleLinesEx(t.painelFaca, 3, BLACK);
-    DrawRectangleLinesEx(t.gradeInv, 3, BLACK);
+    DrawRectangleLinesEx(t.gradeInv, 4, BLACK);
 
     Vector2 mouse = GetMousePosition();
     Vector2 centroTabua = { t.tabua.x + t.tabua.width  / 2.0f, t.tabua.y + t.tabua.height / 2.0f };
@@ -64,9 +64,10 @@ void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const 
 
     // inventário 3x3
     for (int i = 0; i < 9; i++) {
+        
         if (i == t.slotHover)
-            DrawRectangleRec(t.slotsInv[i], LIGHTGRAY);
-
+            DrawRectangleRec(t.slotsInv[i], { 255, 200, 0, 40 });
+           
         DrawRectangleLinesEx(t.slotsInv[i], 2, BLACK);
     }
 
@@ -81,7 +82,6 @@ void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const 
         removeDoInventario(hover, inventario);
         reconstroiHeapDesatualizado(inventario, HEAP);
         imprime(inventario);
-        std::cout << hover;
     }
 
     if(t.temNaTabua && CheckCollisionPointRec(mouse, Centro) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){

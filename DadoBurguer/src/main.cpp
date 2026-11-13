@@ -71,6 +71,13 @@ int main() {
     Texture2D pausa = LoadTexture("DadoBurguer/assets/pausa.png");
     Texture2D fundo = LoadTexture("DadoBurguer/assets/fundo.png");
     Texture2D texFaca = LoadTexture("DadoBurguer/assets/faca.png");
+    Texture2D telaDif = LoadTexture("DadoBurguer/assets/tela_dificuldade.png");
+    Texture2D DifFacil = LoadTexture("DadoBurguer/assets/facil.png");
+    Texture2D DifMedio= LoadTexture("DadoBurguer/assets/medio.png");
+    Texture2D DifDificil= LoadTexture("DadoBurguer/assets/dificil.png");
+    Texture2D DifImpossivel = LoadTexture("DadoBurguer/assets/impossivel.png");
+
+    Texture2D Texturas[40] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel};
 
     ESTADO_PROGRAMA EstadoPrograma = MENU; 
     std::vector<Rectangle> paredes;
@@ -92,7 +99,7 @@ int main() {
     ListaContiguaINV Inventario;
     Inventario.tamanho = 0;
     int Turno = 0;
-    int Stamina = STAMINA;
+    int Stamina = STAMINA_MEDIO;
 
     TabelaEnc HashPedidos;
     encInicializar(HashPedidos, TAMANHO_HASH);
@@ -151,6 +158,8 @@ int main() {
     Mont_Carne = LoadImage("DadoBurguer/assets/Montagem/BifeCinza.png");
     Texture2D txt2 = LoadTextureFromImage(Mont_Carne);
     UnloadImage(Mont_Carne);*/
+    
+    Dificuldade Dificuldade = MEDIO;
 
     while (!WindowShouldClose()) {
         HideCursor();
@@ -175,7 +184,7 @@ int main() {
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = PAUSADO;
                 if(Stamina <= 0)
-                    passaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS);
+                    passaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade);
                 
                 pontuacao = Turno;
 
@@ -330,7 +339,7 @@ int main() {
 
                     case TELA_JOGO:
                         DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado, Turno, Stamina);   // EM_JOGO
-                        BotaoPassaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS);
+                        BotaoPassaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade);
                     break;              
 
                     case TELA_FOGAO: {
@@ -376,7 +385,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade);
                         EstadoPrograma = JOGANDO;
                     }
                 } 
@@ -393,7 +402,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnSair)) {
                     DrawRectangleRounded(btnSair, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                        FechaJogo(animJogador, telaEstoque, menu, pausa, fundo, paoCima, paoBaixo, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, telaRenderTeste, telaMontagem.hamburguer.textura, telaMontagem.hamburguer.image);
+                        FechaJogo(animJogador, telaEstoque, telaRenderTeste, telaMontagem.hamburguer.textura, telaMontagem.hamburguer.image, Texturas);
                 } 
                 if(CheckCollisionPointRec(GetMousePosition(), btnComoJogar)) {
                     DrawRectangleRounded(btnComoJogar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
@@ -423,7 +432,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade);
                         EstadoPrograma = JOGANDO;
                     }
                 }
@@ -461,11 +470,10 @@ int main() {
             }
 
             case DIFICULDADE: {
-                ClearBackground(GREEN);
-                if(GetCharPressed() > 0)
+                ClearBackground(RAYWHITE);
+                telaDificuldade(Dificuldade, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel);
+                if(IsKeyPressed(KEY_ESCAPE))
                     EstadoPrograma = MENU;
-                DrawText("MANUTENCAO", 200, 200, 100, BLACK);
-                DrawText("CLIQUE QUALQUER COISA PRA SAIR", 200, 400, 50, BLACK);
                 break;
             }
 
@@ -514,31 +522,7 @@ int main() {
         if (blocos[i].textura.id != 0) 
             UnloadTexture(blocos[i].textura);
 
-    DescarregarAnimJogador(animJogador);
-    DescarregarTelaEstoque(telaEstoque);
-    UnloadTexture(menu);
-    UnloadTexture(pausa);
-    UnloadTexture(fundo);
-    UnloadTexture(pausa);
-    UnloadTexture(paoCima);
-    UnloadTexture(paoBaixo);
-    UnloadTexture(cheddar);
-    UnloadTexture(suico);
-    UnloadTexture(carne_crua);
-    UnloadTexture(alface);
-    UnloadTexture(tomate);
-    UnloadTexture(ketchup);
-    UnloadTexture(mostarda);
-    UnloadTexture(cebola);
-    UnloadTexture(ovo);
-    UnloadTexture(bacon);
-    UnloadTexture(picles);
-    UnloadTexture(mouse);
-    //UnloadTexture(txt);
-    //UnloadTexture(txt2);
-    UnloadTexture(telaRenderTeste);
-    UnloadTexture(telaMontagem.hamburguer.textura);
-    UnloadImage(telaMontagem.hamburguer.image);
+    FechaJogo(animJogador, telaEstoque, telaRenderTeste, telaMontagem.hamburguer.textura, telaMontagem.hamburguer.image, Texturas);
 
     CloseWindow();
 

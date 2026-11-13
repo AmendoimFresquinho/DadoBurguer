@@ -55,7 +55,6 @@ struct TabelaEnc {
 enum Acoes {
     SEM_ACAO,
     ABRIR_FOGAO,
-    ACAO_ABRIR_GELADEIRA,
     ACAO_ABRIR_ESTOQUE,
     ACAO_CORTAR,
     ACAO_ATENDER,
@@ -214,4 +213,17 @@ struct TelaMontagem {
     int hamHover = -1;
     int slotHover = -1;
     int escolhidoINV = -1;
+};
+
+enum Dificuldade {
+    FACIL,
+    MEDIO,
+    DIFICIL,
+    IMPOSSIVEL
+};
+
+struct Cliente {
+    int Paciencia;
+    Texture2D sprite;
+    std :: string pedido;   
 };

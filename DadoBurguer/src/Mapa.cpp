@@ -41,12 +41,10 @@ void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos) 
     paredes.push_back({ xFina, ESPESSURA, ESPESSURA_FINA, 196 });                    
     paredes.push_back({ xFina, 398, ESPESSURA_FINA, ALTURA - ESPESSURA - 398 });          
 
-    blocos.push_back(CriarBloco({ 190, ESPESSURA - 30, 60, 100 }, "Estoque", "DadoBurguer/assets/estoque.png", RED, true, ACAO_ABRIR_ESTOQUE, STAMINA_ESTOQUE));
-
     for (int i = 0; i < 3; i++) 
         blocos.push_back(CriarBloco({ ESPESSURA - 12, 100.0f + 80.0f * i, 76, 88 }, "Gabinete", "DadoBurguer/assets/gabinete.png", BROWN, false, SEM_ACAO, 0));
     
-    blocos.push_back(CriarBloco({ ESPESSURA, 386, 60, 88 }, "Geladeira", "DadoBurguer/assets/geladeira.png", SKYBLUE, true, ACAO_ABRIR_GELADEIRA, STAMINA_GELADEIRA));
+    blocos.push_back(CriarBloco({ ESPESSURA, 386, 60, 88 }, "Geladeira", "DadoBurguer/assets/geladeira.png", SKYBLUE, true, ACAO_ABRIR_ESTOQUE, STAMINA_GELADEIRA));
     
     blocos.push_back(CriarBloco({ ESPESSURA - 15, 504, 90, 110 }, "Fogão", "DadoBurguer/assets/fogao.png", DARKGRAY, true, ABRIR_FOGAO, STAMINA_FOGAO));
 
@@ -54,7 +52,7 @@ void ConstruirMapa(std::vector<Rectangle>& paredes, std::vector<Bloco>& blocos) 
 
     blocos.push_back(CriarBloco({ xFina + ESPESSURA_FINA / 2 - 58, 228, 116, 170 }, "Atendimento", "DadoBurguer/assets/balcao.png", BEIGE, true, ACAO_ATENDER, 1));
 
-    blocos.push_back(CriarBloco({ 484 - 75, 600, 140, 90 }, "Mesa de Montagem", "DadoBurguer/assets/mesa_montagem.png", ORANGE, true, ACAO_MONTAR, 1));
+    blocos.push_back(CriarBloco({ 484 - 100, 600, 140, 90 }, "Mesa de Montagem", "DadoBurguer/assets/mesa_montagem.png", ORANGE, true, ACAO_MONTAR, 1));
 
 }
 

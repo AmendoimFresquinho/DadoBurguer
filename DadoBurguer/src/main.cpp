@@ -8,11 +8,15 @@
 #include <iostream>
 #include "Montagem.hpp"
 #include "Vec.hpp"
+#include "Som.hpp"
 
 int main() {
     
     InitWindow((int)LARGURA, (int)ALTURA, "DADOBURGUER");
+    InitAudioDevice();
     SetTargetFPS(60);
+    SetMasterVolume(1.0f);
+    
 
     Texture2D paoCima = LoadTexture("DadoBurguer/assets/INV/cima_pao_inventario.png");
     Texture2D paoBaixo = LoadTexture("DadoBurguer/assets/INV/baixo_pao_inventario.png");
@@ -188,10 +192,21 @@ int main() {
     inicializaFila(Clientela);
     int TAM_FILA = 0;
 
+    SFX_PACK sfx; //{SFX_defaultPath, SFX_defaultExtension};
+    sfx.LoadPack(SFX_defaultPath, SFX_defaultExtension);
+    SetMusicVolume(sfx.background, 0.24f);
+    PlayMusicStream(sfx.background);
+    //SetSoundVolume(sfx.tony, 1.0f);
+    //sfx.tony = LoadSound("DadoBurguer/assets/som/tony.mp3");
+
+    //Sound testeSonoro = LoadSound("DadoBurguer/assets/som/default/tony.mp3");
+
     while (!WindowShouldClose()) {
         HideCursor();
         Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH); // Sempre procura um bloco possivelmente interagivel
         Vector2 mousePos = GetMousePosition();
+
+        UpdateMusicStream(sfx.background);
 
         BeginDrawing();
 
@@ -425,6 +440,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                        //PlaySound(sfx.tony);
                         ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade, Clientela, Processos, Pontuacao);
                         criaFilaClientes(Dificuldade, Sprites, Raiz, HashPedidos, HIT, MISS, SpritesEspeciais, Clientela, TAM_FILA, CodigoMax, CodigoMin);
                         EstadoPrograma = JOGANDO;
@@ -566,6 +582,9 @@ int main() {
 
     FechaJogo(animJogador, telaEstoque, telaRenderTeste, telaMontagem.hamburguer.textura, telaMontagem.hamburguer.image, Texturas);
 
+    sfx.UnloadPack();
+
+    CloseAudioDevice();
     CloseWindow();
 
     return 0;

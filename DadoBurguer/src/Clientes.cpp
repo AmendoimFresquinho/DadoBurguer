@@ -73,7 +73,6 @@ Cliente criaClientePadrao(Dificuldade &dificuldade, Texture2D sprites[10], NodoA
     novo.pedido = SorteiaPedidos(raiz, codigoMax, codigoMin, hash, HIT, MISS);
 
     return novo;
-
 }
 
 Cliente CriaclienteEspecial(Texture2D sprites[2]){
@@ -89,6 +88,7 @@ Cliente CriaclienteEspecial(Texture2D sprites[2]){
     int ESCOLHIDO = qualEh(gen);
 
     switch (ESCOLHIDO) {
+
     case 1:
         novo.sprite = sprites[0];
         novo.pedido = "xqsqsqsqsz";
@@ -114,15 +114,15 @@ void criaFilaClientes(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *
 
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> Especial(1, 10);
+    std::uniform_int_distribution<> Especial(1, 20);
 
     int EhEspecial;
 
-    for(int i = 0; i < 9; i++){   
+    for(int i = 0; i < TAM_FILA; i++){   
 
         EhEspecial = Especial(gen);
 
-        if(EhEspecial >= 0 && EhEspecial <= 9){
+        if(EhEspecial >= 0 && EhEspecial <= 19){
             Cliente novo = criaClientePadrao(dificuldade, sprites, raiz, hash, HIT, MISS, codigoMax, codigoMin);
             enfileira(Clientes, novo);
         }
@@ -138,16 +138,110 @@ void desenhaFila(FilaEnc &f){
     NodoFila *aux = f.frente;
     Vector2 Posicao = {680, 280};
 
-    while(aux != nullptr){
-        if(aux->dado.ehEspecial){
-            SetTextureFilter(aux->dado.sprite, TEXTURE_FILTER_POINT);
-            DrawTextureEx(aux->dado.sprite, Posicao, 0.0f, 1.0f, WHITE);
+    if(f.tamanho > 0){ // Anticrash
+        for(int i = 0; i < 9; i++){   
+            if(aux->dado.ehEspecial){
+                SetTextureFilter(aux->dado.sprite, TEXTURE_FILTER_POINT);
+                DrawTextureEx(aux->dado.sprite, Posicao, 0.0f, 1.0f, WHITE);
+            }
+            else{
+                SetTextureFilter(aux->dado.sprite, TEXTURE_FILTER_POINT);
+                DrawTextureEx(aux->dado.sprite, Posicao, 0.0f, 2.0f, WHITE);
+            }
+            if(aux->prox == nullptr)
+                break;
+            aux = aux->prox;
+            Posicao.x += 60;
+        }
+    }
+}
+
+void desenhaPedido(FilaEnc &f, IngredienteJogo Ings[QUANTIDADE_INGREDIENTES], Texture2D &caixaPensamento){
+
+    Rectangle origem = { 0, 0, (float)caixaPensamento.width, (float)caixaPensamento.height };
+    Rectangle destinoEsp = { 700, 50, 96, 240 };
+    Rectangle destinoNorm = { 700, 90, 96, 190 };
+
+    if(f.tamanho > 0){
+        SetTextureFilter(caixaPensamento, TEXTURE_FILTER_POINT);
+        if (f.frente->dado.ehEspecial ) DrawTexturePro(caixaPensamento, origem, destinoEsp, {0,0}, 0.0f, WHITE);
+        else DrawTexturePro(caixaPensamento, origem, destinoNorm, {0,0}, 0.0f, WHITE);
+
+        for(int i = 0; i < f.frente->dado.pedido.size(); i++){
+            char escolhido = f.frente->dado.pedido[i];
+            Vector2 Posicao = {730, (float)(190 - (i * 14))};
+
+            if(escolhido == 'z') DrawTextureEx(Ings[0].textura, Posicao, 0.0f, 1.0f, WHITE);
+            if(escolhido == 'x') DrawTextureEx(Ings[1].textura, Posicao, 0.0f, 1.0f, WHITE);
+            if(escolhido == 'u') DrawTextureEx(Ings[2].textura, Posicao, 0.0f, 1.0f, WHITE);
+            if(escolhido == 'n') DrawTextureEx(Ings[13].textura, Posicao, 0.0f, 1.0f, WHITE);
+            if(escolhido == 'l') DrawTextureEx(Ings[14].textura, Posicao, 0.0f, 1.0f, WHITE);
+            if(escolhido == 's') DrawTextureEx(Ings[17].textura, Posicao, 0.0f, 1.0f, WHITE);
+            if(escolhido == 'q') DrawTextureEx(Ings[18].textura, Posicao, 0.0f, 1.0f, WHITE);
+            if(escolhido == 'a') DrawTextureEx(Ings[5].textura, Posicao, 0.0f, 1.0f, WHITE);
+            if(escolhido == 'k') DrawTextureEx(Ings[6].textura, {Posicao.x + 33, Posicao.y}, 90.0f, 1.0f, WHITE);
+            if(escolhido == 'm') DrawTextureEx(Ings[7].textura, {Posicao.x + 33, Posicao.y}, 90.0f, 1.0f, WHITE);
+            if(escolhido == 'p') DrawTextureEx(Ings[8].textura, Posicao, 0.0f, 1.0f, WHITE);
+            if(escolhido == 'c') DrawTextureEx(Ings[20].textura, Posicao, 0.0f, 1.0f, WHITE);
+            if(escolhido == 't') DrawTextureEx(Ings[19].textura, Posicao, 0.0f, 1.0f, WHITE);
+            if(escolhido == 'o') DrawTextureEx(Ings[15].textura, Posicao, 0.0f, 1.0f, WHITE);
+            if(escolhido == 'b') DrawTextureEx(Ings[16].textura, Posicao, 0.0f, 1.0f, WHITE);
+        }
+    }
+}
+
+void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv){
+
+    int Multiplicador = 0, cont = 0;
+    Image tmp_img = {0};
+
+    if(dificuldade == FACIL) Multiplicador = PONTUACAO_ACERTO_FACIL;
+    else if(dificuldade == FACIL) Multiplicador = PONTUACAO_ACERTO_MEDIO;
+    else if(dificuldade == FACIL) Multiplicador = PONTUACAO_ACERTO_DIFICIL;
+    else Multiplicador = PONTUACAO_ACERTO_IMPOSSIVEL;
+
+    for(int i = telaInv.hamburguer.quantDados - 1; i >= 0; i--){
+
+        if (f.frente->dado.pedido[i] == telaInv.hamburguer.topo->ingrediente){
+            pontuacao += Multiplicador;
+            std::cout << "CERTO\n";
+            Montagem :: removerIngrediente(telaInv.hamburguer, tmp_img);
         }
         else{
-            SetTextureFilter(aux->dado.sprite, TEXTURE_FILTER_POINT);
-            DrawTextureEx(aux->dado.sprite, Posicao, 0.0f, 2.0f, WHITE);
+            pontuacao -= Multiplicador;
+            cont++;
+            std::cout << "ERRADO\n";
+            Montagem :: removerIngrediente(telaInv.hamburguer, tmp_img);
         }
-        aux = aux->prox;
-        Posicao.x += 60;
+    }
+
+    if(cont) processos++;
+    if(pontuacao < 0) pontuacao = 0;
+
+    Cliente lixo;
+    desenfileira(f, lixo);
+    Montagem :: explodeHamburguer(telaInv.hamburguer);
+    telaInv.temHamburgui = false;
+}
+
+void TelaConfirmacao(Texture2D &mainTela, Texture2D &sim, Texture2D &nao, EstadoJogo &estado, FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv){
+
+    Rectangle botaoSim = {404, 446, 211, 78};
+    Rectangle botaoNao = {654, 446, 211, 78};
+
+    DrawTexture(mainTela, 260, 146, WHITE);
+
+    if(CheckCollisionPointRec(GetMousePosition(), botaoSim)){
+        DrawTexture(sim, 404, 445, WHITE);
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            checaSeAcertou(f, pontuacao, dificuldade, processos, telaInv);
+            estado.tela = TELA_JOGO;
+        }
+    }
+
+    if(CheckCollisionPointRec(GetMousePosition(), botaoNao)){
+        DrawTexture(nao, 656, 445, WHITE);
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+            estado.tela = TELA_JOGO;
     }
 }

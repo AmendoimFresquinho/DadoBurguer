@@ -14,7 +14,7 @@ int configuraDificuldadeStamina(Dificuldade &Dificuldade, int &Stamina){
 
 }
 
-void telaDificuldade(Dificuldade &Dificuldade, Texture2D &tela, Texture2D &facil, Texture2D &medio, Texture2D &dificil, Texture2D &impossivel){
+void telaDificuldade(Dificuldade &Dificuldade, Texture2D &tela, Texture2D &facil, Texture2D &medio, Texture2D &dificil, Texture2D &impossivel, int &processos){
 
     Vector2 mouse = GetMousePosition();
     
@@ -59,4 +59,15 @@ void telaDificuldade(Dificuldade &Dificuldade, Texture2D &tela, Texture2D &facil
             Dificuldade = IMPOSSIVEL;
         }
     }
+}
+
+bool checaProcessos(int &processos, Dificuldade &dificuldade){
+
+    if(dificuldade == FACIL && processos >= 5) return true;
+    if(dificuldade == MEDIO && processos >= 4) return true;
+    if(dificuldade == DIFICIL && processos >= 2) return true;
+    if(dificuldade == IMPOSSIVEL && processos >= 1) return true;
+
+    return false;
+
 }

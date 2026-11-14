@@ -85,7 +85,7 @@ void DesenharEtiqueta(const char* texto, int x, int y) {
     DrawText(texto, x, y, 20, WHITE);
 }
 
-void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos, const Jogador& jogador, const AnimJogador& anim, const Bloco* alvo, const EstadoJogo& estado, const int &turno, const int &stamina) {
+void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos, const Jogador& jogador, const AnimJogador& anim, const Bloco* alvo, const EstadoJogo& estado, const int &turno, const int &stamina, const int &processos, const int &pontuacao) {
 
     Rectangle hb = HitBox(jogador);
     Rectangle sprite = { jogador.posicao.x - jogador.tamanho / 2,(jogador.posicao.y + jogador.alturaHit / 2) - jogador.tamanho, jogador.tamanho, jogador.tamanho };
@@ -104,5 +104,6 @@ void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos, con
     }
 
     desenhaTurno(turno, stamina);
+    desenhaProcessos(processos);
 
 }

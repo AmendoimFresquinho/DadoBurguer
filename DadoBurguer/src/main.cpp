@@ -91,8 +91,14 @@ int main() {
 
     Texture2D Especial1 = LoadTexture("DadoBurguer/assets/Clientes/BigT.png");
     Texture2D Especial2 = LoadTexture("DadoBurguer/assets/Clientes/Ronald.png");
+    
+    Texture2D TelaConfirmar = LoadTexture("DadoBurguer/assets/tela_confirmacao.png");
+    Texture2D botaoSim = LoadTexture("DadoBurguer/assets/botao_sim_hover.png");
+    Texture2D botaoNao = LoadTexture("DadoBurguer/assets/botao_nao_hover.png");
 
-    Texture2D Texturas[50] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10};
+    Texture2D BalaoPensamento = LoadTexture("DadoBurguer/assets/Clientes/balao.png");
+
+    Texture2D Texturas[50] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim};
     Texture2D Sprites[10] = {Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10};
     Texture2D SpritesEspeciais[2] = {Especial1, Especial2};
 
@@ -148,7 +154,7 @@ int main() {
     mergeSort(historico);
     std :: string nome;
     nome.clear();
-    int pontuacao = Turno;
+    int Pontuacao = 0, Processos = 0;
     imprimeHistorico(historico, 10);
 
     carregaPedidos("DadoBurguer/Arquivos/pedidos.txt", Raiz, CodigoMax, CodigoMin);
@@ -202,13 +208,13 @@ int main() {
 
                 if(IsKeyPressed(KEY_J)) EstadoPrograma = FIM_JOGO;
 
+                if(checaProcessos(Processos, Dificuldade)) EstadoPrograma = FIM_JOGO;
+
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = PAUSADO;
                 if(Stamina <= 0)
                     passaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade);
                 
-                pontuacao = Turno;
-
                 Vector2 antes = jogador.posicao;
 
                 switch (estado.tela) { // SWITCH CASE DE LOGICA
@@ -220,6 +226,8 @@ int main() {
                         if (alvo != nullptr && IsKeyPressed(KEY_E) && testaStamina(Stamina, alvo->staminaGasta) >= 0){
                             FazInteracao(*alvo, estado);
                             gastaStamina(Stamina, alvo->staminaGasta);
+                                std::cout << Clientela.frente->dado.pedido << "\n";
+
                         } 
                         if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) estado.tela = TELA_INVENTARIO;
                         break;
@@ -354,43 +362,53 @@ int main() {
                     case TELA_MONTAGEM:
                         if (AtualizarTelaMontagem(telaMontagem)) estado.tela = TELA_JOGO; 
                         break;
+                    case TELA_ATENDER:
+                        if (telaInventario.temHamburgui){ 
+                            DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina, Processos, Pontuacao);  //Desenha o mundo para ficar bonito de fundo
+                            TelaConfirmacao(TelaConfirmar, botaoSim, botaoNao, estado, Clientela, Pontuacao, Dificuldade, Processos, telaInventario); 
+                        }
+                        else estado.tela = TELA_JOGO; 
+                        break;
                 }   
 
                 switch (estado.tela) { // SWITCH CASE DE GRAFICOS
 
                     case TELA_JOGO:
-                        DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado, Turno, Stamina);   // EM_JOGO
+                        DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado, Turno, Stamina, Processos, Pontuacao);   // EM_JOGO
                         BotaoPassaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade);
                         desenhaFila(Clientela);
+                        desenhaPedido(Clientela, Ingredientes_Para_Passar, BalaoPensamento);
                     break;              
 
                     case TELA_FOGAO: {
                         //ShowCursor();
-                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina, Processos, Pontuacao);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaFogao(telaFogao, Inventario);
                         desenhaPanelas(telaFogao.carnes, telaFogao.bocas, panela, carne_crua, carne_assada, carne_queimada, fogo, ovoFrito, ovo, baconFrito, bacon, TurnoAssado, cheddar, cheddarFrito, suico, suicoFrito, Turno);
                         break;
                     }
                     case TELA_ESTOQUE: 
                         //ShowCursor();
-                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina, Processos, Pontuacao);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaEstoque(telaEstoque, Inventario);
                         break;
                     
                     case TELA_INVENTARIO: 
                         //ShowCursor();
-                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina, Processos, Pontuacao);  //Desenha o mundo para ficar bonito de fundo
                         DesenharTelaInventario(telaInventario, Inventario);
                         break;
 
                     case TELA_CORTE:
-                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina, Processos, Pontuacao);  //Desenha o mundo para ficar bonito de fundo
                         desenhaTelaMesaCorte(telaCorte, Inventario, texFaca, cebolaFeita, tomateFeito, Stamina, HEAP_PERECIVEIS);
                         break;
 
                     case TELA_MONTAGEM:
-                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);  //Desenha o mundo para ficar bonito de fundo
+                        DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina, Processos, Pontuacao);  //Desenha o mundo para ficar bonito de fundo
                         desenhaTelaMontagem(telaMontagem, Inventario, tmp_img, HEAP_PERECIVEIS, Turno, telaInventario, IngredientesHamburguer);    
+                        break;
+                    case TELA_ATENDER:
                         break;
                 }   
                 break; //BREAK DO CASE GRANDE, NAO TIRAR (PARA MY PLISNO ASS)
@@ -407,7 +425,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnIniciar)) {
                     DrawRectangleRounded(btnIniciar, 0.35f, 8, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade, Clientela);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade, Clientela, Processos, Pontuacao);
                         criaFilaClientes(Dificuldade, Sprites, Raiz, HashPedidos, HIT, MISS, SpritesEspeciais, Clientela, TAM_FILA, CodigoMax, CodigoMin);
                         EstadoPrograma = JOGANDO;
                     }
@@ -442,7 +460,7 @@ int main() {
                     EstadoPrograma = JOGANDO;
 
                 //ShowCursor();
-                DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina);   // PAUSADO
+                DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina, Processos, Pontuacao);   // PAUSADO
                 DrawRectangle(0, 0, LARGURA, ALTURA, Color{ 0, 0, 0, 167 });   // película preta translúcida
                 DrawTexture(pausa, 420, 140, WHITE);
 
@@ -455,7 +473,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), pausaReiniciar)) {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade, Clientela);
+                        ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade, Clientela, Processos, Pontuacao);
                         criaFilaClientes(Dificuldade, Sprites, Raiz, HashPedidos, HIT, MISS, SpritesEspeciais, Clientela, TAM_FILA, CodigoMax, CodigoMin);
                         EstadoPrograma = JOGANDO;
                     }
@@ -471,8 +489,8 @@ int main() {
             case FIM_JOGO: {
                 ClearBackground(BLACK); 
 
-                if (telaDigitarNome(nome, pontuacao)) {
-                    Historico novo = {nome, pontuacao};
+                if (telaDigitarNome(nome, Pontuacao)) {
+                    Historico novo = {nome, Pontuacao};
                     salvaPontuacao("DadoBurguer/Arquivos/historico.txt", novo);   // append no arquivo
                     historico.push(novo);
                     mergeSort(historico);
@@ -495,7 +513,7 @@ int main() {
 
             case DIFICULDADE: {
                 ClearBackground(RAYWHITE);
-                telaDificuldade(Dificuldade, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel);
+                telaDificuldade(Dificuldade, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Processos);
                 if(IsKeyPressed(KEY_ESCAPE))
                     EstadoPrograma = MENU;
                 break;

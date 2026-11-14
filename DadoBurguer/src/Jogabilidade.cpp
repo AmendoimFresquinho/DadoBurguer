@@ -37,6 +37,20 @@ void desenhaTurno(const int &turno, const int &stamina){
     }
 }
 
+void desenhaPontuacao(const int &pontuacao){
+
+}
+
+void desenhaProcessos(const int &processos){
+    int distancia = 0;
+    DrawText("PROCESSOS:", 400, ALTURA - 25, 20, BLACK);
+    for(int i = 0; i < processos; i++){
+        Rectangle PROC = {400.0f + distancia + MeasureText("PROCESSOS:", 22), ALTURA - 23, 30, 15};
+        DrawRectangleRounded(PROC, 2, 4, RED);
+        distancia += 40;
+    }
+}
+
 int gastaStamina(int &stamina, const int quantoGasta){
     return stamina = stamina - quantoGasta;
 }
@@ -49,7 +63,7 @@ void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &ha
 
     DescarregarAnimJogador(animJogador);
     DescarregarTelaEstoque(telaEstoque);
-    for(int i = 0; i < 43; i++){
+    for(int i = 0; i < 49; i++){
         UnloadTexture(texturas[i]);
     }
     UnloadTexture(RENDER);
@@ -59,7 +73,7 @@ void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &ha
     CloseWindow();
 }
 
-void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte, TelaInventario &telaInv, TelaMontagem &telaMonta, Dificuldade &dificuldade, FilaEnc &fila){
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte, TelaInventario &telaInv, TelaMontagem &telaMonta, Dificuldade &dificuldade, FilaEnc &fila, int &processos, int &pontuacao){
     jogador = { 250.0f, 64.0f, { 340, 360 }, { 0, 0 }, 32.0f, 64.0f };
     estado = { false, TELA_JOGO };
     anim.frame = 0;
@@ -80,6 +94,8 @@ void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, List
         telaMonta.IngsNoHamburger[i] = {};
     telaMonta.temNaTabua = false;
     liberaFila(fila);
+    processos = 0;
+    pontuacao = 0;
 }
     
 void colocaNoHeapEstragado(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam, int &turno){
@@ -139,4 +155,3 @@ void fpImprimir(const FilaPrioridade &fp) { //FUNCAO TEMPORARIA PARA DEBUGAR
         std::cout << "\n";
     }
 }
-

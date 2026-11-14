@@ -63,7 +63,8 @@ enum Tela {
     TELA_ESTOQUE,
     TELA_INVENTARIO,
     TELA_MONTAGEM,
-    TELA_CORTE
+    TELA_CORTE,
+    TELA_ATENDER
 };
 
 struct EstadoJogo {
@@ -233,4 +234,5 @@ struct NodoFila {
 struct FilaEnc {
     NodoFila* frente = nullptr;
     NodoFila* fim = nullptr;
+    int tamanho = 0;
 };

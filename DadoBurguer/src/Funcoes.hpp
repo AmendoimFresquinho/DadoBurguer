@@ -37,7 +37,7 @@ bool AtualizarTelaFogao(TelaFogao& tela, int &escolhidoFogInv, int &escolhidoFog
 void DesenharTelaFogao(const TelaFogao& tela, ListaContiguaINV &inv);
 void DesenharPlaceholder(Rectangle r, Color cor);
 void DrawBlock(const Bloco& b);
-void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos, const Jogador& jogador, const AnimJogador& anim, const Bloco* alvo, const EstadoJogo& estado, const int &turno, const int &stamina);
+void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos, const Jogador& jogador, const AnimJogador& anim, const Bloco* alvo, const EstadoJogo& estado, const int &turno, const int &stamina, const int &processos, const int &pontuacao);
 void desenhaPanelas(ListaContiguaINV &fogao, const std :: vector<Rectangle> &bocas, const Texture2D &texPanela, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, const Texture2D &texFogo, const Texture2D &texOvoFrito, const Texture2D &texOvoCru, const Texture2D &texBaconFrito, const Texture2D &texBaconCru ,int turnoEstraga[4], const Texture2D &texCheddarCru, const Texture2D &texCheddarFeito,const Texture2D &texSuicoCru, const Texture2D &texSuicoFeito, int &turno);
 static void desenhaCarne(char c, Vector2 centro, const Texture2D &texCarneCrua, const Texture2D &texCarneAssada, const Texture2D &texCarneQueimada, const Texture2D &texOvoFrito, const Texture2D &texBaconFrito,  const Texture2D &texOvoCru, const Texture2D &texBaconCru, const Texture2D &texCheddarCru, const Texture2D &texCheddarFeito,const Texture2D &texSuicoCru, const Texture2D &texSuicoFeito, float escala);
 
@@ -137,7 +137,7 @@ void imprimirPilha(const Montagem::Pilha& pilha);
 void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade);
 void desenhaTurno(const int &turno, const int &stamina);
 void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER, Texture2D texturas[50]);
-void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte, TelaInventario &telaInv, TelaMontagem &telaMonta, Dificuldade &dificuldade, FilaEnc &fila);
+void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte, TelaInventario &telaInv, TelaMontagem &telaMonta, Dificuldade &dificuldade, FilaEnc &fila, int &processos, int &pontuacao);
 int gastaStamina(int &stamina, const int quantoGasta);
 int testaStamina (const int &stamina, const int quantoGasta);
 void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade);
@@ -148,12 +148,14 @@ void colocaNoHeapEstragadoSemTurno(IngredienteJogo *Ingrediente, FilaPrioridade 
 void verificaSeEstragou(FilaPrioridade &comidasEstragam, ListaContiguaINV &inventario, const int &turnoAtual);
 void DesenharDicaMouseInventario(const char* texto, ListaContiguaINV &inventario, int escolhido);
 int configuraDificuldadeStamina(Dificuldade &Dificuldade, int &Stamina);
-void telaDificuldade(Dificuldade &Dificuldade, Texture2D &tela, Texture2D &facil, Texture2D &medio, Texture2D &dificil, Texture2D &impossivel);
+void telaDificuldade(Dificuldade &Dificuldade, Texture2D &tela, Texture2D &facil, Texture2D &medio, Texture2D &dificil, Texture2D &impossivel, int &processos);
+void desenhaProcessos(const int &processos);
 
 // PEDIDOS
 
 bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoMax, int &codigoMin);
 std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, TabelaEnc &hash, int &HIT, int &MISS);
+void desenhaPedido(FilaEnc &f, IngredienteJogo Ings[QUANTIDADE_INGREDIENTES], Texture2D &caixaPensamento);
 
 // MERGESORT
 
@@ -176,6 +178,9 @@ Cliente criaClientePadrao(Dificuldade &dificuldade, Texture2D sprites[10], NodoA
 Cliente CriaclienteEspecial(Texture2D sprites[2]);
 void criaFilaClientes(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *&raiz, TabelaEnc &hash, int &HIT, int &MISS, Texture2D Especiais[2], FilaEnc &Clientes, int &TAM_FILA, int &codigoMax, int &codigoMin);
 void desenhaFila(FilaEnc &f);
+void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv);
+void TelaConfirmacao(Texture2D &mainTela, Texture2D &sim, Texture2D &nao, EstadoJogo &estado, FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv);
+bool checaProcessos(int &processos, Dificuldade &dificuldade);
 
 // DEBUGGING
 

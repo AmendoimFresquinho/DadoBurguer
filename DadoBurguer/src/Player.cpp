@@ -85,7 +85,7 @@ void FazInteracao(const Bloco& bloco, EstadoJogo& estado) {
         case ABRIR_FOGAO: estado.tela = TELA_FOGAO; break;
         case ACAO_ABRIR_ESTOQUE: estado.tela = TELA_ESTOQUE; break;
         case ACAO_CORTAR: estado.tela = TELA_CORTE; break;
-        case ACAO_ATENDER: break;
+        case ACAO_ATENDER: estado.tela = TELA_ATENDER; break;
         case SEM_ACAO: break;
         case ACAO_ABRIR_INVENTARIO: estado.tela = TELA_ESTOQUE; break;
         case ACAO_MONTAR: estado.tela = TELA_MONTAGEM; break;

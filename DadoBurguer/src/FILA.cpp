@@ -5,6 +5,7 @@
 void inicializaFila(FilaEnc &f) {
     f.frente = nullptr;
     f.fim = nullptr;
+    f.tamanho = 0;
 }
 
 int estaVaziaFila(FilaEnc &f) {
@@ -23,6 +24,7 @@ int enfileira(FilaEnc &f, Cliente &cliente) {
         f.frente = novo; // Primeiro nó da fila.
 
     f.fim = novo;
+    f.tamanho++;
     return 1;
 }
 
@@ -40,6 +42,7 @@ int desenfileira(FilaEnc &f, Cliente &ClienteAtendido) {
         f.fim = nullptr;
 
     delete removido;
+    f.tamanho--;
     return 1;
 }
 
@@ -58,4 +61,5 @@ int tamanhoFila(FilaEnc &f) {
 void liberaFila(FilaEnc &f) {
     Cliente lixo;
     while (desenfileira(f, lixo)) {}
+    f.tamanho = 0;
 }

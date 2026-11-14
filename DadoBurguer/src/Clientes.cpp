@@ -56,18 +56,22 @@ Cliente criaClientePadrao(Dificuldade &dificuldade, Texture2D sprites[10], NodoA
     if(dificuldade == FACIL){
         std::uniform_int_distribution<> facil(8, 10);
         novo.Paciencia = facil(gen);
+        novo.PacienciaPermante = novo.Paciencia;
     }
     if(dificuldade == MEDIO){
         std::uniform_int_distribution<> medio(6, 8);
         novo.Paciencia = medio(gen);
+        novo.PacienciaPermante = novo.Paciencia;
     }
     if(dificuldade == DIFICIL){
         std::uniform_int_distribution<> dificil(4, 6);
         novo.Paciencia = dificil(gen);
+        novo.PacienciaPermante = novo.Paciencia;
     }
     if(dificuldade == IMPOSSIVEL){
         std::uniform_int_distribution<> impossivel(2, 4);
         novo.Paciencia = impossivel(gen);
+        novo.PacienciaPermante = novo.Paciencia;
     }
 
     novo.pedido = SorteiaPedidos(raiz, codigoMax, codigoMin, hash, HIT, MISS);
@@ -92,12 +96,13 @@ Cliente CriaclienteEspecial(Texture2D sprites[2]){
     case 1:
         novo.sprite = sprites[0];
         novo.pedido = "xqsqsqsqsz";
-        novo.Paciencia = 1;
+        novo.Paciencia = 2;
+        novo.PacienciaPermante = 2;
         break;
     case 2:
         novo.sprite = sprites[1];
         novo.pedido = "xkaqnxapnz"; //BIG MAC
-        novo.Paciencia = 5;
+        novo.PacienciaPermante = 5;
         break;
     default: break;
     }
@@ -243,5 +248,45 @@ void TelaConfirmacao(Texture2D &mainTela, Texture2D &sim, Texture2D &nao, Estado
         DrawTexture(nao, 656, 445, WHITE);
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             estado.tela = TELA_JOGO;
+    }
+}
+void desenhaBarraPaciencia( const FilaEnc& f, int pacienciaInicial, Texture2D verde, Texture2D vermelho, Texture2D vazio) {
+
+    if (f.frente == nullptr || pacienciaInicial <= 0)
+        return;
+
+    int pacienciaAtual = f.frente->dado.Paciencia;
+
+    const float lado = 12.0f;  // Antes era 8.
+    const float espaco = 0.0f; // Quadrados encostados.
+    const int porLinha = 5;
+
+    int colunas = pacienciaInicial < porLinha ? pacienciaInicial : porLinha;
+
+    float larguraLinha = colunas * lado + (colunas - 1) * espaco;
+       
+    float inicioX = 680.0f + (64.0f - larguraLinha) / 2.0f;
+
+    SetTextureFilter(verde, TEXTURE_FILTER_POINT);
+    SetTextureFilter(vermelho, TEXTURE_FILTER_POINT);
+    SetTextureFilter(vazio, TEXTURE_FILTER_POINT);
+
+    for (int i = 0; i < pacienciaInicial; i++) {
+        int linha = i / porLinha;
+        int coluna = i % porLinha;
+
+        float inicioX = 680.0f + (64.0f - larguraLinha) / 2.0f;
+
+        Texture2D textura = vazio;
+
+        if (i < pacienciaAtual) {
+            textura = pacienciaAtual <= 2 ? vermelho : verde;
+        }
+
+        Rectangle origem = { 0.0f, 0.0f, static_cast<float>(textura.width), static_cast<float>(textura.height)};
+
+        Rectangle destino = { inicioX + 2 + coluna * (lado + espaco), 350.0f + linha * (lado + espaco), lado, lado };
+       
+        DrawTexturePro( textura, origem, destino, Vector2{0.0f, 0.0f}, 0.0f, WHITE);
     }
 }

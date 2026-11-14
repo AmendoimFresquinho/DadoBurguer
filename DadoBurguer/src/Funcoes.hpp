@@ -134,13 +134,13 @@ void imprimirPilha(const Montagem::Pilha& pilha);
 
 // JOGABILIDADE
 
-void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade);
+void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade, FilaEnc &f);
 void desenhaTurno(const int &turno, const int &stamina);
 void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER, Texture2D texturas[50]);
 void ReiniciarJogo(Jogador& jogador, EstadoJogo& estado, AnimJogador& anim, ListaContiguaINV &inv, int &turno, int &stamina, FilaPrioridade &heap, TabelaEnc &hash, TelaFogao &telafogao, TelaMesaCorte &telaCorte, TelaInventario &telaInv, TelaMontagem &telaMonta, Dificuldade &dificuldade, FilaEnc &fila, int &processos, int &pontuacao);
 int gastaStamina(int &stamina, const int quantoGasta);
 int testaStamina (const int &stamina, const int quantoGasta);
-void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade);
+void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade, FilaEnc &f);
 void colocaNoHeapEstragado(IngredienteJogo *Ingrediente, FilaPrioridade &comidasEstragam, int &turno);
 IngredienteJogo* enderecoDe(ListaContiguaINV &lista, int i);
 void reconstroiHeapDesatualizado(ListaContiguaINV &inventario, FilaPrioridade &heap);
@@ -181,6 +181,7 @@ void desenhaFila(FilaEnc &f);
 void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv);
 void TelaConfirmacao(Texture2D &mainTela, Texture2D &sim, Texture2D &nao, EstadoJogo &estado, FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv);
 bool checaProcessos(int &processos, Dificuldade &dificuldade);
+void desenhaBarraPaciencia(const FilaEnc& f, int pacienciaInicial, Texture2D verde, Texture2D vermelho, Texture2D vazio);
 
 // DEBUGGING
 

@@ -11,7 +11,6 @@ int configuraDificuldadeStamina(Dificuldade &Dificuldade, int &Stamina){
     else if(Dificuldade == MEDIO) return STAMINA_MEDIO;
     else if(Dificuldade == DIFICIL) return STAMINA_DIFICIL;
     else return STAMINA_IMPOSSIVEL;
-
 }
 
 void telaDificuldade(Dificuldade &Dificuldade, Texture2D &tela, Texture2D &facil, Texture2D &medio, Texture2D &dificil, Texture2D &impossivel, int &processos){
@@ -69,5 +68,4 @@ bool checaProcessos(int &processos, Dificuldade &dificuldade){
     if(dificuldade == IMPOSSIVEL && processos >= 1) return true;
 
     return false;
-
 }

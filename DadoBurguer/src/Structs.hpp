@@ -221,6 +221,7 @@ enum Dificuldade {
 
 struct Cliente {
     int Paciencia;
+    int PacienciaPermante;
     Texture2D sprite;
     std :: string pedido;  
     bool ehEspecial;

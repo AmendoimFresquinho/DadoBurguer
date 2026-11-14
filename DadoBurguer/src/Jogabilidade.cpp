@@ -5,14 +5,15 @@
 #include "Montagem.hpp"
 #include <iostream>
 
-void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade){
+void passaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade, FilaEnc &f){
     turno++;
     stamina = configuraDificuldadeStamina(dificuldade, stamina); 
-      if(HEAP_PERECIVEIS.tamanho > 0)
+    if(HEAP_PERECIVEIS.tamanho > 0)
         verificaSeEstragou(HEAP_PERECIVEIS, Inventario, turno);
+    f.frente->dado.Paciencia--;
 }
 
-void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade){
+void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, FilaPrioridade &HEAP_PERECIVEIS, Dificuldade &dificuldade, FilaEnc &f){
 
     Rectangle passaTurnoRec = {LARGURA - 157, ALTURA - 26.5, 150, 20 };
     DrawRectangleRounded(passaTurnoRec, 2.67, 67/6.7, LIGHTGRAY);
@@ -21,7 +22,7 @@ void BotaoPassaTurno(int &turno, int &stamina, ListaContiguaINV &Inventario, Fil
     if(CheckCollisionPointRec(GetMousePosition(), passaTurnoRec)){
         DrawRectangleRounded(passaTurnoRec, 2.67, 67/6.7, Fade(WHITE, 0.4f));
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-            passaTurno(turno, stamina, Inventario, HEAP_PERECIVEIS, dificuldade);
+            passaTurno(turno, stamina, Inventario, HEAP_PERECIVEIS, dificuldade, f);
     }
 }
 
@@ -43,9 +44,9 @@ void desenhaPontuacao(const int &pontuacao){
 
 void desenhaProcessos(const int &processos){
     int distancia = 0;
-    DrawText("PROCESSOS:", 400, ALTURA - 25, 20, BLACK);
+    DrawText("PROCESSOS:", 440, ALTURA - 25, 20, BLACK);
     for(int i = 0; i < processos; i++){
-        Rectangle PROC = {400.0f + distancia + MeasureText("PROCESSOS:", 22), ALTURA - 23, 30, 15};
+        Rectangle PROC = {440.0f + distancia + MeasureText("PROCESSOS:", 22), ALTURA - 23, 30, 15};
         DrawRectangleRounded(PROC, 2, 4, RED);
         distancia += 40;
     }

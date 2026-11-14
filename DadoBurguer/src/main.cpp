@@ -97,8 +97,11 @@ int main() {
     Texture2D botaoNao = LoadTexture("DadoBurguer/assets/botao_nao_hover.png");
 
     Texture2D BalaoPensamento = LoadTexture("DadoBurguer/assets/Clientes/balao.png");
+    Texture2D Verde_Paciencia = LoadTexture("DadoBurguer/assets/Clientes/Verde.png");
+    Texture2D Vermelho_Paciencia = LoadTexture("DadoBurguer/assets/Clientes/Vermelho.png");
+    Texture2D Vazio_Paciencia = LoadTexture("DadoBurguer/assets/Clientes/Vazio.png");
 
-    Texture2D Texturas[50] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim};
+    Texture2D Texturas[55] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim};
     Texture2D Sprites[10] = {Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10};
     Texture2D SpritesEspeciais[2] = {Especial1, Especial2};
 
@@ -213,7 +216,13 @@ int main() {
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = PAUSADO;
                 if(Stamina <= 0)
-                    passaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade);
+                    passaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade, Clientela);
+
+                if(Clientela.frente->dado.Paciencia <= 0){
+                    Processos++;
+                    Cliente lixo;
+                    desenfileira(Clientela, lixo);
+                }
                 
                 Vector2 antes = jogador.posicao;
 
@@ -226,8 +235,7 @@ int main() {
                         if (alvo != nullptr && IsKeyPressed(KEY_E) && testaStamina(Stamina, alvo->staminaGasta) >= 0){
                             FazInteracao(*alvo, estado);
                             gastaStamina(Stamina, alvo->staminaGasta);
-                                std::cout << Clientela.frente->dado.pedido << "\n";
-
+                            std::cout << Clientela.frente->dado.pedido << "\n";
                         } 
                         if (IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_I)) estado.tela = TELA_INVENTARIO;
                         break;
@@ -375,9 +383,10 @@ int main() {
 
                     case TELA_JOGO:
                         DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado, Turno, Stamina, Processos, Pontuacao);   // EM_JOGO
-                        BotaoPassaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade);
+                        BotaoPassaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade, Clientela);
                         desenhaFila(Clientela);
                         desenhaPedido(Clientela, Ingredientes_Para_Passar, BalaoPensamento);
+                        desenhaBarraPaciencia(Clientela, Clientela.frente->dado.PacienciaPermante, Verde_Paciencia, Vermelho_Paciencia, Vazio_Paciencia);
                     break;              
 
                     case TELA_FOGAO: {

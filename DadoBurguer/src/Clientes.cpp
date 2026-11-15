@@ -205,9 +205,23 @@ void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &p
     else if(dificuldade == FACIL) Multiplicador = PONTUACAO_ACERTO_DIFICIL;
     else Multiplicador = PONTUACAO_ACERTO_IMPOSSIVEL;
 
-    for(int i = telaInv.hamburguer.quantDados - 1; i >= 0; i--){
+    if(f.frente->dado.pedido.size() - telaInv.hamburguer.quantDados > 0){
+        pontuacao -= Multiplicador * (f.frente->dado.pedido.size() - telaInv.hamburguer.quantDados);
+        cont++;
+    }
 
-        if (f.frente->dado.pedido[i] == telaInv.hamburguer.topo->ingrediente){
+    for(int i = telaInv.hamburguer.quantDados - 1; i >= 0; i--){
+       
+        if(telaInv.hamburguer.quantDados > f.frente->dado.pedido.size()){
+            Montagem :: removerIngrediente(telaInv.hamburguer, tmp_img);
+            pontuacao -= Multiplicador;
+            std::cout << "MAIOR\n";
+            std::cout << telaInv.hamburguer.quantDados << "\n";
+            cont++;
+            continue;
+        }
+
+        if (f.frente->dado.pedido[telaInv.hamburguer.quantDados - 1] == telaInv.hamburguer.topo->ingrediente){
             pontuacao += Multiplicador;
             std::cout << "CERTO\n";
             Montagem :: removerIngrediente(telaInv.hamburguer, tmp_img);

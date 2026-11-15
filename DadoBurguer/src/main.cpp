@@ -105,7 +105,7 @@ int main() {
     Texture2D Vermelho_Paciencia = LoadTexture("DadoBurguer/assets/Clientes/Vermelho.png");
     Texture2D Vazio_Paciencia = LoadTexture("DadoBurguer/assets/Clientes/Vazio.png");
 
-    Texture2D Texturas[55] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim};
+    Texture2D Texturas[55] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim, Vazio_Paciencia, Verde_Paciencia, Vermelho_Paciencia};
     Texture2D Sprites[10] = {Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10};
     Texture2D SpritesEspeciais[2] = {Especial1, Especial2};
 

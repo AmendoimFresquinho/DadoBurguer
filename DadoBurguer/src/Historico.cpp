@@ -51,20 +51,15 @@ bool telaDigitarNome(std::string &nome, int pontuacao) {
     if ((IsKeyPressed(KEY_BACKSPACE) || IsKeyPressedRepeat(KEY_BACKSPACE)) && !nome.empty())
         nome.pop_back();
 
-    const char *titulo = TextFormat("Fim de jogo! Pontuacao: %d", pontuacao);
+    const char *titulo = TextFormat("%d", pontuacao);
     int tamTitulo = (int)(ALTURA * 0.07f);
-    DrawText(titulo, (int)((LARGURA - MeasureText(titulo, tamTitulo)) / 2), (int)(ALTURA * 0.22f), tamTitulo, WHITE);
-
-    const char *instr = "Digite seu nome e aperte Enter:";
-    int tamInstr = (int)(ALTURA * 0.045f);
-    DrawText(instr, (int)((LARGURA - MeasureText(instr, tamInstr)) / 2), (int)(ALTURA * 0.38f), tamInstr, LIGHTGRAY);
+    DrawText(titulo, (int)((LARGURA - MeasureText(titulo, tamTitulo)) / 2), (int)(ALTURA - 192), tamTitulo, WHITE);
 
     Rectangle caixa = { LARGURA * 0.275f, ALTURA * 0.48f, LARGURA * 0.45f, ALTURA * 0.11f };
-    DrawRectangleLinesEx(caixa, 3, WHITE);
-
+    
     int tamNome = (int)(caixa.height * 0.43f);
-    int xNome = (int)(caixa.x + 15);
-    int yNome = (int)(3 + caixa.y + (caixa.height - tamNome) / 2);
+    int xNome = (int)(caixa.x + 40);
+    int yNome = (int)(5 + caixa.y + (caixa.height - tamNome) / 2);
     DrawText(nome.c_str(), xNome, yNome, tamNome, WHITE);
 
     // cursor piscando depois do último caractere

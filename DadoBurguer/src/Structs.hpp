@@ -136,7 +136,8 @@ enum ESTADO_PROGRAMA {
     HISTORICO,
     COMO_JOGAR,
     DIFICULDADE,
-    FIM_JOGO
+    FIM_JOGO_VITORIA,
+    FIM_JOGO_DERROTA
 };
 
 struct Historico {

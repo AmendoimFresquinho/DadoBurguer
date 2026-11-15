@@ -104,8 +104,10 @@ int main() {
     Texture2D Verde_Paciencia = LoadTexture("DadoBurguer/assets/Clientes/Verde.png");
     Texture2D Vermelho_Paciencia = LoadTexture("DadoBurguer/assets/Clientes/Vermelho.png");
     Texture2D Vazio_Paciencia = LoadTexture("DadoBurguer/assets/Clientes/Vazio.png");
+    Texture2D Tela_Vitoria = LoadTexture("DadoBurguer/assets/VITORIA.png");
+    Texture2D Tela_Derrota = LoadTexture("DadoBurguer/assets/DERROTA.png");
 
-    Texture2D Texturas[55] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim, Vazio_Paciencia, Verde_Paciencia, Vermelho_Paciencia};
+    Texture2D Texturas[55] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim, Vazio_Paciencia, Verde_Paciencia, Vermelho_Paciencia, Tela_Derrota, Tela_Vitoria};
     Texture2D Sprites[10] = {Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10};
     Texture2D SpritesEspeciais[2] = {Especial1, Especial2};
 
@@ -224,9 +226,10 @@ int main() {
                 SetExitKey(KEY_NULL); // Nao deixa que ele saia com esc
                 //HideCursor();
 
-                if(IsKeyPressed(KEY_J)) EstadoPrograma = FIM_JOGO;
+                if(IsKeyPressed(KEY_J)) EstadoPrograma = FIM_JOGO_DERROTA;
 
-                if(checaProcessos(Processos, Dificuldade)) EstadoPrograma = FIM_JOGO;
+                if(checaProcessos(Processos, Dificuldade)) EstadoPrograma = FIM_JOGO_DERROTA;
+                if(!checaProcessos && Clientela.tamanho == 0) EstadoPrograma = FIM_JOGO_VITORIA;
 
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = PAUSADO;
@@ -511,8 +514,26 @@ int main() {
                 break;
             }
 
-            case FIM_JOGO: {
+            case FIM_JOGO_VITORIA: {
                 ClearBackground(BLACK); 
+                DrawTexture(Tela_Vitoria, 0, 0, WHITE);
+
+                if (telaDigitarNome(nome, Pontuacao)) {
+                    Historico novo = {nome, Pontuacao};
+                    salvaPontuacao("DadoBurguer/Arquivos/historico.txt", novo);   // append no arquivo
+                    historico.push(novo);
+                    mergeSort(historico);
+                    if(IsKeyPressed(KEY_ENTER)) { 
+                        EstadoPrograma = MENU;
+                        nome.clear();
+                    }
+                }
+                break;
+            }
+
+            case FIM_JOGO_DERROTA: {
+                ClearBackground(BLACK); 
+                DrawTexture(Tela_Derrota, 0, 0, WHITE);
 
                 if (telaDigitarNome(nome, Pontuacao)) {
                     Historico novo = {nome, Pontuacao};

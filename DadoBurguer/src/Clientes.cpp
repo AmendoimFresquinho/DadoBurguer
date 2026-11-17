@@ -200,8 +200,8 @@ void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &p
     Image tmp_img = {0};
 
     if(dificuldade == FACIL) Multiplicador = PONTUACAO_ACERTO_FACIL;
-    else if(dificuldade == FACIL) Multiplicador = PONTUACAO_ACERTO_MEDIO;
-    else if(dificuldade == FACIL) Multiplicador = PONTUACAO_ACERTO_DIFICIL;
+    else if(dificuldade == MEDIO) Multiplicador = PONTUACAO_ACERTO_MEDIO;
+    else if(dificuldade == DIFICIL) Multiplicador = PONTUACAO_ACERTO_DIFICIL;
     else Multiplicador = PONTUACAO_ACERTO_IMPOSSIVEL;
 
     if(f.frente->dado.pedido.size() - telaInv.hamburguer.quantDados > 0){

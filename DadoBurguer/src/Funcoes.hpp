@@ -150,6 +150,7 @@ void DesenharDicaMouseInventario(const char* texto, ListaContiguaINV &inventario
 int configuraDificuldadeStamina(Dificuldade &Dificuldade, int &Stamina);
 void telaDificuldade(Dificuldade &Dificuldade, Texture2D &tela, Texture2D &facil, Texture2D &medio, Texture2D &dificil, Texture2D &impossivel, int &processos);
 void desenhaProcessos(const int &processos);
+void pontos(const int &pontuacao);
 
 // PEDIDOS
 

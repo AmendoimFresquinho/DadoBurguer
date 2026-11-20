@@ -81,6 +81,8 @@ int main() {
     Texture2D DifMedio= LoadTexture("DadoBurguer/assets/medio.png");
     Texture2D DifDificil= LoadTexture("DadoBurguer/assets/dificil.png");
     Texture2D DifImpossivel = LoadTexture("DadoBurguer/assets/impossivel.png");
+    Texture2D Como_Jogar_pt1 = LoadTexture("DadoBurguer/assets/Como Jogar.png");
+    Texture2D Como_Jogar_pt2 = LoadTexture("DadoBurguer/assets/Como Jogar 2.png");
 
     Texture2D Cliente1 = LoadTexture("DadoBurguer/assets/Clientes/Cliente1.png");
     Texture2D Cliente2 = LoadTexture("DadoBurguer/assets/Clientes/Cliente2.png");
@@ -107,7 +109,7 @@ int main() {
     Texture2D Tela_Vitoria = LoadTexture("DadoBurguer/assets/VITORIA.png");
     Texture2D Tela_Derrota = LoadTexture("DadoBurguer/assets/DERROTA.png");
 
-    Texture2D Texturas[55] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim, Vazio_Paciencia, Verde_Paciencia, Vermelho_Paciencia, Tela_Derrota, Tela_Vitoria};
+    Texture2D Texturas[56] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim, Vazio_Paciencia, Verde_Paciencia, Vermelho_Paciencia, Tela_Derrota, Tela_Vitoria, Como_Jogar_pt1, Como_Jogar_pt2};
     Texture2D Sprites[10] = {Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10};
     Texture2D SpritesEspeciais[2] = {Especial1, Especial2};
 
@@ -160,7 +162,7 @@ int main() {
     Vec<Historico> historico;
     historico.wipe();
     carregaHistorico("DadoBurguer/Arquivos/historico.txt", historico);
-    mergeSort(historico);
+    radixSort(historico);
     std :: string nome;
     nome.clear();
     int Pontuacao = 0, Processos = 0;
@@ -197,12 +199,15 @@ int main() {
     inicializaFila(Clientela);
     int TAM_FILA = 0;
 
+    int QualTa = 0;
+    float Volume = 0.24f;
     SFX_PACK sfx; //{SFX_defaultPath, SFX_defaultExtension};
     sfx.LoadPack(SFX_defaultPath, SFX_defaultExtension);
     SetMusicVolume(sfx.background, 0.24f);
     PlayMusicStream(sfx.background);
     //SetSoundVolume(sfx.tony, 1.0f);
     //sfx.tony = LoadSound("DadoBurguer/assets/som/tony.mp3");
+ 
 
     //Sound testeSonoro = LoadSound("DadoBurguer/assets/som/default/tony.mp3");
 
@@ -210,8 +215,17 @@ int main() {
         HideCursor();
         Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH); // Sempre procura um bloco possivelmente interagivel
         Vector2 mousePos = GetMousePosition();
-
         UpdateMusicStream(sfx.background);
+
+        if(IsKeyPressed(KEY_UP) && Volume < 1.0f){
+            Volume += 0.04f;
+            SetMusicVolume(sfx.background, Volume);
+        }
+
+        if(IsKeyPressed(KEY_DOWN) && Volume > 0.0f){
+            Volume -= 0.04f;
+            SetMusicVolume(sfx.background, Volume);
+        }
 
         BeginDrawing();
 
@@ -548,12 +562,19 @@ int main() {
                 break;
             }
             
-            case HISTORICO: {
-                ClearBackground(GREEN);
-                if(GetCharPressed() > 0)
+            case COMO_JOGAR: {
+                if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = MENU;
-                DrawText("MANUTENCAO", 200, 200, 100, BLACK);
-                DrawText("CLIQUE QUALQUER COISA PRA SAIR", 200, 400, 50, BLACK);
+                 if(QualTa == 0){
+                    DrawTexture(Como_Jogar_pt1, 0, 0, WHITE);
+                    if(IsKeyPressed(KEY_RIGHT))
+                        QualTa = 1;
+                }
+                if(QualTa == 1){
+                    DrawTexture(Como_Jogar_pt2, 0, 0, WHITE);
+                    if(IsKeyPressed(KEY_LEFT))
+                        QualTa = 0;
+                }
                 break;
             }
 
@@ -565,7 +586,7 @@ int main() {
                 break;
             }
 
-            case COMO_JOGAR: {
+            case HISTORICO: {
                 ClearBackground(GREEN);
                 if(GetCharPressed() > 0)
                     EstadoPrograma = MENU;

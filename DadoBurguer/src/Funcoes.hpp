@@ -50,17 +50,6 @@ int desenfileira(FilaEnc &f, Cliente &ClienteAtendido);
 int tamanhoFila(FilaEnc &f);
 void liberaFila(FilaEnc &f);
 
-//LISTA SIMPLESMENTE ENCADEADA
-
-void inicializar(ListaEnc *lista);
-void imprimir(const ListaEnc *lista);
-Produto buscar(const ListaEnc *lista, int cod);
-int inserirInicio(ListaEnc *lista, Produto prod);
-int inserirFim(ListaEnc *lista, Produto prod);
-int removerPorCod(ListaEnc *lista, int cod);
-void destruir(ListaEnc *lista);
-int tamanho(const ListaEnc *lista);
-
 //AVL
 
 int avlAltura(const NodoAvl *n);
@@ -164,6 +153,13 @@ static bool vemAntes(const Historico &a, const Historico &b);
 static void merge(Vec<Historico> &v, Vec<Historico> &aux, int ini, int meio, int fim);
 static void mergeSortRec(Vec<Historico> &v, Vec<Historico> &aux, int ini, int fim);
 void mergeSort(Vec<Historico> &v);
+
+// RADIX
+
+void countingSort(Vec<Historico>& v, int posicao, Historico* auxiliar);
+void radixSort(Vec<Historico>& v);
+int chaveNome(const std::string& nome, int posicao);
+
 
 // FIM JOGO
 

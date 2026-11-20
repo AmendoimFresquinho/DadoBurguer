@@ -65,7 +65,7 @@ void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &ha
 
     DescarregarAnimJogador(animJogador);
     DescarregarTelaEstoque(telaEstoque);
-    for(int i = 0; i < 54; i++){
+    for(int i = 0; i < 56; i++){
         UnloadTexture(texturas[i]);
     }
     UnloadTexture(RENDER);

@@ -17,7 +17,6 @@ int main() {
     SetTargetFPS(60);
     SetMasterVolume(1.0f);
     
-
     Texture2D paoCima = LoadTexture("DadoBurguer/assets/INV/cima_pao_inventario.png");
     Texture2D paoBaixo = LoadTexture("DadoBurguer/assets/INV/baixo_pao_inventario.png");
     Texture2D cheddar = LoadTexture("DadoBurguer/assets/INV/cheddar_cru.png");
@@ -244,20 +243,23 @@ int main() {
                 SetExitKey(KEY_NULL); // Nao deixa que ele saia com esc
                 //HideCursor();
 
-                if(IsKeyPressed(KEY_J)) EstadoPrograma = FIM_JOGO_DERROTA;
+                if(IsKeyPressed(KEY_V)) EstadoPrograma = FIM_JOGO_VITORIA;
+                if(IsKeyPressed(KEY_L)) EstadoPrograma = FIM_JOGO_DERROTA;
 
                 if(checaProcessos(Processos, Dificuldade)) EstadoPrograma = FIM_JOGO_DERROTA;
-                if(!checaProcessos && Clientela.tamanho == 0) EstadoPrograma = FIM_JOGO_VITORIA;
+                if(!checaProcessos(Processos, Dificuldade) && Clientela.tamanho == 0) EstadoPrograma = FIM_JOGO_VITORIA;
 
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = PAUSADO;
                 if(Stamina <= 0)
                     passaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade, Clientela);
 
-                if(Clientela.frente->dado.Paciencia <= 0){
+                if(Clientela.tamanho > 0){
+                    if(Clientela.frente->dado.Paciencia <= 0){
                     Processos++;
                     Cliente lixo;
                     desenfileira(Clientela, lixo);
+                    }
                 }
                 
                 Vector2 antes = jogador.posicao;
@@ -420,9 +422,11 @@ int main() {
                     case TELA_JOGO:
                         DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado, Turno, Stamina, Processos, Pontuacao);   // EM_JOGO
                         BotaoPassaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade, Clientela);
-                        desenhaFila(Clientela);
-                        desenhaPedido(Clientela, Ingredientes_Para_Passar, BalaoPensamento);
-                        desenhaBarraPaciencia(Clientela, Clientela.frente->dado.PacienciaPermante, Verde_Paciencia, Vermelho_Paciencia, Vazio_Paciencia);
+                        if(Clientela.tamanho != 0){
+                            desenhaFila(Clientela);
+                            desenhaPedido(Clientela, Ingredientes_Para_Passar, BalaoPensamento);
+                            desenhaBarraPaciencia(Clientela, Clientela.frente->dado.PacienciaPermante, Verde_Paciencia, Vermelho_Paciencia, Vazio_Paciencia);
+                        }
                     break;              
 
                     case TELA_FOGAO: {

@@ -83,6 +83,11 @@ int main() {
     Texture2D DifImpossivel = LoadTexture("DadoBurguer/assets/impossivel.png");
     Texture2D Como_Jogar_pt1 = LoadTexture("DadoBurguer/assets/Como Jogar.png");
     Texture2D Como_Jogar_pt2 = LoadTexture("DadoBurguer/assets/Como Jogar 2.png");
+    Texture2D HistoricoTela = LoadTexture("DadoBurguer/assets/Historico.png");
+    Texture2D EscolhaOrdenacao = LoadTexture("DadoBurguer/assets/Escolha.png");
+    Texture2D hover_alpha = LoadTexture("DadoBurguer/assets/hover_alfabetica.png");
+    Texture2D hover_pont = LoadTexture("DadoBurguer/assets/hover_pontuacao.png");
+    Texture2D hover_ambas = LoadTexture("DadoBurguer/assets/hover_ambas.png");
 
     Texture2D Cliente1 = LoadTexture("DadoBurguer/assets/Clientes/Cliente1.png");
     Texture2D Cliente2 = LoadTexture("DadoBurguer/assets/Clientes/Cliente2.png");
@@ -109,7 +114,7 @@ int main() {
     Texture2D Tela_Vitoria = LoadTexture("DadoBurguer/assets/VITORIA.png");
     Texture2D Tela_Derrota = LoadTexture("DadoBurguer/assets/DERROTA.png");
 
-    Texture2D Texturas[56] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim, Vazio_Paciencia, Verde_Paciencia, Vermelho_Paciencia, Tela_Derrota, Tela_Vitoria, Como_Jogar_pt1, Como_Jogar_pt2};
+    Texture2D Texturas[61] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim, Vazio_Paciencia, Verde_Paciencia, Vermelho_Paciencia, Tela_Derrota, Tela_Vitoria, Como_Jogar_pt1, Como_Jogar_pt2, HistoricoTela, EscolhaOrdenacao, hover_alpha, hover_ambas, hover_pont};
     Texture2D Sprites[10] = {Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10};
     Texture2D SpritesEspeciais[2] = {Especial1, Especial2};
 
@@ -162,11 +167,9 @@ int main() {
     Vec<Historico> historico;
     historico.wipe();
     carregaHistorico("DadoBurguer/Arquivos/historico.txt", historico);
-    radixSort(historico);
     std :: string nome;
     nome.clear();
     int Pontuacao = 0, Processos = 0;
-    imprimeHistorico(historico, 10);
 
     carregaPedidos("DadoBurguer/Arquivos/pedidos.txt", Raiz, CodigoMax, CodigoMin);
     std :: cout << "\n" << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
@@ -200,6 +203,7 @@ int main() {
     int TAM_FILA = 0;
 
     int QualTa = 0;
+    int OpcaoHist = 0;
     float Volume = 0.24f;
     SFX_PACK sfx; //{SFX_defaultPath, SFX_defaultExtension};
     sfx.LoadPack(SFX_defaultPath, SFX_defaultExtension);
@@ -475,7 +479,7 @@ int main() {
                 if(CheckCollisionPointRec(GetMousePosition(), btnHistorico)) {
                     DrawRectangleRounded(btnHistorico, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                        EstadoPrograma = HISTORICO;
+                        EstadoPrograma = HISTORICO_ESCOLHA;
                 } 
                 if(CheckCollisionPointRec(GetMousePosition(), btnDificuldade)) {
                     DrawRectangleRounded(btnDificuldade, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
@@ -586,13 +590,58 @@ int main() {
                 break;
             }
 
-            case HISTORICO: {
-                ClearBackground(GREEN);
-                if(GetCharPressed() > 0)
+            case HISTORICO_ESCOLHA: {
+                if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = MENU;
-                DrawText("MANUTENCAO", 200, 200, 100, BLACK);
-                DrawText("CLIQUE QUALQUER COISA PRA SAIR", 200, 400, 50, BLACK);
+            
+                DrawTexture(EscolhaOrdenacao, 0, 0, WHITE);
+                Rectangle btnAlfabetica = { 203, 238, 875, 106 };
+                Rectangle btnPontuacao = { 201, 363, 877, 107 };
+                Rectangle btnAmbas = { 202, 491, 876, 107 };
+
+                if(CheckCollisionPointRec(GetMousePosition(), btnAlfabetica)){
+                    DrawTexture(hover_alpha, 203, 238, WHITE);
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                        EstadoPrograma = HISTORICO;
+                        OpcaoHist = 1;
+                    }
+                }
+                if(CheckCollisionPointRec(GetMousePosition(), btnPontuacao)){
+                    DrawTexture(hover_pont, 201, 363, WHITE);
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                        EstadoPrograma = HISTORICO;
+                        OpcaoHist = 2;
+                    }
+                }
+                if(CheckCollisionPointRec(GetMousePosition(), btnAmbas)){
+                    DrawTexture(hover_ambas, 202, 491, WHITE);
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                        EstadoPrograma = HISTORICO;
+                        OpcaoHist = 3;
+                    }
+                }
                 break;
+            }   
+            case HISTORICO:{
+                if(IsKeyPressed(KEY_ESCAPE)) 
+                    EstadoPrograma = MENU;
+
+                DrawTexture(HistoricoTela, 0, 0, WHITE);
+                if(OpcaoHist == 1){
+                    radixSort(historico);
+                    OpcaoHist = 0;
+                }
+                if (OpcaoHist == 2){
+                    mergeSort(historico);
+                    OpcaoHist = 0;
+                }
+                if (OpcaoHist == 3){
+                    radixSort(historico);
+                    mergeSort(historico);
+                    OpcaoHist = 0;
+                }
+                desenhaHistorico(historico);
+                
             }
         } // Fim switch telas
 

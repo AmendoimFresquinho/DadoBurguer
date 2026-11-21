@@ -89,3 +89,47 @@ static bool arquivoTerminaEmQuebra(const std::string &nomeArquivo) { //Garante q
     in.get(c);
     return c == '\n';
 }
+
+void desenhaHistorico(const Vec<Historico>& historico) {
+    const int tamanhoFonte = 20;
+    const Color corTexto = { 55, 25, 10, 255 };
+
+    // Centro vertical de cada linha da imagem.
+    const int centroY[10] = {
+        248, 300, 350, 399, 444,
+        487, 530, 574, 617, 660
+    };
+
+    int quantidade = historico.tam;
+    if (quantidade > 10)
+        quantidade = 10;
+
+    for (int i = 0; i < quantidade; i++) {
+        int y = centroY[i] - tamanhoFonte / 2;
+
+        // Limita o nome ao espaço da coluna.
+        BeginScissorMode(203, y, 675, tamanhoFonte + 4);
+
+        DrawText(
+            historico.arr[i].nome.c_str(),
+            205, y,
+            tamanhoFonte,
+            corTexto
+        );
+
+        EndScissorMode();
+
+        std::string pontos =
+            std::to_string(historico.arr[i].pontuacao);
+
+        // Alinha a pontuação à direita do campo.
+        int x = 1165 - MeasureText(pontos.c_str(), tamanhoFonte);
+
+        DrawText(
+            pontos.c_str(),
+            x, y,
+            tamanhoFonte,
+            corTexto
+        );
+    }
+}

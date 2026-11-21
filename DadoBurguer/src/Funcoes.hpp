@@ -147,19 +147,16 @@ bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoM
 std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, TabelaEnc &hash, int &HIT, int &MISS);
 void desenhaPedido(FilaEnc &f, IngredienteJogo Ings[QUANTIDADE_INGREDIENTES], Texture2D &caixaPensamento);
 
-// MERGESORT
+// HISTORICO
 
 static bool vemAntes(const Historico &a, const Historico &b);
 static void merge(Vec<Historico> &v, Vec<Historico> &aux, int ini, int meio, int fim);
 static void mergeSortRec(Vec<Historico> &v, Vec<Historico> &aux, int ini, int fim);
 void mergeSort(Vec<Historico> &v);
-
-// RADIX
-
 void countingSort(Vec<Historico>& v, int posicao, Historico* auxiliar);
 void radixSort(Vec<Historico>& v);
 int chaveNome(const std::string& nome, int posicao);
-
+void desenhaHistorico(const Vec<Historico>& historico);
 
 // FIM JOGO
 

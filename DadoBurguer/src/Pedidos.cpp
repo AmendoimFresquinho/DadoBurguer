@@ -50,15 +50,20 @@ std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, Tab
     nodo = avlBuscar(raiz, sorteado);
     
     if(nodo != nullptr){
-        std::cout <<"\nFOI NA ARVORE\n";
+        std::cout << "\nFOI NA ARVORE\n";
         encInserir(hash, sorteado, nodo);
         MISS++;
-        return nodo->receita;  
+        std :: string RECEITA = nodo->receita;
+        RECEITA.insert(0, 1, 'x');
+        return RECEITA;  
     }
 
     } while(nodo == nullptr);
 
-    return nodo->receita; 
+    std :: string RECEITA = nodo->receita;
+    RECEITA.insert(0, 1, 'x');
+
+    return RECEITA; 
 }
 
 void encImprimir(const TabelaEnc &t) { // TEMP

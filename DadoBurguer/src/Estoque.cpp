@@ -34,7 +34,7 @@ TelaEstoque CriarTelaEstoque(float largura, float altura, IngredienteJogo Ingred
     float larguraGrade = ESTOQUE_COLUNAS * ESTOQUE_ICONE + (ESTOQUE_COLUNAS - 1) * ESTOQUE_ESPACO;
     Rectangle gradeEsq = { t.zonaEsq.x + (t.zonaEsq.width - larguraGrade) / 2, t.zonaEsq.y + legenda, larguraGrade, t.zonaEsq.height - legenda };
     std::vector<Rectangle> todas = GerarGrade(gradeEsq, ESTOQUE_COLUNAS, ESTOQUE_LINHAS, ESTOQUE_ESPACO);
-    for (size_t i = 0; i < t.ingredientes.size() - 1 && i < todas.size(); i++) {
+    for (size_t i = 0; i < 14 && i < todas.size(); i++) {
         t.celulas.push_back(todas[i]);
     }
  

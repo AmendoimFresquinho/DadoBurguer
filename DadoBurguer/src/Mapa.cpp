@@ -105,5 +105,6 @@ void DesenharMundo(const Texture2D& fundo, const std::vector<Bloco>& blocos, con
 
     desenhaTurno(turno, stamina);
     desenhaProcessos(processos);
+    pontos(pontuacao);
 
 }

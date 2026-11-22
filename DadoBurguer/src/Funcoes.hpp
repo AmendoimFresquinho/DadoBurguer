@@ -50,17 +50,6 @@ int desenfileira(FilaEnc &f, Cliente &ClienteAtendido);
 int tamanhoFila(FilaEnc &f);
 void liberaFila(FilaEnc &f);
 
-//LISTA SIMPLESMENTE ENCADEADA
-
-void inicializar(ListaEnc *lista);
-void imprimir(const ListaEnc *lista);
-Produto buscar(const ListaEnc *lista, int cod);
-int inserirInicio(ListaEnc *lista, Produto prod);
-int inserirFim(ListaEnc *lista, Produto prod);
-int removerPorCod(ListaEnc *lista, int cod);
-void destruir(ListaEnc *lista);
-int tamanho(const ListaEnc *lista);
-
 //AVL
 
 int avlAltura(const NodoAvl *n);
@@ -150,6 +139,7 @@ void DesenharDicaMouseInventario(const char* texto, ListaContiguaINV &inventario
 int configuraDificuldadeStamina(Dificuldade &Dificuldade, int &Stamina);
 void telaDificuldade(Dificuldade &Dificuldade, Texture2D &tela, Texture2D &facil, Texture2D &medio, Texture2D &dificil, Texture2D &impossivel, int &processos);
 void desenhaProcessos(const int &processos);
+void pontos(const int &pontuacao);
 
 // PEDIDOS
 
@@ -157,12 +147,16 @@ bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoM
 std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, TabelaEnc &hash, int &HIT, int &MISS);
 void desenhaPedido(FilaEnc &f, IngredienteJogo Ings[QUANTIDADE_INGREDIENTES], Texture2D &caixaPensamento);
 
-// MERGESORT
+// HISTORICO
 
 static bool vemAntes(const Historico &a, const Historico &b);
 static void merge(Vec<Historico> &v, Vec<Historico> &aux, int ini, int meio, int fim);
 static void mergeSortRec(Vec<Historico> &v, Vec<Historico> &aux, int ini, int fim);
 void mergeSort(Vec<Historico> &v);
+void countingSort(Vec<Historico>& v, int posicao, Historico* auxiliar);
+void radixSort(Vec<Historico>& v);
+int chaveNome(const std::string& nome, int posicao);
+void desenhaHistorico(const Vec<Historico>& historico);
 
 // FIM JOGO
 

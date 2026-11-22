@@ -1,7 +1,6 @@
 #include "raylib.h"
 #include "Funcoes.hpp"
 #include "Structs.hpp"
-#include "raymath.h"
 #include <string>
 #include "Constantes.hpp"
 #include <random>
@@ -165,7 +164,7 @@ void desenhaPedido(FilaEnc &f, IngredienteJogo Ings[QUANTIDADE_INGREDIENTES], Te
 
     Rectangle origem = { 0, 0, (float)caixaPensamento.width, (float)caixaPensamento.height };
     Rectangle destinoEsp = { 700, 50, 96, 240 };
-    Rectangle destinoNorm = { 700, 90, 96, 190 };
+    Rectangle destinoNorm = { 700, 80, 96, 200 };
 
     if(f.tamanho > 0){
         SetTextureFilter(caixaPensamento, TEXTURE_FILTER_POINT);
@@ -201,8 +200,8 @@ void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &p
     Image tmp_img = {0};
 
     if(dificuldade == FACIL) Multiplicador = PONTUACAO_ACERTO_FACIL;
-    else if(dificuldade == FACIL) Multiplicador = PONTUACAO_ACERTO_MEDIO;
-    else if(dificuldade == FACIL) Multiplicador = PONTUACAO_ACERTO_DIFICIL;
+    else if(dificuldade == MEDIO) Multiplicador = PONTUACAO_ACERTO_MEDIO;
+    else if(dificuldade == DIFICIL) Multiplicador = PONTUACAO_ACERTO_DIFICIL;
     else Multiplicador = PONTUACAO_ACERTO_IMPOSSIVEL;
 
     if(f.frente->dado.pedido.size() - telaInv.hamburguer.quantDados > 0){
@@ -288,8 +287,6 @@ void desenhaBarraPaciencia( const FilaEnc& f, int pacienciaInicial, Texture2D ve
     for (int i = 0; i < pacienciaInicial; i++) {
         int linha = i / porLinha;
         int coluna = i % porLinha;
-
-        float inicioX = 680.0f + (64.0f - larguraLinha) / 2.0f;
 
         Texture2D textura = vazio;
 

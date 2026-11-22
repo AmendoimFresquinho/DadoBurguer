@@ -38,8 +38,9 @@ void desenhaTurno(const int &turno, const int &stamina){
     }
 }
 
-void desenhaPontuacao(const int &pontuacao){
-
+void pontos(const int &pontuacao){
+    DrawText("Pontuacao:", (LARGURA/2) - 200, 5, 20, BLACK);
+    DrawText(TextFormat("%d", pontuacao), MeasureText("Pontuacao", 20) + (LARGURA/2) - 190, 5, 20, RED);
 }
 
 void desenhaProcessos(const int &processos){
@@ -64,7 +65,7 @@ void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &ha
 
     DescarregarAnimJogador(animJogador);
     DescarregarTelaEstoque(telaEstoque);
-    for(int i = 0; i < 54; i++){
+    for(int i = 0; i < 61; i++){
         UnloadTexture(texturas[i]);
     }
     UnloadTexture(RENDER);

@@ -17,7 +17,6 @@ int main(int argc, char* argv[]) {
     SetTargetFPS(60);
     SetMasterVolume(1.0f);
     
-
     Texture2D paoCima = LoadTexture("DadoBurguer/assets/INV/cima_pao_inventario.png");
     Texture2D paoBaixo = LoadTexture("DadoBurguer/assets/INV/baixo_pao_inventario.png");
     Texture2D cheddar = LoadTexture("DadoBurguer/assets/INV/cheddar_cru.png");
@@ -81,6 +80,13 @@ int main(int argc, char* argv[]) {
     Texture2D DifMedio= LoadTexture("DadoBurguer/assets/medio.png");
     Texture2D DifDificil= LoadTexture("DadoBurguer/assets/dificil.png");
     Texture2D DifImpossivel = LoadTexture("DadoBurguer/assets/impossivel.png");
+    Texture2D Como_Jogar_pt1 = LoadTexture("DadoBurguer/assets/Como Jogar.png");
+    Texture2D Como_Jogar_pt2 = LoadTexture("DadoBurguer/assets/Como Jogar 2.png");
+    Texture2D HistoricoTela = LoadTexture("DadoBurguer/assets/Historico.png");
+    Texture2D EscolhaOrdenacao = LoadTexture("DadoBurguer/assets/Escolha.png");
+    Texture2D hover_alpha = LoadTexture("DadoBurguer/assets/hover_alfabetica.png");
+    Texture2D hover_pont = LoadTexture("DadoBurguer/assets/hover_pontuacao.png");
+    Texture2D hover_ambas = LoadTexture("DadoBurguer/assets/hover_ambas.png");
 
     Texture2D Cliente1 = LoadTexture("DadoBurguer/assets/Clientes/Cliente1.png");
     Texture2D Cliente2 = LoadTexture("DadoBurguer/assets/Clientes/Cliente2.png");
@@ -107,7 +113,7 @@ int main(int argc, char* argv[]) {
     Texture2D Tela_Vitoria = LoadTexture("DadoBurguer/assets/VITORIA.png");
     Texture2D Tela_Derrota = LoadTexture("DadoBurguer/assets/DERROTA.png");
 
-    Texture2D Texturas[55] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim, Vazio_Paciencia, Verde_Paciencia, Vermelho_Paciencia, Tela_Derrota, Tela_Vitoria};
+    Texture2D Texturas[61] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim, Vazio_Paciencia, Verde_Paciencia, Vermelho_Paciencia, Tela_Derrota, Tela_Vitoria, Como_Jogar_pt1, Como_Jogar_pt2, HistoricoTela, EscolhaOrdenacao, hover_alpha, hover_ambas, hover_pont};
     Texture2D Sprites[10] = {Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10};
     Texture2D SpritesEspeciais[2] = {Especial1, Especial2};
 
@@ -171,12 +177,15 @@ int main(int argc, char* argv[]) {
 
     Vec<Historico> historico;
     historico.wipe();
+<<<<<<< HEAD
     carregaHistorico(enderecoHistorico, historico);
     mergeSort(historico);
+=======
+    carregaHistorico("DadoBurguer/Arquivos/historico.txt", historico);
+>>>>>>> 0721842e5d7807a87e924ba5cfd6aa58f111c162
     std :: string nome;
     nome.clear();
     int Pontuacao = 0, Processos = 0;
-    imprimeHistorico(historico, 10);
 
     carregaPedidos(enderecoPedidos, Raiz, CodigoMax, CodigoMin);
     std :: cout << "\n" << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
@@ -209,12 +218,16 @@ int main(int argc, char* argv[]) {
     inicializaFila(Clientela);
     int TAM_FILA = 0;
 
+    int QualTa = 0;
+    int OpcaoHist = 0;
+    float Volume = 0.24f;
     SFX_PACK sfx; //{SFX_defaultPath, SFX_defaultExtension};
     sfx.LoadPack(SFX_defaultPath, SFX_defaultExtension);
     SetMusicVolume(sfx.background, 0.24f);
     PlayMusicStream(sfx.background);
     //SetSoundVolume(sfx.tony, 1.0f);
     //sfx.tony = LoadSound("DadoBurguer/assets/som/tony.mp3");
+ 
 
     //Sound testeSonoro = LoadSound("DadoBurguer/assets/som/default/tony.mp3");
 
@@ -222,8 +235,17 @@ int main(int argc, char* argv[]) {
         HideCursor();
         Bloco* alvo = ProcuraInteragir(jogador, blocos, REACH); // Sempre procura um bloco possivelmente interagivel
         Vector2 mousePos = GetMousePosition();
-
         UpdateMusicStream(sfx.background);
+
+        if(IsKeyPressed(KEY_UP) && Volume < 1.0f){
+            Volume += 0.04f;
+            SetMusicVolume(sfx.background, Volume);
+        }
+
+        if(IsKeyPressed(KEY_DOWN) && Volume > 0.0f){
+            Volume -= 0.04f;
+            SetMusicVolume(sfx.background, Volume);
+        }
 
         BeginDrawing();
 
@@ -238,20 +260,23 @@ int main(int argc, char* argv[]) {
                 SetExitKey(KEY_NULL); // Nao deixa que ele saia com esc
                 //HideCursor();
 
-                if(IsKeyPressed(KEY_J)) EstadoPrograma = FIM_JOGO_DERROTA;
+                if(IsKeyPressed(KEY_V)) EstadoPrograma = FIM_JOGO_VITORIA;
+                if(IsKeyPressed(KEY_L)) EstadoPrograma = FIM_JOGO_DERROTA;
 
                 if(checaProcessos(Processos, Dificuldade)) EstadoPrograma = FIM_JOGO_DERROTA;
-                if(!checaProcessos && Clientela.tamanho == 0) EstadoPrograma = FIM_JOGO_VITORIA;
+                if(!checaProcessos(Processos, Dificuldade) && Clientela.tamanho == 0) EstadoPrograma = FIM_JOGO_VITORIA;
 
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = PAUSADO;
                 if(Stamina <= 0)
                     passaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade, Clientela);
 
-                if(Clientela.frente->dado.Paciencia <= 0){
+                if(Clientela.tamanho > 0){
+                    if(Clientela.frente->dado.Paciencia <= 0){
                     Processos++;
                     Cliente lixo;
                     desenfileira(Clientela, lixo);
+                    }
                 }
                 
                 Vector2 antes = jogador.posicao;
@@ -414,9 +439,11 @@ int main(int argc, char* argv[]) {
                     case TELA_JOGO:
                         DesenharMundo(fundo, blocos, jogador, animJogador, alvo, estado, Turno, Stamina, Processos, Pontuacao);   // EM_JOGO
                         BotaoPassaTurno(Turno, Stamina, Inventario, HEAP_PERECIVEIS, Dificuldade, Clientela);
-                        desenhaFila(Clientela);
-                        desenhaPedido(Clientela, Ingredientes_Para_Passar, BalaoPensamento);
-                        desenhaBarraPaciencia(Clientela, Clientela.frente->dado.PacienciaPermante, Verde_Paciencia, Vermelho_Paciencia, Vazio_Paciencia);
+                        if(Clientela.tamanho != 0){
+                            desenhaFila(Clientela);
+                            desenhaPedido(Clientela, Ingredientes_Para_Passar, BalaoPensamento);
+                            desenhaBarraPaciencia(Clientela, Clientela.frente->dado.PacienciaPermante, Verde_Paciencia, Vermelho_Paciencia, Vazio_Paciencia);
+                        }
                     break;              
 
                     case TELA_FOGAO: {
@@ -473,7 +500,7 @@ int main(int argc, char* argv[]) {
                 if(CheckCollisionPointRec(GetMousePosition(), btnHistorico)) {
                     DrawRectangleRounded(btnHistorico, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                        EstadoPrograma = HISTORICO;
+                        EstadoPrograma = HISTORICO_ESCOLHA;
                 } 
                 if(CheckCollisionPointRec(GetMousePosition(), btnDificuldade)) {
                     DrawRectangleRounded(btnDificuldade, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
@@ -560,12 +587,19 @@ int main(int argc, char* argv[]) {
                 break;
             }
             
-            case HISTORICO: {
-                ClearBackground(GREEN);
-                if(GetCharPressed() > 0)
+            case COMO_JOGAR: {
+                if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = MENU;
-                DrawText("MANUTENCAO", 200, 200, 100, BLACK);
-                DrawText("CLIQUE QUALQUER COISA PRA SAIR", 200, 400, 50, BLACK);
+                 if(QualTa == 0){
+                    DrawTexture(Como_Jogar_pt1, 0, 0, WHITE);
+                    if(IsKeyPressed(KEY_RIGHT))
+                        QualTa = 1;
+                }
+                if(QualTa == 1){
+                    DrawTexture(Como_Jogar_pt2, 0, 0, WHITE);
+                    if(IsKeyPressed(KEY_LEFT))
+                        QualTa = 0;
+                }
                 break;
             }
 
@@ -577,13 +611,58 @@ int main(int argc, char* argv[]) {
                 break;
             }
 
-            case COMO_JOGAR: {
-                ClearBackground(GREEN);
-                if(GetCharPressed() > 0)
+            case HISTORICO_ESCOLHA: {
+                if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = MENU;
-                DrawText("MANUTENCAO", 200, 200, 100, BLACK);
-                DrawText("CLIQUE QUALQUER COISA PRA SAIR", 200, 400, 50, BLACK);
+            
+                DrawTexture(EscolhaOrdenacao, 0, 0, WHITE);
+                Rectangle btnAlfabetica = { 203, 238, 875, 106 };
+                Rectangle btnPontuacao = { 201, 363, 877, 107 };
+                Rectangle btnAmbas = { 202, 491, 876, 107 };
+
+                if(CheckCollisionPointRec(GetMousePosition(), btnAlfabetica)){
+                    DrawTexture(hover_alpha, 203, 238, WHITE);
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                        EstadoPrograma = HISTORICO;
+                        OpcaoHist = 1;
+                    }
+                }
+                if(CheckCollisionPointRec(GetMousePosition(), btnPontuacao)){
+                    DrawTexture(hover_pont, 201, 363, WHITE);
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                        EstadoPrograma = HISTORICO;
+                        OpcaoHist = 2;
+                    }
+                }
+                if(CheckCollisionPointRec(GetMousePosition(), btnAmbas)){
+                    DrawTexture(hover_ambas, 202, 491, WHITE);
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                        EstadoPrograma = HISTORICO;
+                        OpcaoHist = 3;
+                    }
+                }
                 break;
+            }   
+            case HISTORICO:{
+                if(IsKeyPressed(KEY_ESCAPE)) 
+                    EstadoPrograma = MENU;
+
+                DrawTexture(HistoricoTela, 0, 0, WHITE);
+                if(OpcaoHist == 1){
+                    radixSort(historico);
+                    OpcaoHist = 0;
+                }
+                if (OpcaoHist == 2){
+                    mergeSort(historico);
+                    OpcaoHist = 0;
+                }
+                if (OpcaoHist == 3){
+                    radixSort(historico);
+                    mergeSort(historico);
+                    OpcaoHist = 0;
+                }
+                desenhaHistorico(historico);
+                
             }
         } // Fim switch telas
 

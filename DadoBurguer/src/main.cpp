@@ -176,6 +176,9 @@ int main(int argc, char* argv[]) {
     };
                         
     Log relatorio{};
+    Log relatorioHistorico{LogMode::HISTORICO_LOG};
+
+    relatorio.HASH.tamanho = TAMANHO_HASH;
 
     carregaPedidos(enderecoPedidos, Raiz, CodigoMax, CodigoMin, relatorio);
     //std :: cout << "\n" << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS, relatorio)<< "\n";
@@ -622,43 +625,64 @@ int main(int argc, char* argv[]) {
                 if(CheckCollisionPointRec(GetMousePosition(), btnAlfabetica)){
                     DrawTexture(hover_alpha, 203, 238, WHITE);
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        EstadoPrograma = HISTORICO;
+                        EstadoPrograma = ESTADO_PROGRAMA::HISTORICO;
                         OpcaoHist = 1;
                     }
                 }
                 if(CheckCollisionPointRec(GetMousePosition(), btnPontuacao)){
                     DrawTexture(hover_pont, 201, 363, WHITE);
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        EstadoPrograma = HISTORICO;
+                        EstadoPrograma = ESTADO_PROGRAMA::HISTORICO;
                         OpcaoHist = 2;
                     }
                 }
                 if(CheckCollisionPointRec(GetMousePosition(), btnAmbas)){
                     DrawTexture(hover_ambas, 202, 491, WHITE);
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        EstadoPrograma = HISTORICO;
+                        EstadoPrograma = ESTADO_PROGRAMA::HISTORICO;
                         OpcaoHist = 3;
                     }
                 }
                 break;
             }   
-            case HISTORICO:{
+            case ESTADO_PROGRAMA::HISTORICO:{
                 if(IsKeyPressed(KEY_ESCAPE)) 
                     EstadoPrograma = MENU;
 
                 DrawTexture(HistoricoTela, 0, 0, WHITE);
-                if(OpcaoHist == 1){
-                    radixSort(historico);
-                    OpcaoHist = 0;
-                }
-                if (OpcaoHist == 2){
-                    mergeSort(historico);
-                    OpcaoHist = 0;
-                }
-                if (OpcaoHist == 3){
-                    radixSort(historico);
-                    mergeSort(historico);
-                    OpcaoHist = 0;
+
+                if (OpcaoHist != 0) {
+                    relatorioHistorico.HISTORICO.nEntradas = historico.tam;
+                    relatorioHistorico.openLog();
+
+                    if(OpcaoHist == 1){
+                        relatorioHistorico.innit();
+                        radixSort(historico);
+                        relatorioHistorico.HISTORICO.escreverLogAcesso(relatorioHistorico.file, 0.0f, relatorioHistorico.stop());
+
+                        OpcaoHist = 0;
+                    }
+                    if (OpcaoHist == 2){
+                        relatorioHistorico.innit();
+                        mergeSort(historico);
+                        relatorioHistorico.HISTORICO.escreverLogAcesso(relatorioHistorico.file, relatorioHistorico.stop(), 0.0f);
+
+                        OpcaoHist = 0;
+                    }
+                    if (OpcaoHist == 3){
+                        relatorioHistorico.innit();
+                        radixSort(historico);
+                        double t_radix = relatorioHistorico.stop();
+                        relatorioHistorico.innit();
+                        mergeSort(historico);
+                        double t_merge = relatorioHistorico.stop();
+
+                        relatorioHistorico.HISTORICO.escreverLogAcesso(relatorioHistorico.file, t_merge, t_radix);
+
+                        OpcaoHist = 0;
+                    }
+
+                    relatorioHistorico.closeLog();
                 }
                 desenhaHistorico(historico);
                 

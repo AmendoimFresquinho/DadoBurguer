@@ -46,11 +46,16 @@ std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, Tab
 
     int sorteado = distrib(gen);
 
-    const NodoAvl* NoHash = encBuscar(hash, sorteado);
+    int coli = 0;
+    const NodoAvl* NoHash = encBuscar(hash, sorteado, coli);
+    relatorio.HASH.colisoes += coli;
 
     if(NoHash != nullptr){
-        HIT++;
-        return NoHash->receita;
+        HIT++; relatorio.HASH.hits++;
+        std :: string RECEITA = NoHash->receita;
+        RECEITA.insert(0, 1, 'x');
+        return RECEITA;
+        //return NoHash->receita;
     } 
            
     int comparacoes = 0;
@@ -62,12 +67,14 @@ std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, Tab
             ++relatorio.AVL.nBuscas;
         std::cout << "\nFOI NA ARVORE\n";
         encInserir(hash, sorteado, nodo);
-        MISS++;
+        relatorio.HASH.ocupadas++;
+        MISS++; relatorio.HASH.misses++;
         std :: string RECEITA = nodo->receita;
         RECEITA.insert(0, 1, 'x');
         return RECEITA;  
     }
 
+    printf("CLIENTENOVO!");
     } while(nodo == nullptr);
 
     std :: string RECEITA = nodo->receita;

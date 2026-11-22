@@ -8,6 +8,7 @@
 #include "Vec.hpp"
 #include <string>
 #include "Montagem.hpp"
+#include "Logger.hpp"
 
 //PLAYER
 
@@ -56,7 +57,7 @@ int avlAltura(const NodoAvl *n);
 int avlFb(const NodoAvl *n);
 const NodoAvl* avlBuscar(NodoAvl *raiz, int dado);
 void avlEmOrdem(const NodoAvl *raiz);
-void avlInserir(NodoAvl *&raiz, int dado, const std :: string &receita);
+int avlInserir(NodoAvl *&raiz, int dado, const std :: string &receita);
 void avlRemover(NodoAvl *&raiz, int dado);
 void avlDestruir(NodoAvl *&raiz);
 
@@ -143,7 +144,7 @@ void pontos(const int &pontuacao);
 
 // PEDIDOS
 
-bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoMax, int &codigoMin);
+bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoMax, int &codigoMin, Log &relatorio);
 std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, TabelaEnc &hash, int &HIT, int &MISS);
 void desenhaPedido(FilaEnc &f, IngredienteJogo Ings[QUANTIDADE_INGREDIENTES], Texture2D &caixaPensamento);
 

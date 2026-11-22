@@ -6,7 +6,7 @@
 #include <fstream>
 #include <random>
 
-bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoMax, int &codigoMin) {
+bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoMax, int &codigoMin, Log &relatorio) {
 
     std::ifstream arq(nomeArquivo);
     if (!arq.is_open()){
@@ -17,15 +17,22 @@ bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoM
     int codigo;
     std::string pedido;
 
+    relatorio.innit();
+
     while (arq >> codigo >> pedido) {
-        avlInserir(raiz, codigo, pedido);
+        relatorio.AVL.nRotacoes += avlInserir(raiz, codigo, pedido);
+        relatorio.AVL.nInseridos++;
         if (codigo > codigoMax) codigoMax = codigo;
         if (codigo < codigoMin) codigoMin = codigo;     
     }
 
+    relatorio.AVL.alturaTotal = avlAltura(raiz);
+    relatorio.AVL.tempoDeCarregamento = relatorio.stop();
+
     std :: cout << "\n"<< codigoMax << "\n" << "MAXIMO";
     std :: cout << "\n"<< codigoMin << "\n" << "MINIMO";
 
+    relatorio.AVL.escreverLog(relatorio.file);
     return true;  
 }
 

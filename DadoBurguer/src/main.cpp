@@ -9,6 +9,7 @@
 #include "Montagem.hpp"
 #include "Vec.hpp"
 #include "Som.hpp"
+#include "Logger.hpp"
 
 int main(int argc, char* argv[]) {
     
@@ -174,20 +175,17 @@ int main(int argc, char* argv[]) {
         enderecoHistorico = argv[2];
     };
 
+    Log relatorio{};
 
     Vec<Historico> historico;
     historico.wipe();
-<<<<<<< HEAD
     carregaHistorico(enderecoHistorico, historico);
     mergeSort(historico);
-=======
-    carregaHistorico("DadoBurguer/Arquivos/historico.txt", historico);
->>>>>>> 0721842e5d7807a87e924ba5cfd6aa58f111c162
     std :: string nome;
     nome.clear();
     int Pontuacao = 0, Processos = 0;
 
-    carregaPedidos(enderecoPedidos, Raiz, CodigoMax, CodigoMin);
+    carregaPedidos(enderecoPedidos, Raiz, CodigoMax, CodigoMin, relatorio);
     std :: cout << "\n" << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
     std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
     std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";

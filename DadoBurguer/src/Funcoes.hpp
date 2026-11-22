@@ -87,7 +87,6 @@ int buscarIngrediente(const ListaContiguaINV& l, IngredienteJogo *Ingrediente);
 // HASH
 
 int hashDivisao(int k, int m);
-int hashMultiplicativo(int k, int m);
 int hashString(const char *s, int m);
 
 void encInicializar(TabelaEnc &t, int m);

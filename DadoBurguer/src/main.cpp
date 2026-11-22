@@ -171,13 +171,6 @@ int main() {
     int Pontuacao = 0, Processos = 0;
 
     carregaPedidos("DadoBurguer/Arquivos/pedidos.txt", Raiz, CodigoMax, CodigoMin);
-    std :: cout << "\n" << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
-    std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
-    std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
-    std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
-    std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
-    std :: cout << "\n ACERTOS: " << HIT << "\n ERROS: " << MISS << "\n";
-    encImprimir(HashPedidos);
 
     Montagem::Pilha hamburguer = Montagem::Pilha();
     hamburguer.image = GenImageColor(64, 256, BLANK);

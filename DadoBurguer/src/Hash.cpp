@@ -9,13 +9,6 @@ int hashDivisao(int k, int m) {
     return k % m;
 }
 
-int hashMultiplicativo(int k, int m) {
-    constexpr double A = 0.6180339887; // knuth = A  
-    double prod = static_cast<double>(k) * A;
-    double frac = prod - std::floor(prod);
-    return static_cast<int>(m * frac);
-}
-
 int hashString(const char *s, int m) {
     const int B = 31;
     int h = 0;

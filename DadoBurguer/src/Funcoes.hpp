@@ -8,6 +8,7 @@
 #include "Vec.hpp"
 #include <string>
 #include "Montagem.hpp"
+#include "Logger.hpp"
 
 //PLAYER
 
@@ -54,9 +55,9 @@ void liberaFila(FilaEnc &f);
 
 int avlAltura(const NodoAvl *n);
 int avlFb(const NodoAvl *n);
-const NodoAvl* avlBuscar(NodoAvl *raiz, int dado);
+const NodoAvl* avlBuscar(NodoAvl *raiz, int dado, int& comparacoes);
 void avlEmOrdem(const NodoAvl *raiz);
-void avlInserir(NodoAvl *&raiz, int dado, const std :: string &receita);
+int avlInserir(NodoAvl *&raiz, int dado, const std :: string &receita);
 void avlRemover(NodoAvl *&raiz, int dado);
 void avlDestruir(NodoAvl *&raiz);
 
@@ -142,8 +143,8 @@ void pontos(const int &pontuacao);
 
 // PEDIDOS
 
-bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoMax, int &codigoMin);
-std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, TabelaEnc &hash, int &HIT, int &MISS);
+bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoMax, int &codigoMin, Log &relatorio);
+std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, TabelaEnc &hash, int &HIT, int &MISS, Log& relatorio);
 void desenhaPedido(FilaEnc &f, IngredienteJogo Ings[QUANTIDADE_INGREDIENTES], Texture2D &caixaPensamento);
 
 // HISTORICO
@@ -167,9 +168,9 @@ static bool arquivoTerminaEmQuebra(const std::string &nomeArquivo);
 
 // CLIENTES
 
-Cliente criaClientePadrao(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *&raiz, TabelaEnc &hash, int &HIT, int &MISS, int &codigoMax, int &codigoMin);
+Cliente criaClientePadrao(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *&raiz, TabelaEnc &hash, int &HIT, int &MISS, int &codigoMax, int &codigoMin, Log& relatorio);
 Cliente CriaclienteEspecial(Texture2D sprites[2]);
-void criaFilaClientes(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *&raiz, TabelaEnc &hash, int &HIT, int &MISS, Texture2D Especiais[2], FilaEnc &Clientes, int &TAM_FILA, int &codigoMax, int &codigoMin);
+void criaFilaClientes(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *&raiz, TabelaEnc &hash, int &HIT, int &MISS, Texture2D Especiais[2], FilaEnc &Clientes, int &TAM_FILA, int &codigoMax, int &codigoMin, Log& relatorio);
 void desenhaFila(FilaEnc &f);
 void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv);
 void TelaConfirmacao(Texture2D &mainTela, Texture2D &sim, Texture2D &nao, EstadoJogo &estado, FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv);

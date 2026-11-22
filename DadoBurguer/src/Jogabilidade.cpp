@@ -72,6 +72,7 @@ void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &ha
     UnloadTexture(hambuergao);
     UnloadImage(IMAGEMHAMBURGUER);
 
+    CloseAudioDevice();
     CloseWindow();
 }
 

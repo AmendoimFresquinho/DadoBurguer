@@ -9,8 +9,9 @@
 #include "Montagem.hpp"
 #include "Vec.hpp"
 #include "Som.hpp"
+#include "Logger.hpp"
 
-int main() {
+int main(int argc, char* argv[]) {
     
     InitWindow((int)LARGURA, (int)ALTURA, "DADOBURGUER");
     InitAudioDevice();
@@ -163,14 +164,36 @@ int main() {
     int TurnoAssado[4] = {};
     int QualTurno = 0;
 
+    std::string enderecoPedidos;
+    std::string enderecoHistorico;
+    if (argc < 3){
+        std::cout << "Quantidade de argumentos menor do que o esperado, utilizando padrão de teste" << std::endl;
+        enderecoPedidos = "DadoBurguer/Arquivos/pedidos.txt";
+        enderecoHistorico = "DadoBurguer/Arquivos/historico.txt";
+    } else {
+        enderecoPedidos = argv[1];
+        enderecoHistorico = argv[2];
+    };
+
+    Log relatorio{};
+
+    carregaPedidos(enderecoPedidos, Raiz, CodigoMax, CodigoMin, relatorio);
+    //std :: cout << "\n" << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS, relatorio)<< "\n";
+    //std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
+    //std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
+    //std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
+    //std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
+    //std :: cout << "\n ACERTOS: " << HIT << "\n ERROS: " << MISS << "\n";
+    //encImprimir(HashPedidos);
+
     Vec<Historico> historico;
     historico.wipe();
-    carregaHistorico("DadoBurguer/Arquivos/historico.txt", historico);
+    relatorio.HISTORICO.nEntradas = carregaHistorico(enderecoHistorico, historico);
+    relatorio.HISTORICO.escreverLog(relatorio.file);
+    mergeSort(historico);
     std :: string nome;
     nome.clear();
     int Pontuacao = 0, Processos = 0;
-
-    carregaPedidos("DadoBurguer/Arquivos/pedidos.txt", Raiz, CodigoMax, CodigoMin);
 
     Montagem::Pilha hamburguer = Montagem::Pilha();
     hamburguer.image = GenImageColor(64, 256, BLANK);
@@ -469,7 +492,7 @@ int main() {
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                         //PlaySound(sfx.tony);
                         ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade, Clientela, Processos, Pontuacao);
-                        criaFilaClientes(Dificuldade, Sprites, Raiz, HashPedidos, HIT, MISS, SpritesEspeciais, Clientela, TAM_FILA, CodigoMax, CodigoMin);
+                        criaFilaClientes(Dificuldade, Sprites, Raiz, HashPedidos, HIT, MISS, SpritesEspeciais, Clientela, TAM_FILA, CodigoMax, CodigoMin, relatorio);
                         EstadoPrograma = JOGANDO;
                     }
                 } 
@@ -517,7 +540,7 @@ int main() {
                     DrawRectangleRounded(pausaReiniciar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                         ReiniciarJogo(jogador, estado, animJogador, Inventario, Turno, Stamina, HEAP_PERECIVEIS, HashPedidos, telaFogao, telaCorte, telaInventario, telaMontagem, Dificuldade, Clientela, Processos, Pontuacao);
-                        criaFilaClientes(Dificuldade, Sprites, Raiz, HashPedidos, HIT, MISS, SpritesEspeciais, Clientela, TAM_FILA, CodigoMax, CodigoMin);
+                        criaFilaClientes(Dificuldade, Sprites, Raiz, HashPedidos, HIT, MISS, SpritesEspeciais, Clientela, TAM_FILA, CodigoMax, CodigoMin, relatorio);
                         EstadoPrograma = JOGANDO;
                     }
                 }
@@ -535,7 +558,7 @@ int main() {
 
                 if (telaDigitarNome(nome, Pontuacao)) {
                     Historico novo = {nome, Pontuacao};
-                    salvaPontuacao("DadoBurguer/Arquivos/historico.txt", novo);   // append no arquivo
+                    salvaPontuacao(enderecoHistorico, novo);   // append no arquivo
                     historico.push(novo);
                     mergeSort(historico);
                     if(IsKeyPressed(KEY_ENTER)) { 
@@ -552,7 +575,7 @@ int main() {
 
                 if (telaDigitarNome(nome, Pontuacao)) {
                     Historico novo = {nome, Pontuacao};
-                    salvaPontuacao("DadoBurguer/Arquivos/historico.txt", novo);   // append no arquivo
+                    salvaPontuacao(enderecoHistorico, novo);   // append no arquivo
                     historico.push(novo);
                     mergeSort(historico);
                     if(IsKeyPressed(KEY_ENTER)) { 
@@ -677,12 +700,12 @@ int main() {
         if (blocos[i].textura.id != 0) 
             UnloadTexture(blocos[i].textura);
 
-    FechaJogo(animJogador, telaEstoque, telaRenderTeste, telaMontagem.hamburguer.textura, telaMontagem.hamburguer.image, Texturas);
+
 
     sfx.UnloadPack();
+    FechaJogo(animJogador, telaEstoque, telaRenderTeste, telaMontagem.hamburguer.textura, telaMontagem.hamburguer.image, Texturas);
 
-    CloseAudioDevice();
-    CloseWindow();
+    std::cout << "Fechamento fechado" << std::endl;
 
     return 0;
 }

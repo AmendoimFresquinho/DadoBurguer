@@ -35,42 +35,51 @@ void rotEsq(NodoAvl *&x) {
     atualizarAltura(y);
     x = y; // y vira a nova raiz da subarvore
 }
- 
-void reequilibrar(NodoAvl *&raiz) {
+
+// Retorna o número de rotações necessárias
+int  reequilibrar(NodoAvl *&raiz) {
     atualizarAltura(raiz);
     int fb = avlFb(raiz);
- 
+    int n = 0;
     if (fb > 1) {
-        if (avlFb(raiz->esq) < 0)   // LR
+        if (avlFb(raiz->esq) < 0) { // LR
             rotEsq(raiz->esq);
+            ++n;
+        }
         rotDir(raiz);               // LL
+        ++n;
     } else if (fb < -1) {
-        if (avlFb(raiz->dir) > 0)   // RL
+        if (avlFb(raiz->dir) > 0) { // RL
             rotDir(raiz->dir);
+            ++n;
+        }
         rotEsq(raiz);               // RR
+        ++n;
     }
+    return n;
 }
  
-const NodoAvl* avlBuscar(NodoAvl *raiz, int codigo) {
+const NodoAvl* avlBuscar(NodoAvl *raiz, int codigo, int& comparacoes) {
+    ++comparacoes;
     if (!raiz) return nullptr;
-    if (codigo < raiz->codigo) return avlBuscar(raiz->esq, codigo);
-    if (codigo > raiz->codigo) return avlBuscar(raiz->dir, codigo);
+    if (codigo < raiz->codigo) return avlBuscar(raiz->esq, codigo, comparacoes);
+    if (codigo > raiz->codigo) return avlBuscar(raiz->dir, codigo, comparacoes);
     return raiz;
 }
- 
-void avlInserir(NodoAvl *&raiz, int codigo, const std :: string &receita) {
+// Retorna o número de rotações necessárias
+int avlInserir(NodoAvl *&raiz, int codigo, const std :: string &receita) {
     if (!raiz) {
         raiz = new NodoAvl{codigo, receita, 0, nullptr, nullptr};
-        return;
+        return 0;
     }
     if (codigo < raiz->codigo)
         avlInserir(raiz->esq, codigo, receita);
     else if (codigo > raiz->codigo)
         avlInserir(raiz->dir, codigo, receita);
     else
-        return; // duplicatas ignoradas
+        return 0; // duplicatas ignoradas
  
-    reequilibrar(raiz);
+    return reequilibrar(raiz);
 }
  
 NodoAvl *minimo(NodoAvl *n) {

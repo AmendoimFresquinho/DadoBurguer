@@ -10,7 +10,7 @@
 #include "Vec.hpp"
 #include "Som.hpp"
 
-int main() {
+int main(int argc, char* argv[]) {
     
     InitWindow((int)LARGURA, (int)ALTURA, "DADOBURGUER");
     InitAudioDevice();
@@ -157,16 +157,28 @@ int main() {
     int TurnoAssado[4] = {};
     int QualTurno = 0;
 
+    std::string enderecoPedidos;
+    std::string enderecoHistorico;
+    if (argc < 3){
+        std::cout << "Quantidade de argumentos menor do que o esperado, utilizando padrão de teste" << std::endl;
+        enderecoPedidos = "DadoBurguer/Arquivos/pedidos.txt";
+        enderecoHistorico = "DadoBurguer/Arquivos/historico.txt";
+    } else {
+        enderecoPedidos = argv[1];
+        enderecoHistorico = argv[2];
+    };
+
+
     Vec<Historico> historico;
     historico.wipe();
-    carregaHistorico("DadoBurguer/Arquivos/historico.txt", historico);
+    carregaHistorico(enderecoHistorico, historico);
     mergeSort(historico);
     std :: string nome;
     nome.clear();
     int Pontuacao = 0, Processos = 0;
     imprimeHistorico(historico, 10);
 
-    carregaPedidos("DadoBurguer/Arquivos/pedidos.txt", Raiz, CodigoMax, CodigoMin);
+    carregaPedidos(enderecoPedidos, Raiz, CodigoMax, CodigoMin);
     std :: cout << "\n" << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
     std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
     std :: cout << SorteiaPedidos(Raiz, CodigoMax, CodigoMin, HashPedidos, HIT, MISS)<< "\n";
@@ -520,7 +532,7 @@ int main() {
 
                 if (telaDigitarNome(nome, Pontuacao)) {
                     Historico novo = {nome, Pontuacao};
-                    salvaPontuacao("DadoBurguer/Arquivos/historico.txt", novo);   // append no arquivo
+                    salvaPontuacao(enderecoHistorico, novo);   // append no arquivo
                     historico.push(novo);
                     mergeSort(historico);
                     if(IsKeyPressed(KEY_ENTER)) { 
@@ -537,7 +549,7 @@ int main() {
 
                 if (telaDigitarNome(nome, Pontuacao)) {
                     Historico novo = {nome, Pontuacao};
-                    salvaPontuacao("DadoBurguer/Arquivos/historico.txt", novo);   // append no arquivo
+                    salvaPontuacao(enderecoHistorico, novo);   // append no arquivo
                     historico.push(novo);
                     mergeSort(historico);
                     if(IsKeyPressed(KEY_ENTER)) { 

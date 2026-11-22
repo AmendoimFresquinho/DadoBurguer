@@ -45,4 +45,4 @@ int _hist::escreverLog(std::fstream& f){
 
     f.flush();
     return 0;
-}
+}   

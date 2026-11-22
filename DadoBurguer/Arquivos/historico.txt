@@ -20,9 +20,8 @@ aaaa
 0
 sadsawdasdwadswad
 0
-<<<<<<< HEAD
 Peixoto
-=======
+0
 Adriana I.
 32
 Mateus P.
@@ -198758,5 +198757,10 @@ Leandro B. B.
 Fernando O.
 32
 eeeee
->>>>>>> 0721842e5d7807a87e924ba5cfd6aa58f111c162
+0
+edu
+0
+eeddd
+0
+ed
 0

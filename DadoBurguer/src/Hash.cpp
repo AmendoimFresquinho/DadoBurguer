@@ -32,13 +32,15 @@ void encInserir(TabelaEnc &t, int chave, const NodoAvl *valor) {
     t.n++;
 }
 
-const NodoAvl* encBuscar(const TabelaEnc &t, int chave) {
+const NodoAvl* encBuscar(const TabelaEnc &t, int chave, int& coli) {
     int i = hashDivisao(chave, t.m);
     NoHash *p = t.tabela[i];
     while (p != nullptr) {
         if (p->chave == chave) return p->valor;
         p = p->prox;
+        coli++;
     }
+    coli = 0;
     return nullptr;   // não encontrado
 }
 

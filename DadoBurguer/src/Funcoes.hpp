@@ -92,7 +92,7 @@ int hashString(const char *s, int m);
 
 void encInicializar(TabelaEnc &t, int m);
 void encInserir(TabelaEnc &t, int chave, const NodoAvl *valor);
-const NodoAvl* encBuscar(const TabelaEnc &t, int chave);
+const NodoAvl* encBuscar(const TabelaEnc &t, int chave, int& coli);
 int encRemover(TabelaEnc &t, int chave);
 void encDestruir(TabelaEnc &t);
 

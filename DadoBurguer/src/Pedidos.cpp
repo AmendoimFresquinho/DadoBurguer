@@ -36,10 +36,9 @@ bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoM
     return true;  
 }
 
-std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, TabelaEnc &hash, int &HIT, int &MISS){
+std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, TabelaEnc &hash, int &HIT, int &MISS, Log& relatorio){
 
     const NodoAvl* nodo = nullptr;
-
     do {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -53,10 +52,14 @@ std :: string SorteiaPedidos(NodoAvl *&raiz, int &codigoMax, int &codigoMin, Tab
         HIT++;
         return NoHash->receita;
     } 
-             
-    nodo = avlBuscar(raiz, sorteado);
-    
+           
+    int comparacoes = 0;
+    relatorio.innit();
+    nodo = avlBuscar(raiz, sorteado, comparacoes);
+    relatorio.AVL.tempoTotalAcumulado += relatorio.stop();
+    relatorio.AVL.nComparacoes += comparacoes;
     if(nodo != nullptr){
+            ++relatorio.AVL.nBuscas;
         std::cout << "\nFOI NA ARVORE\n";
         encInserir(hash, sorteado, nodo);
         MISS++;

@@ -59,10 +59,11 @@ int  reequilibrar(NodoAvl *&raiz) {
     return n;
 }
  
-const NodoAvl* avlBuscar(NodoAvl *raiz, int codigo) {
+const NodoAvl* avlBuscar(NodoAvl *raiz, int codigo, int& comparacoes) {
+    ++comparacoes;
     if (!raiz) return nullptr;
-    if (codigo < raiz->codigo) return avlBuscar(raiz->esq, codigo);
-    if (codigo > raiz->codigo) return avlBuscar(raiz->dir, codigo);
+    if (codigo < raiz->codigo) return avlBuscar(raiz->esq, codigo, comparacoes);
+    if (codigo > raiz->codigo) return avlBuscar(raiz->dir, codigo, comparacoes);
     return raiz;
 }
 // Retorna o número de rotações necessárias

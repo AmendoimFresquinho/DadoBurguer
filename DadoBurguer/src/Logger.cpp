@@ -22,3 +22,27 @@ int _avl::escreverLog(std::fstream& f){
     f.flush();
     return 0;
 };
+int _avl::escreverLogPartida(std::fstream& f){
+    f
+    << "-- AVL: buscas durante a partida --\n"
+    << "Total de Buscas: \t\t\t" << std::to_string(nBuscas) << "\n"
+    << "Total de Comparações: \t\t" << std::to_string(nComparacoes) << "\n"
+    << "Média de comparações por busca: \t" << std::to_string((double) nComparacoes / nBuscas) << "\n"
+    << "Tempo total acumulado: \t" << std::to_string(tempoTotalAcumulado) << "s\n\n";
+
+    if (!f) {std::cerr << "Erro ao escrever log\n"; return 1;}
+
+    f.flush();
+    return 0;
+};
+
+int _hist::escreverLog(std::fstream& f){
+    f
+    << "-- Histórico: Carregamento --\n"
+    << "Entradas Carregadas: \t\t" << std::to_string(nEntradas) <<"\n\n";
+
+    if (!f) {std::cerr << "Erro ao escrever log\n"; return 1;}
+
+    f.flush();
+    return 0;
+}

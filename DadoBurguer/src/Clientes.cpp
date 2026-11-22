@@ -5,7 +5,7 @@
 #include "Constantes.hpp"
 #include <random>
 
-Cliente criaClientePadrao(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *&raiz, TabelaEnc &hash, int &HIT, int &MISS, int &codigoMax, int &codigoMin){
+Cliente criaClientePadrao(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *&raiz, TabelaEnc &hash, int &HIT, int &MISS, int &codigoMax, int &codigoMin, Log& relatorio){
 
     Cliente novo;
 
@@ -73,7 +73,7 @@ Cliente criaClientePadrao(Dificuldade &dificuldade, Texture2D sprites[10], NodoA
         novo.PacienciaPermante = novo.Paciencia;
     }
 
-    novo.pedido = SorteiaPedidos(raiz, codigoMax, codigoMin, hash, HIT, MISS);
+    novo.pedido = SorteiaPedidos(raiz, codigoMax, codigoMin, hash, HIT, MISS, relatorio);
 
     return novo;
 }
@@ -109,7 +109,7 @@ Cliente CriaclienteEspecial(Texture2D sprites[2]){
     return novo;
 }
 
-void criaFilaClientes(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *&raiz, TabelaEnc &hash, int &HIT, int &MISS, Texture2D Especiais[2], FilaEnc &Clientes, int &TAM_FILA, int &codigoMax, int &codigoMin){
+void criaFilaClientes(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *&raiz, TabelaEnc &hash, int &HIT, int &MISS, Texture2D Especiais[2], FilaEnc &Clientes, int &TAM_FILA, int &codigoMax, int &codigoMin, Log& relatorio){
 
     if(dificuldade == FACIL) TAM_FILA = TAMANHO_FILA_FACIL;
     else if(dificuldade == MEDIO) TAM_FILA = TAMANHO_FILA_MEDIO;
@@ -127,7 +127,7 @@ void criaFilaClientes(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *
         EhEspecial = Especial(gen);
 
         if(EhEspecial >= 0 && EhEspecial <= 19){
-            Cliente novo = criaClientePadrao(dificuldade, sprites, raiz, hash, HIT, MISS, codigoMax, codigoMin);
+            Cliente novo = criaClientePadrao(dificuldade, sprites, raiz, hash, HIT, MISS, codigoMax, codigoMin, relatorio);
             enfileira(Clientes, novo);
         }
         else {

@@ -174,7 +174,7 @@ int main(int argc, char* argv[]) {
         enderecoPedidos = argv[1];
         enderecoHistorico = argv[2];
     };
-
+                        
     Log relatorio{};
     Log relatorioHistorico{LogMode::HISTORICO_LOG};
 

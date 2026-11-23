@@ -72,7 +72,7 @@ bool telaDigitarNome(std::string &nome, int pontuacao) {
 void imprimeHistorico(const Vec<Historico> &v, int quantos) { // TEMP
     std::cout << "Historico (" << v.tam << " registros)\n";
 
-    for (int i = 0; i < (int)v.tam && i < quantos; i++) {
+    for (int i = 0; i < (int)v.tam; i++) {
         std::cout << i + 1 << ". [" << v.arr[i].nome << "] " << v.arr[i].pontuacao << "\n";
     }
 }

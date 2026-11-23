@@ -174,7 +174,7 @@ int main(int argc, char* argv[]) {
         enderecoPedidos = argv[1];
         enderecoHistorico = argv[2];
     };
-                        
+
     Log relatorio{};
     Log relatorioHistorico{LogMode::HISTORICO_LOG};
 
@@ -225,11 +225,11 @@ int main(int argc, char* argv[]) {
     float Volume = 0.24f;
     SFX_PACK sfx; //{SFX_defaultPath, SFX_defaultExtension};
     sfx.LoadPack(SFX_defaultPath, SFX_defaultExtension);
-    SetMusicVolume(sfx.background, 0.24f);
+    SetMusicVolume(sfx.background, 0.12f);
     PlayMusicStream(sfx.background);
     SetSoundVolume(sfx.corte, 0.67f);
     SetSoundVolume(sfx.correto, 0.7f);
-    SetSoundVolume(sfx.errado, 0.66f);
+    SetSoundVolume(sfx.errado, 0.7f);
     //SetSoundVolume(sfx.tony, 1.0f);
     //sfx.tony = LoadSound("DadoBurguer/assets/som/tony.mp3");
  
@@ -517,7 +517,7 @@ int main(int argc, char* argv[]) {
                 if(CheckCollisionPointRec(GetMousePosition(), btnSair)) {
                     DrawRectangleRounded(btnSair, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                        FechaJogo(animJogador, telaEstoque, telaRenderTeste, telaMontagem.hamburguer.textura, telaMontagem.hamburguer.image, Texturas);
+                        FechaJogo(animJogador, telaEstoque, telaRenderTeste, telaMontagem.hamburguer.textura, telaMontagem.hamburguer.image, Texturas, sfx, relatorio);
                 } 
                 if(CheckCollisionPointRec(GetMousePosition(), btnComoJogar)) {
                     DrawRectangleRounded(btnComoJogar, 0.4f, 4, Fade(LIGHTGRAY, 0.4f));
@@ -664,14 +664,14 @@ int main(int argc, char* argv[]) {
                         relatorioHistorico.innit();
                         radixSort(historico);
                         relatorioHistorico.HISTORICO.escreverLogAcesso(relatorioHistorico.file, 0.0f, relatorioHistorico.stop());
-                        imprimeHistorico(historico);
+
                         OpcaoHist = 0;
                     }
                     if (OpcaoHist == 2){
                         relatorioHistorico.innit();
                         mergeSort(historico);
                         relatorioHistorico.HISTORICO.escreverLogAcesso(relatorioHistorico.file, relatorioHistorico.stop(), 0.0f);
-                        imprimeHistorico(historico);
+
                         OpcaoHist = 0;
                     }
                     if (OpcaoHist == 3){
@@ -681,7 +681,7 @@ int main(int argc, char* argv[]) {
                         relatorioHistorico.innit();
                         mergeSort(historico);
                         double t_merge = relatorioHistorico.stop();
-                        imprimeHistorico(historico);
+
                         relatorioHistorico.HISTORICO.escreverLogAcesso(relatorioHistorico.file, t_merge, t_radix);
 
                         OpcaoHist = 0;
@@ -731,8 +731,8 @@ int main(int argc, char* argv[]) {
 
 
 
-    sfx.UnloadPack();
-    FechaJogo(animJogador, telaEstoque, telaRenderTeste, telaMontagem.hamburguer.textura, telaMontagem.hamburguer.image, Texturas);
+    //sfx.UnloadPack();
+    FechaJogo(animJogador, telaEstoque, telaRenderTeste, telaMontagem.hamburguer.textura, telaMontagem.hamburguer.image, Texturas, sfx, relatorio);
 
     std::cout << "Fechamento fechado" << std::endl;
 

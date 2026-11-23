@@ -61,7 +61,11 @@ int testaStamina (const int &stamina, const int quantoGasta){
     return stamina - quantoGasta;
 }
 
-void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER, Texture2D texturas[50]){
+void FechaJogo(AnimJogador &animJogador, TelaEstoque &telaEstoque, Texture2D &hambuergao, Texture2D &RENDER, Image &IMAGEMHAMBURGUER, Texture2D texturas[], SFX_PACK& sfx, Log& relatorio){
+
+    relatorio.closeLog();
+
+    sfx.UnloadPack();
 
     DescarregarAnimJogador(animJogador);
     DescarregarTelaEstoque(telaEstoque);

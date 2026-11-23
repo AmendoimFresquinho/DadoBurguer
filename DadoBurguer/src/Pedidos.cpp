@@ -25,9 +25,9 @@ bool carregaPedidos(const std::string &nomeArquivo, NodoAvl *&raiz, int &codigoM
         if (codigo > codigoMax) codigoMax = codigo;
         if (codigo < codigoMin) codigoMin = codigo;     
     }
-
-    relatorio.AVL.alturaTotal = avlAltura(raiz);
+    
     relatorio.AVL.tempoDeCarregamento = relatorio.stop();
+    relatorio.AVL.alturaTotal = avlAltura(raiz);
 
     std :: cout << "\n"<< codigoMax << "\n" << "MAXIMO";
     std :: cout << "\n"<< codigoMin << "\n" << "MINIMO";

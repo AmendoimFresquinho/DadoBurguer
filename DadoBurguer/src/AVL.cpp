@@ -68,18 +68,19 @@ const NodoAvl* avlBuscar(NodoAvl *raiz, int codigo, int& comparacoes) {
 }
 // Retorna o número de rotações necessárias
 int avlInserir(NodoAvl *&raiz, int codigo, const std :: string &receita) {
+    int rot = 0;
     if (!raiz) {
         raiz = new NodoAvl{codigo, receita, 0, nullptr, nullptr};
         return 0;
     }
     if (codigo < raiz->codigo)
-        avlInserir(raiz->esq, codigo, receita);
+        rot += avlInserir(raiz->esq, codigo, receita);
     else if (codigo > raiz->codigo)
-        avlInserir(raiz->dir, codigo, receita);
+        rot += avlInserir(raiz->dir, codigo, receita);
     else
         return 0; // duplicatas ignoradas
  
-    return reequilibrar(raiz);
+    return rot += reequilibrar(raiz);
 }
  
 NodoAvl *minimo(NodoAvl *n) {

@@ -108,7 +108,10 @@ void Log::closeLog(){
 
         case LogMode::GENERICO:
         default:
-            std::cout << "Essa _feature_ só funciona para logs do tipo HISTORICO.";
+            if (file.is_open()) {
+                if (!AVL.escreverLogPartida(file)) std::cout << "Erro ao escrever LOG de partida da AVL" << "\n";
+                if (!HASH.escreverLog(file)) std::cout << "Erro ao escrever LOG de partida da HASH" << "\n";
+                file.close();}
             break;
     }
 }

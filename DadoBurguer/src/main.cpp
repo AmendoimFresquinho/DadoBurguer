@@ -227,6 +227,9 @@ int main(int argc, char* argv[]) {
     sfx.LoadPack(SFX_defaultPath, SFX_defaultExtension);
     SetMusicVolume(sfx.background, 0.24f);
     PlayMusicStream(sfx.background);
+    SetSoundVolume(sfx.corte, 0.67f);
+    SetSoundVolume(sfx.correto, 0.7f);
+    SetSoundVolume(sfx.errado, 0.66f);
     //SetSoundVolume(sfx.tony, 1.0f);
     //sfx.tony = LoadSound("DadoBurguer/assets/som/tony.mp3");
  
@@ -241,12 +244,14 @@ int main(int argc, char* argv[]) {
 
         if(IsKeyPressed(KEY_UP) && Volume < 1.0f){
             Volume += 0.04f;
-            SetMusicVolume(sfx.background, Volume);
+            SetMasterVolume(Volume);
+            //SetMusicVolume(sfx.background, Volume);
         }
 
         if(IsKeyPressed(KEY_DOWN) && Volume > 0.0f){
             Volume -= 0.04f;
-            SetMusicVolume(sfx.background, Volume);
+            SetMasterVolume(Volume);
+            //SetMusicVolume(sfx.background, Volume);
         }
 
         BeginDrawing();
@@ -430,7 +435,7 @@ int main(int argc, char* argv[]) {
                     case TELA_ATENDER:
                         if (telaInventario.temHamburgui){ 
                             DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina, Processos, Pontuacao);  //Desenha o mundo para ficar bonito de fundo
-                            TelaConfirmacao(TelaConfirmar, botaoSim, botaoNao, estado, Clientela, Pontuacao, Dificuldade, Processos, telaInventario); 
+                            TelaConfirmacao(TelaConfirmar, botaoSim, botaoNao, estado, Clientela, Pontuacao, Dificuldade, Processos, telaInventario, sfx); 
                         }
                         else estado.tela = TELA_JOGO; 
                         break;
@@ -469,7 +474,7 @@ int main(int argc, char* argv[]) {
 
                     case TELA_CORTE:
                         DesenharMundo(fundo, blocos, jogador, animJogador, nullptr, estado, Turno, Stamina, Processos, Pontuacao);  //Desenha o mundo para ficar bonito de fundo
-                        desenhaTelaMesaCorte(telaCorte, Inventario, texFaca, cebolaFeita, tomateFeito, Stamina, HEAP_PERECIVEIS);
+                        desenhaTelaMesaCorte(telaCorte, Inventario, texFaca, cebolaFeita, tomateFeito, Stamina, HEAP_PERECIVEIS, sfx);
                         break;
 
                     case TELA_MONTAGEM:

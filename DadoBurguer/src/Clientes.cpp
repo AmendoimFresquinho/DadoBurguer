@@ -194,7 +194,7 @@ void desenhaPedido(FilaEnc &f, IngredienteJogo Ings[QUANTIDADE_INGREDIENTES], Te
     }
 }
 
-void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv){
+void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv, SFX_PACK& sfx){
 
     int Multiplicador = 0, cont = 0;
     Image tmp_img = {0};
@@ -233,7 +233,7 @@ void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &p
         }
     }
 
-    if(cont) processos++;
+    if(cont) {processos++; PlaySound(sfx.errado);} else PlaySound(sfx.correto);
     if(pontuacao < 0) pontuacao = 0;
 
     Cliente lixo;
@@ -242,7 +242,7 @@ void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &p
     telaInv.temHamburgui = false;
 }
 
-void TelaConfirmacao(Texture2D &mainTela, Texture2D &sim, Texture2D &nao, EstadoJogo &estado, FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv){
+void TelaConfirmacao(Texture2D &mainTela, Texture2D &sim, Texture2D &nao, EstadoJogo &estado, FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv, SFX_PACK &sfx){
 
     Rectangle botaoSim = {404, 446, 211, 78};
     Rectangle botaoNao = {654, 446, 211, 78};
@@ -252,7 +252,7 @@ void TelaConfirmacao(Texture2D &mainTela, Texture2D &sim, Texture2D &nao, Estado
     if(CheckCollisionPointRec(GetMousePosition(), botaoSim)){
         DrawTexture(sim, 404, 445, WHITE);
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-            checaSeAcertou(f, pontuacao, dificuldade, processos, telaInv);
+            checaSeAcertou(f, pontuacao, dificuldade, processos, telaInv, sfx);
             estado.tela = TELA_JOGO;
         }
     }

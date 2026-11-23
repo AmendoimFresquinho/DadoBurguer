@@ -9,6 +9,7 @@
 #include <string>
 #include "Montagem.hpp"
 #include "Logger.hpp"
+#include "Som.hpp"
 
 //PLAYER
 
@@ -109,7 +110,7 @@ void DesenharDicaMouse(const char* texto, ListaContiguaINV &inventario, int esco
 // MESA DE CORTE
 
 void iniciaTelaMesaCorte(TelaMesaCorte &t, const Texture2D &texFaca);
-void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const Texture2D &texFaca, const Texture2D &texCebolaFeita, const Texture2D &texTomateFeito, int &stamina, FilaPrioridade &HEAP);
+void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const Texture2D &texFaca, const Texture2D &texCebolaFeita, const Texture2D &texTomateFeito, int &stamina, FilaPrioridade &HEAP, SFX_PACK& sfx);
 bool AtualizarTelaCorte(TelaMesaCorte& tela);
 void pegaFaca(TelaMesaCorte &t);
 
@@ -172,8 +173,8 @@ Cliente criaClientePadrao(Dificuldade &dificuldade, Texture2D sprites[10], NodoA
 Cliente CriaclienteEspecial(Texture2D sprites[2]);
 void criaFilaClientes(Dificuldade &dificuldade, Texture2D sprites[10], NodoAvl *&raiz, TabelaEnc &hash, int &HIT, int &MISS, Texture2D Especiais[2], FilaEnc &Clientes, int &TAM_FILA, int &codigoMax, int &codigoMin, Log& relatorio);
 void desenhaFila(FilaEnc &f);
-void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv);
-void TelaConfirmacao(Texture2D &mainTela, Texture2D &sim, Texture2D &nao, EstadoJogo &estado, FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv);
+void checaSeAcertou(FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv, SFX_PACK& sfx);
+void TelaConfirmacao(Texture2D &mainTela, Texture2D &sim, Texture2D &nao, EstadoJogo &estado, FilaEnc &f, int &pontuacao, Dificuldade &dificuldade, int &processos, TelaInventario &telaInv, SFX_PACK& sfx);
 bool checaProcessos(int &processos, Dificuldade &dificuldade);
 void desenhaBarraPaciencia(const FilaEnc& f, int pacienciaInicial, Texture2D verde, Texture2D vermelho, Texture2D vazio);
 

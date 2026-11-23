@@ -47,7 +47,7 @@ bool AtualizarTelaCorte(TelaMesaCorte& tela) {
     return IsKeyPressed(KEY_E);
 }
 
-void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const Texture2D &texFaca, const Texture2D &texCebolaFeita, const Texture2D &texTomateFeito, int &stamina, FilaPrioridade &HEAP) {
+void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const Texture2D &texFaca, const Texture2D &texCebolaFeita, const Texture2D &texTomateFeito, int &stamina, FilaPrioridade &HEAP, SFX_PACK& sfx) {
     // moldura e painéis
     DrawRectangleRec(t.moldura, WHITE);
     DrawRectangleLinesEx(t.moldura, 4, BLACK);
@@ -118,6 +118,8 @@ void desenhaTelaMesaCorte(TelaMesaCorte &t, ListaContiguaINV &inventario, const 
         if(CheckCollisionRecs(aux, Centro) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && (t.itemTabua.codigo == 'T' || t.itemTabua.codigo == 'C')){
             
             stamina--;
+            
+            PlaySound(sfx.corte);
 
             if(t.itemTabua.codigo == 'T'){
                 t.itemTabua = {'t', false, texTomateFeito, "Tomate Feito", 0};

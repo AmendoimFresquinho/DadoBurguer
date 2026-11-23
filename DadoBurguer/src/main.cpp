@@ -83,6 +83,7 @@ int main(int argc, char* argv[]) {
     Texture2D DifImpossivel = LoadTexture("DadoBurguer/assets/impossivel.png");
     Texture2D Como_Jogar_pt1 = LoadTexture("DadoBurguer/assets/Como Jogar.png");
     Texture2D Como_Jogar_pt2 = LoadTexture("DadoBurguer/assets/Como Jogar 2.png");
+    Texture2D Como_Jogar_pt3 = LoadTexture("DadoBurguer/assets/Como Jogar 3.png");
     Texture2D HistoricoTela = LoadTexture("DadoBurguer/assets/Historico.png");
     Texture2D EscolhaOrdenacao = LoadTexture("DadoBurguer/assets/Escolha.png");
     Texture2D hover_alpha = LoadTexture("DadoBurguer/assets/hover_alfabetica.png");
@@ -114,7 +115,7 @@ int main(int argc, char* argv[]) {
     Texture2D Tela_Vitoria = LoadTexture("DadoBurguer/assets/VITORIA.png");
     Texture2D Tela_Derrota = LoadTexture("DadoBurguer/assets/DERROTA.png");
 
-    Texture2D Texturas[61] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim, Vazio_Paciencia, Verde_Paciencia, Vermelho_Paciencia, Tela_Derrota, Tela_Vitoria, Como_Jogar_pt1, Como_Jogar_pt2, HistoricoTela, EscolhaOrdenacao, hover_alpha, hover_ambas, hover_pont};
+    Texture2D Texturas[62] = {paoBaixo, paoCima, cheddar, suico, carne_crua, alface, tomate, ketchup, mostarda, cebola, ovo, bacon, picles, carne_assada, mouse, panela, fogo, carne_queimada, ovoFrito, baconFrito, suicoFrito, cheddarFrito, cebolaFeita, tomateFeito, menu, pausa, fundo, texFaca, telaDif, DifFacil, DifMedio, DifDificil, DifImpossivel, Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10, Especial1, Especial2, BalaoPensamento, TelaConfirmar, botaoNao, botaoSim, Vazio_Paciencia, Verde_Paciencia, Vermelho_Paciencia, Tela_Derrota, Tela_Vitoria, Como_Jogar_pt1, Como_Jogar_pt2, HistoricoTela, EscolhaOrdenacao, hover_alpha, hover_ambas, hover_pont, Como_Jogar_pt3};
     Texture2D Sprites[10] = {Cliente1,Cliente2,Cliente3,Cliente4,Cliente5,Cliente6,Cliente7,Cliente8,Cliente9,Cliente10};
     Texture2D SpritesEspeciais[2] = {Especial1, Especial2};
 
@@ -599,13 +600,20 @@ int main(int argc, char* argv[]) {
                     EstadoPrograma = MENU;
                  if(QualTa == 0){
                     DrawTexture(Como_Jogar_pt1, 0, 0, WHITE);
-                    if(IsKeyPressed(KEY_RIGHT))
+                    if(IsKeyReleased(KEY_RIGHT))
                         QualTa = 1;
                 }
                 if(QualTa == 1){
                     DrawTexture(Como_Jogar_pt2, 0, 0, WHITE);
                     if(IsKeyPressed(KEY_LEFT))
                         QualTa = 0;
+                    if(IsKeyPressed(KEY_RIGHT))
+                        QualTa = 2;
+                }
+                if(QualTa == 2){
+                    DrawTexture(Como_Jogar_pt3, 0, 0, WHITE);
+                    if(IsKeyPressed(KEY_LEFT))
+                        QualTa = 1;
                 }
                 break;
             }

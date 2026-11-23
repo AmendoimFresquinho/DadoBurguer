@@ -4,24 +4,8 @@
 Nós inseridos: 			837253
 Altura resultante: 		19
 Rotações (inserção): 	19
-Tempo de Carregamento: 	0.899256s
+Tempo de Carregamento: 	0.342846s
 
 -- Histórico: Carregamento --
-Entradas Carregadas: 		100004
+Entradas Carregadas: 		99380
 
--- AVL: buscas durante a partida --
-Total de Buscas: 			19
-Total de Comparações: 		350
-Média de comparações por busca: 	18.421053
-Tempo total acumulado: 	0.000059s
-
--- Tabela hash --
-Tamanho (m): 					1009
-Entradas ocupadas (n): 			19
-Fator de carga (lambda):		0.018831
-Total de Hits: 				0
-Total de Misses: 			19
-Taxa de acerto: 			0.000000
-Total de Colisões: 			0
-
-================================

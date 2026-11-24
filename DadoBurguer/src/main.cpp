@@ -672,14 +672,14 @@ int main(int argc, char* argv[]) {
                         relatorioHistorico.innit();
                         radixSort(historico);
                         relatorioHistorico.HISTORICO.escreverLogAcesso(relatorioHistorico.file, 0.0f, relatorioHistorico.stop());
-
+                        imprimeHistorico(historico);
                         OpcaoHist = 0;
                     }
                     if (OpcaoHist == 2){
                         relatorioHistorico.innit();
                         mergeSort(historico);
                         relatorioHistorico.HISTORICO.escreverLogAcesso(relatorioHistorico.file, relatorioHistorico.stop(), 0.0f);
-
+                        imprimeHistorico(historico);
                         OpcaoHist = 0;
                     }
                     if (OpcaoHist == 3){
@@ -689,7 +689,7 @@ int main(int argc, char* argv[]) {
                         relatorioHistorico.innit();
                         mergeSort(historico);
                         double t_merge = relatorioHistorico.stop();
-
+                        imprimeHistorico(historico);
                         relatorioHistorico.HISTORICO.escreverLogAcesso(relatorioHistorico.file, t_merge, t_radix);
 
                         OpcaoHist = 0;
